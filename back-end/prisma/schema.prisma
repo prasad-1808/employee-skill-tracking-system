@@ -10,18 +10,20 @@ datasource db {
 }
 
 model Employee {
-  EmployeeID    Int      @id @default(autoincrement())
+  EmployeeID    String   @id
   Firstname     String
   Lastname      String
   Designation   String
   YearOfJoining Int
   Password      String
+  status        Boolean  @default(false)
   skills        Skill[]
 }
 
 model Course {
   CourseID   Int      @id @default(autoincrement())
   CourseName String
+  CourseCode String
   Level      String
   skills     Skill[]
 }
@@ -35,7 +37,7 @@ model Admin {
 
 model Skill {
   id          Int      @id @default(autoincrement())
-  EmployeeID  Int
+  EmployeeID  String
   CourseID    Int
   Score       Int
   Proof       String   // Can store path or link to certification/assessment

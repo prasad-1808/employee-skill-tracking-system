@@ -1,14 +1,14 @@
-// controllers/courseController.js
 const prisma = require("../utils/db");
 
 // Add a new course
 const addCourse = async (req, res) => {
-  const { CourseName, Level } = req.body;
+  const { CourseName, CourseCode, Level } = req.body;
 
   try {
     const course = await prisma.course.create({
       data: {
         CourseName,
+        CourseCode,
         Level,
       },
     });
@@ -21,13 +21,14 @@ const addCourse = async (req, res) => {
 // Edit an existing course
 const editCourse = async (req, res) => {
   const { CourseID } = req.params;
-  const { CourseName, Level } = req.body;
+  const { CourseName, CourseCode, Level } = req.body;
 
   try {
     const course = await prisma.course.update({
-      where: { CourseID: parseInt(CourseID) },
+      where: { CourseID: Number(CourseID) }, // Ensure CourseID is parsed as an integer
       data: {
         CourseName,
+        CourseCode,
         Level,
       },
     });
@@ -43,7 +44,7 @@ const removeCourse = async (req, res) => {
 
   try {
     await prisma.course.delete({
-      where: { CourseID: parseInt(CourseID) },
+      where: { CourseID: Number(CourseID) }, // Ensure CourseID is parsed as an integer
     });
     res.status(204).send(); // No content
   } catch (error) {
@@ -67,7 +68,7 @@ const getCourseById = async (req, res) => {
 
   try {
     const course = await prisma.course.findUnique({
-      where: { CourseID: parseInt(CourseID) },
+      where: { CourseID: Number(CourseID) }, // Ensure CourseID is parsed as an integer
     });
 
     if (!course) {

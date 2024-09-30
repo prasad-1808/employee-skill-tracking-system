@@ -2,6 +2,7 @@ const express = require("express");
 const employeeRoutes = require("./routes/employeeRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const courseRoutes = require("./routes/courseRoutes");
+const skillRoutes = require("./routes/skillRoutes");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
