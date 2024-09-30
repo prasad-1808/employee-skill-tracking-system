@@ -1,14 +1,15 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import EmployeeLogin from "./pages/EmployeeLogin";
+import AdminLogin from "./pages/AdminLogin";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard"; // Assuming this exists
+import EmployeeDashboard from "./pages/EmployeeDashboard";
 import Profile from "./pages/Profile";
 import Error from "./pages/Error";
 import Navbar from "./components/Navbar";
-import { Navigate } from "react-router-dom";
 import Expense from "./components/Expense";
 import Transactions from "./components/Transactions";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -16,15 +17,16 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // const checkLogged = async () => {
-  //   const res = await api.post("/check", {
-  //       token: localStorage.getItem('token');
-  //     });
-  // }y
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem("token"));
+    // Check if employee token exists
+    const token = localStorage.getItem("employeeToken");
+    setIsLoggedIn(!!token);
+
+    // Check if admin token exists
+    const adminToken = localStorage.getItem("adminToken");
+    setIsAdminLoggedIn(!!adminToken);
   }, []);
 
   return (
@@ -33,34 +35,51 @@ function App() {
         <Navbar
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
+          isAdminLoggedIn={isAdminLoggedIn}
+          setIsAdminLoggedIn={setIsAdminLoggedIn}
           className="Navbar"
         />
         <main className="main-content">
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+
+            {/* Employee Routes */}
             <Route
               path="/login"
               element={
-                <Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+                isLoggedIn ? <Navigate to="/dashboard" /> : <EmployeeLogin setIsLoggedIn={setIsLoggedIn} />
               }
             />
-            <Route path="/register" element={<Register />} />
             <Route
               path="/dashboard"
-              element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/expense"
-              element={isLoggedIn ? <Expense /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/transactions"
-              element={isLoggedIn ? <Transactions /> : <Navigate to="/login" />}
+              element={
+                isLoggedIn ? <EmployeeDashboard /> : <Navigate to="/login" />
+              }
             />
             <Route
               path="/profile"
-              element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
+              element={
+                isLoggedIn ? <Profile /> : <Navigate to="/login" />
+              }
             />
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin-login"
+              element={
+                isAdminLoggedIn ? <Navigate to="/admin-dashboard" /> : <AdminLogin setIsAdminLoggedIn={setIsAdminLoggedIn} />
+              }
+            />
+            <Route
+              path="/admin-dashboard"
+              element={
+                isAdminLoggedIn ? <AdminDashboard /> : <Navigate to="/admin-login" />
+              }
+            />
+
+            {/* Error/Fallback Route */}
             <Route path="*" element={<Error />} />
           </Routes>
         </main>

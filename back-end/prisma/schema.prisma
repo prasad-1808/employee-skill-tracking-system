@@ -29,9 +29,9 @@ model Course {
 }
 
 model Admin {
-  AdminID     Int    @id @default(autoincrement())
-  AdminEmail  String @unique
-  AdminName   String
+  AdminID      String   @id // Change AdminID to String
+  AdminEmail   String   @unique
+  AdminName    String
   AdminPassword String
 }
 
