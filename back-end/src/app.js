@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.use("/api/employees", employeeRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/course",courseRoutes);
+app.use("/api/course", courseRoutes);
+app.use("/api/skills", skillRoutes);
 
 module.exports = app;
