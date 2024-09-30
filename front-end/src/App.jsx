@@ -2,16 +2,14 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import EmployeeLogin from "./pages/EmployeeLogin";
-import AdminLogin from "./pages/AdminLogin";
+import EmployeeLogin from "./pages/Employee/EmployeeLogin";
+import AdminLogin from "./pages/Admin/AdminLogin";
 import Register from "./pages/Register";
-import AdminDashboard from "./pages/AdminDashboard"; // Assuming this exists
-import EmployeeDashboard from "./pages/EmployeeDashboard";
-import Profile from "./pages/Profile";
+import AdminDashboard from "./pages/Admin/AdminDashboard"; // Assuming this exists
+import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
+import EmployeeProfile from "./pages/Employee/EmployeeProfile";
 import Error from "./pages/Error";
 import Navbar from "./components/Navbar";
-import Expense from "./components/Expense";
-import Transactions from "./components/Transactions";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -61,7 +59,7 @@ function App() {
             <Route
               path="/profile"
               element={
-                isLoggedIn ? <Profile /> : <Navigate to="/login" />
+                isLoggedIn ? <EmployeeProfile /> : <Navigate to="/login" />
               }
             />
 
