@@ -34,8 +34,8 @@ const editSkill = async (req, res) => {
       where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
       data: {
         Score: parseInt(Score), // Ensure Score is an integer
-        Proof,
-        Verified: Verified === undefined ? false : Verified, // Default to false if not provided
+        Proof: Proof,
+        Verified: !Verified, // Default to false if not provided
       },
     });
     res.json(skill);
@@ -46,13 +46,26 @@ const editSkill = async (req, res) => {
 };
 
 // Remove a skill
+// Remove a skill
 const removeSkill = async (req, res) => {
   const { SkillID } = req.params;
 
   try {
+    // Find the skill to check if it exists
+    const skill = await prisma.skill.findUnique({
+      where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
+    });
+
+    // Check if the skill exists before attempting to delete
+    if (!skill) {
+      return res.status(404).json({ error: "Skill not found" });
+    }
+
+    // Delete the skill
     await prisma.skill.delete({
       where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
     });
+
     res.status(204).send(); // No content
   } catch (error) {
     console.error("Error in removeSkill:", error.message);

@@ -58,6 +58,13 @@ const Navbar = ({
                 Home
               </Link>
             </li>
+            {!isAdminLoggedIn || !isLoggedIn ? (
+              <li className="nav-item mx-3">
+                <Link className="nav-link text-white" to="/login">
+                  Login
+                </Link>
+              </li>
+            ) : null}
 
             {/* Check if the user is an admin */}
             {isAdminLoggedIn ? (
@@ -68,13 +75,16 @@ const Navbar = ({
                   </Link>
                 </li>
                 <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/page5">
-                    Page5
+                  <Link className="nav-link text-white" to="/admin-skilldata">
+                    SkillsData
                   </Link>
                 </li>
                 <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/page6">
-                    Page6
+                  <Link
+                    className="nav-link text-white"
+                    to="/admin-employeedata"
+                  >
+                    EmployeeData
                   </Link>
                 </li>
               </>
@@ -94,7 +104,7 @@ const Navbar = ({
                   </li>
                   <li className="nav-item mx-3">
                     <Link className="nav-link text-white" to="/page3">
-                      Page3
+                      My Performance
                     </Link>
                   </li>
                 </>

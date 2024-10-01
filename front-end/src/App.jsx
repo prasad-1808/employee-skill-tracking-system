@@ -9,9 +9,10 @@ import {
 import Home from "./pages/Home";
 import EmployeeLogin from "./pages/Employee/EmployeeLogin";
 import AdminLogin from "./pages/Admin/AdminLogin";
-import Register from "./pages/Register";
 import AdminDashboard from "./pages/Admin/AdminDashboard"; // Assuming this exists
 import AdminCourse from "./pages/Admin/AdminCourse";
+import AdminEmployeeData from "./pages/Admin/AdminEmployeeData";
+import AdminSkillData from "./pages/Admin/AdminSkillData";
 import EmployeeAddSkill from "./pages/Employee/EmployeeAddSkill";
 import EmployeeCourse from "./pages/Employee/EmployeeCourse";
 import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
@@ -114,6 +115,26 @@ function App() {
               element={
                 isAdminLoggedIn ? (
                   <AdminCourse />
+                ) : (
+                  <Navigate to="/admin-login" />
+                )
+              }
+            />
+            <Route
+              path="/admin-skilldata"
+              element={
+                isAdminLoggedIn ? (
+                  <AdminSkillData />
+                ) : (
+                  <Navigate to="/admin-login" />
+                )
+              }
+            />
+            <Route
+              path="/admin-employeedata"
+              element={
+                isAdminLoggedIn ? (
+                  <AdminEmployeeData />
                 ) : (
                   <Navigate to="/admin-login" />
                 )
