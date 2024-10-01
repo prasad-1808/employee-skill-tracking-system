@@ -1,106 +1,129 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api"; // Ensure you have the correct API service
-import axios from "axios"; // Import axios
+import api from "../../services/api";
+import axios from "axios";
+import { Doughnut } from "react-chartjs-2";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import "../../assets/AdminSkillData.css";
+import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
+
+Chart.register(ArcElement, Tooltip, Legend);
 
 const AdminSkillData = () => {
   const [verifiedSkills, setVerifiedSkills] = useState([]);
   const [unVerifiedSkills, setUnVerifiedSkills] = useState([]);
+  const [chartData, setChartData] = useState({});
+  const [selectedSkill, setSelectedSkill] = useState(null); // State for selected skill
+  const [showModal, setShowModal] = useState(false); // State to handle modal visibility
 
-  // Function to fetch all skills and categorize them
   const fetchSkills = async () => {
     try {
-      const response = await api.get("/skills"); // Adjust the endpoint as needed
+      const response = await api.get("/skills");
       const skills = response.data;
-
-      // Separate verified and unverified skills
       const verified = skills.filter((skill) => skill.Verified);
       const unverified = skills.filter((skill) => !skill.Verified);
 
       setVerifiedSkills(verified);
       setUnVerifiedSkills(unverified);
+      processChartData(verified);
     } catch (error) {
       console.error("Error fetching skills:", error);
     }
   };
 
-  // Fetch skills on component mount
+  const processChartData = (verifiedSkills) => {
+    const courseCount = verifiedSkills.reduce((acc, skill) => {
+      const courseName = skill.course.CourseName;
+      acc[courseName] = (acc[courseName] || 0) + 1;
+      return acc;
+    }, {});
+
+    setChartData({
+      labels: Object.keys(courseCount),
+      datasets: [
+        {
+          label: "Number of Employees",
+          data: Object.values(courseCount),
+          backgroundColor: [
+            "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    });
+  };
+
   useEffect(() => {
     fetchSkills();
-  }, []);
+  }, [fetchSkills]); // Add fetchSkills as a dependency
+  
 
-  // Function to verify a skill
   const verifySkill = async (skillId) => {
     try {
-      const adminToken = localStorage.getItem("adminToken"); // Use the admin token if necessary
-      const response = await api.put(`/skills/${skillId}`, { Verified: true }, {
-        headers: {
-          Authorization: `Bearer ${adminToken}`, // Include token if needed
-        },
+      const adminToken = localStorage.getItem("adminToken");
+      await api.put(`/skills/${skillId}`, { Verified: true }, {
+        headers: { Authorization: `Bearer ${adminToken}` },
       });
-      
-      console.log("Skill verified response:", response.data); // Log response to check
-      fetchSkills(); // Refresh skill data
+      fetchSkills();
     } catch (error) {
       console.error("Error verifying skill:", error.response?.data || error.message);
     }
   };
-  
 
-  // Function to delete a skill
-const deleteSkill = async (skillID) => {
-  try {
-    const adminToken = localStorage.getItem("adminToken");
-    await axios.delete(`http://localhost:5000/api/skills/${skillID}`, {
-      headers: {
-        Authorization: `Bearer ${adminToken}`, // Include the token if required
-      },
-    });
-    // Refresh the skill data after deletion
-    fetchSkills();
-  } catch (error) {
-    console.error(
-      "Error deleting skill:",
-      error.response?.data || error.message
-    );
-  }
-};
+  const deleteSkill = async (skillID) => {
+    try {
+      const adminToken = localStorage.getItem("adminToken");
+      await axios.delete(`http://localhost:5000/api/skills/${skillID}`, {
+        headers: { Authorization: `Bearer ${adminToken}` },
+      });
+      fetchSkills();
+    } catch (error) {
+      console.error("Error deleting skill:", error.response?.data || error.message);
+    }
+  };
 
+  // Function to handle "View" button click
+  const viewSkillDetails = (skill) => {
+    setSelectedSkill(skill);
+    setShowModal(true); // Show the modal
+  };
 
   return (
     <div className="container mt-5">
       <div className="row">
-        {/* Left Container: Verified Skills */}
         <div className="col-md-6">
-          <h3>Verified Skills</h3>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Skill ID</th>
-                <th>Employee Name</th>
-                <th>Course Name</th>
-                <th>Proficiency</th>
-              </tr>
-            </thead>
-            <tbody>
-              {verifiedSkills.map((skill) => (
-                <tr key={skill.id}>
-                  <td>{skill.id}</td>
-                  <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
-                  <td>{skill.course.CourseName}</td>
-                  <td>{skill.Proficiency}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h3>Verified Skills by Course</h3>
+          {chartData && chartData.labels && chartData.labels.length > 0 ? (
+            <Doughnut
+            data={chartData}
+            options={{
+              animation: {
+                duration: 50, // Animation duration set to 1 second (1000ms)
+                easing: 'linear', // Use linear easing for consistent speed
+              },
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    color: "black",
+                    boxWidth: 20,
+                    padding: 15,
+                  },
+                },
+              },
+            }}
+          />
+          
+          
+          ) : (
+            <p>No data available to display.</p>
+          )}
         </div>
 
-        {/* Right Container: Unverified Skills */}
         <div className="col-md-6">
           <h3>Unverified Skills</h3>
           <table className="table table-striped">
             <thead>
               <tr>
-                <th>Skill ID</th>
                 <th>Employee Name</th>
                 <th>Course Name</th>
                 <th>Actions</th>
@@ -109,22 +132,29 @@ const deleteSkill = async (skillID) => {
             <tbody>
               {unVerifiedSkills.map((skill) => (
                 <tr key={skill.id}>
-                  <td>{skill.id}</td>
                   <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
                   <td>{skill.course.CourseName}</td>
                   <td>
-                    <button
-                      className="btn btn-success me-2"
-                      onClick={() => verifySkill(skill.id)}
-                    >
-                      ✅ Verify
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => deleteSkill(skill.id)}
-                    >
-                      ❌ Reject
-                    </button>
+                    <div className="btn-group">
+                      <button
+                        className="btn btn-success"
+                        onClick={() => verifySkill(skill.id)}
+                      >
+                        ✅ Verify
+                      </button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => viewSkillDetails(skill)}
+                      >
+                        👁️ View
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteSkill(skill.id)}
+                      >
+                        ❌ Reject
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -132,6 +162,51 @@ const deleteSkill = async (skillID) => {
           </table>
         </div>
       </div>
+
+      {/* Modal to display skill details */}
+      {selectedSkill && (
+        <div
+          className={`modal fade show ${showModal ? "d-block" : ""}`}
+          tabIndex="-1"
+          role="dialog"
+          style={{ display: showModal ? "block" : "none" }}
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">
+                  Skill Details for {selectedSkill.employee.Firstname}{" "}
+                  {selectedSkill.employee.Lastname}
+                </h5>
+                
+              </div>
+              <div className="modal-body">
+                <p>
+                  <strong>Course:</strong> {selectedSkill.course.CourseName}
+                </p>
+                <p>
+                  <strong>Course Code:</strong> {selectedSkill.course.Course}
+                </p>
+                <p>
+                  <strong>Proficiency:</strong> {selectedSkill.Proficiency}
+                </p>
+                <p>
+                  <strong>Proof:</strong> {selectedSkill.Proof}
+                </p>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowModal(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

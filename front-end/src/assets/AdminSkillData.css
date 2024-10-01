@@ -1,0 +1,40 @@
+.container {
+    padding: 20px;
+  }
+  
+  h3 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+  
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add space between the buttons */
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .doughnut-chart {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
