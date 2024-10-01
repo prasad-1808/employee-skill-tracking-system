@@ -3,7 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle, FaBars } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, isAdminLoggedIn, setIsAdminLoggedIn }) => {
+const Navbar = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  isAdminLoggedIn,
+  setIsAdminLoggedIn,
+}) => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -17,7 +22,6 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, isAdminLoggedIn, setIsAdminLoggedIn
       localStorage.removeItem("employeeToken");
       navigate("/login");
     }
-    
   };
 
   const toggleDropdown = () => {
@@ -57,8 +61,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, isAdminLoggedIn, setIsAdminLoggedIn
             {isAdminLoggedIn ? (
               <>
                 <li className="nav-item mx-3">
-                  <Link className="nav-link text-white" to="/page4">
-                    Page4
+                  <Link className="nav-link text-white" to="/admin-courses">
+                    Courses
                   </Link>
                 </li>
                 <li className="nav-item mx-3">
@@ -77,8 +81,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, isAdminLoggedIn, setIsAdminLoggedIn
               isLoggedIn && (
                 <>
                   <li className="nav-item mx-3">
-                    <Link className="nav-link text-white" to="/page1">
-                      Page1
+                    <Link className="nav-link text-white" to="/courses">
+                      Courses
                     </Link>
                   </li>
                   <li className="nav-item mx-3">
@@ -116,10 +120,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, isAdminLoggedIn, setIsAdminLoggedIn
                   </li>
                   <li className="nav-item mx-3">
                     <center>
-                      <button
-                        className="dropdown-item"
-                        onClick={handleLogout}
-                      >
+                      <button className="dropdown-item" onClick={handleLogout}>
                         Logout
                       </button>
                     </center>
