@@ -24,18 +24,15 @@ const addSkill = async (req, res) => {
   }
 };
 
-// Edit an existing skill
 const editSkill = async (req, res) => {
   const { SkillID } = req.params;
-  const { Score, Proof, Verified } = req.body;
+  const { Verified } = req.body;
 
   try {
     const skill = await prisma.skill.update({
       where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
       data: {
-        Score: parseInt(Score), // Ensure Score is an integer
-        Proof: Proof,
-        Verified: !Verified, // Default to false if not provided
+        Verified: !!Verified, // Ensure Verified is a boolean
       },
     });
     res.json(skill);
@@ -45,7 +42,7 @@ const editSkill = async (req, res) => {
   }
 };
 
-// Remove a skill
+
 // Remove a skill
 const removeSkill = async (req, res) => {
   const { SkillID } = req.params;

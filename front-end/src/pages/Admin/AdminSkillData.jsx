@@ -31,32 +31,40 @@ const AdminSkillData = () => {
   // Function to verify a skill
   const verifySkill = async (skillId) => {
     try {
-      await api.put(`/skills/${skillId}`, { Verified: true });
-      // Refresh the skill data after verification
-      fetchSkills();
-    } catch (error) {
-      console.error("Error verifying skill:", error);
-    }
-  };
-
-  // Function to delete a skill
-  // Example of a delete request
-  const deleteSkill = async (skillID) => {
-    try {
-      const adminToken = localStorage.getItem("adminToken");
-      await axios.delete(`http://localhost:5000/api/skills/${skillID}`, {
+      const adminToken = localStorage.getItem("adminToken"); // Use the admin token if necessary
+      const response = await api.put(`/skills/${skillId}`, { Verified: true }, {
         headers: {
-          Authorization: `Bearer ${adminToken}`, // Include the token if required
+          Authorization: `Bearer ${adminToken}`, // Include token if needed
         },
       });
-      // Handle success (e.g., refresh the skill list)
+      
+      console.log("Skill verified response:", response.data); // Log response to check
+      fetchSkills(); // Refresh skill data
     } catch (error) {
-      console.error(
-        "Error deleting skill:",
-        error.response?.data || error.message
-      );
+      console.error("Error verifying skill:", error.response?.data || error.message);
     }
   };
+  
+
+  // Function to delete a skill
+const deleteSkill = async (skillID) => {
+  try {
+    const adminToken = localStorage.getItem("adminToken");
+    await axios.delete(`http://localhost:5000/api/skills/${skillID}`, {
+      headers: {
+        Authorization: `Bearer ${adminToken}`, // Include the token if required
+      },
+    });
+    // Refresh the skill data after deletion
+    fetchSkills();
+  } catch (error) {
+    console.error(
+      "Error deleting skill:",
+      error.response?.data || error.message
+    );
+  }
+};
+
 
   return (
     <div className="container mt-5">
