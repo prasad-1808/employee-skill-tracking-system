@@ -1,21 +1,25 @@
-// controllers/skillController.js
-const prisma = require("../utils/db");
+const prisma = require("../utils/db"); // Adjust this import to your Prisma client setup
 
 // Add a new skill
 const addSkill = async (req, res) => {
-  const { EmployeeID, CourseID, Score, Proof } = req.body;
+  const { EmployeeID, CourseID, Proficiency, Score, Proof } = req.body;
+
+  // Log the request body to check the incoming data
+  console.log("Request Body:", req.body);
 
   try {
     const skill = await prisma.skill.create({
       data: {
         EmployeeID,
-        CourseID,
-        Score,
+        CourseID: parseInt(CourseID), // Ensure CourseID is an integer
+        Proficiency, // Should be a string like "Basic", "Intermediate", "Advanced"
+        Score: parseInt(Score), // Ensure Score is an integer
         Proof,
       },
     });
     res.status(201).json(skill);
   } catch (error) {
+    console.error("Error in addSkill:", error.message);
     res.status(400).json({ error: error.message });
   }
 };
@@ -27,15 +31,16 @@ const editSkill = async (req, res) => {
 
   try {
     const skill = await prisma.skill.update({
-      where: { id: parseInt(SkillID) },
+      where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
       data: {
-        Score,
+        Score: parseInt(Score), // Ensure Score is an integer
         Proof,
-        Verified,
+        Verified: Verified === undefined ? false : Verified, // Default to false if not provided
       },
     });
     res.json(skill);
   } catch (error) {
+    console.error("Error in editSkill:", error.message);
     res.status(400).json({ error: error.message });
   }
 };
@@ -46,10 +51,11 @@ const removeSkill = async (req, res) => {
 
   try {
     await prisma.skill.delete({
-      where: { id: parseInt(SkillID) },
+      where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
     });
     res.status(204).send(); // No content
   } catch (error) {
+    console.error("Error in removeSkill:", error.message);
     res.status(400).json({ error: error.message });
   }
 };
@@ -57,9 +63,15 @@ const removeSkill = async (req, res) => {
 // Get all skills
 const getSkills = async (req, res) => {
   try {
-    const skills = await prisma.skill.findMany();
+    const skills = await prisma.skill.findMany({
+      include: {
+        employee: true, // Include related employee data
+        course: true, // Include related course data
+      },
+    });
     res.json(skills);
   } catch (error) {
+    console.error("Error in getSkills:", error.message);
     res.status(400).json({ error: error.message });
   }
 };
@@ -70,7 +82,11 @@ const getSkillById = async (req, res) => {
 
   try {
     const skill = await prisma.skill.findUnique({
-      where: { id: parseInt(SkillID) },
+      where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
+      include: {
+        employee: true, // Include related employee data
+        course: true, // Include related course data
+      },
     });
 
     if (!skill) {
@@ -79,6 +95,7 @@ const getSkillById = async (req, res) => {
 
     res.json(skill);
   } catch (error) {
+    console.error("Error in getSkillById:", error.message);
     res.status(400).json({ error: error.message });
   }
 };

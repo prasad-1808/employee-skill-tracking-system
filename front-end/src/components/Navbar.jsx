@@ -13,13 +13,15 @@ const Navbar = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = () => {
+    // Clear all cached data
+    localStorage.clear();
+    sessionStorage.clear();
+
     if (isAdminLoggedIn) {
       setIsAdminLoggedIn(false);
-      localStorage.removeItem("adminToken");
       navigate("/admin-login");
     } else {
       setIsLoggedIn(false);
-      localStorage.removeItem("employeeToken");
       navigate("/login");
     }
   };

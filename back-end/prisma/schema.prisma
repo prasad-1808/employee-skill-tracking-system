@@ -39,6 +39,7 @@ model Skill {
   id          Int      @id @default(autoincrement())
   EmployeeID  String
   CourseID    Int
+  Proficiency  String
   Score       Int
   Proof       String   // Can store path or link to certification/assessment
   Verified    Boolean  @default(false)
