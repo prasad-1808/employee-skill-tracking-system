@@ -19,10 +19,14 @@ const AdminLogin = ({ isAdminLoggedIn, setIsAdminLoggedIn }) => {
     e.preventDefault();
     try {
       try {
-        const response = await api.post("/admin/login", { AdminID, AdminPassword });
+        const response = await api.post("/admin/login", {
+          AdminID,
+          AdminPassword,
+        });
         if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("adminToken", response.data.token);
           localStorage.setItem("userId", AdminID);
+          localStorage.setItem("role", "admin");
           setIsAdminLoggedIn(true);
           navigate("/admin-dashboard");
         }

@@ -7,6 +7,13 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Adjust this to your client URL
+    credentials: true,
+  })
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
