@@ -2,9 +2,16 @@ import React, { useState, useEffect } from "react";
 import CourseCard from "../../components/CourseCard"; // Import the reusable card component
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
+import { Modal, Button } from "react-bootstrap";
 
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
+  const [showAddCourseModal, setShowAddCourseModal] = useState(false);
+  const [newCourse, setNewCourse] = useState({
+    CourseName: "",
+    CourseCode: "",
+    Level: "",
+  });
 
   // Fetch the courses from the API
   useEffect(() => {
@@ -42,9 +49,40 @@ const AdminCourse = () => {
     }
   };
 
+  const handleAddCourse = async () => {
+    try {
+      const token = localStorage.getItem("adminToken"); // Assuming the token is stored in localStorage
+      const response = await fetch("http://localhost:5000/api/course/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add the Authorization header
+        },
+        body: JSON.stringify(newCourse),
+      });
+
+      if (response.ok) {
+        const addedCourse = await response.json();
+        setCourses((prevCourses) => [...prevCourses, addedCourse]);
+        toast.success("Course added successfully!");
+        setShowAddCourseModal(false); // Close the modal
+        setNewCourse({ CourseName: "", CourseCode: "", Level: "" }); // Reset form
+      } else {
+        toast.error("Failed to add course");
+      }
+    } catch (error) {
+      toast.error("Error occurred while adding course");
+      console.error("Error adding course:", error);
+    }
+  };
+
   return (
     <div className="container mt-5">
-      <div className="row">
+      <Button variant="primary" onClick={() => setShowAddCourseModal(true)}>
+        Add Course
+      </Button>
+
+      <div className="row mt-4">
         {courses.length > 0 ? (
           courses.map((course) => (
             <CourseCard
@@ -58,6 +96,62 @@ const AdminCourse = () => {
           <p>Loading courses...</p>
         )}
       </div>
+
+      {/* Add Course Modal */}
+      <Modal
+        show={showAddCourseModal}
+        onHide={() => setShowAddCourseModal(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Course</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Course Name"
+              className="form-control"
+              value={newCourse.CourseName}
+              onChange={(e) =>
+                setNewCourse({ ...newCourse, CourseName: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Course Code"
+              className="form-control"
+              value={newCourse.CourseCode}
+              onChange={(e) =>
+                setNewCourse({ ...newCourse, CourseCode: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Level"
+              className="form-control"
+              value={newCourse.Level}
+              onChange={(e) =>
+                setNewCourse({ ...newCourse, Level: e.target.value })
+              }
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowAddCourseModal(false)}
+          >
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAddCourse}>
+            Add Course
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

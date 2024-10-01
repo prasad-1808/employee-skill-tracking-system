@@ -136,33 +136,44 @@ const CourseCard = ({ course, onCourseDelete, onCourseEdit }) => {
 
           {isEditing ? (
             <>
-              <input
-                type="text"
-                name="CourseName"
-                value={editedCourse.CourseName}
-                onChange={handleEditChange}
-                placeholder="Edit Course Name"
-              />
-              <input
-                type="text"
-                name="CourseCode"
-                value={editedCourse.CourseCode}
-                onChange={handleEditChange}
-                placeholder="Edit Course Code"
-              />
-              <input
-                type="text"
-                name="Level"
-                value={editedCourse.Level}
-                onChange={handleEditChange}
-                placeholder="Edit Level"
-              />
-              <Button variant="success" onClick={handleEditSubmit}>
-                Save Changes
-              </Button>
-              <Button variant="secondary" onClick={handleEditToggle}>
-                Cancel
-              </Button>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="CourseName"
+                  value={editedCourse.CourseName}
+                  onChange={handleEditChange}
+                  placeholder="Edit Course Name"
+                  className="form-control" // Bootstrap class for styling
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="CourseCode"
+                  value={editedCourse.CourseCode}
+                  onChange={handleEditChange}
+                  placeholder="Edit Course Code"
+                  className="form-control" // Bootstrap class for styling
+                />
+              </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  name="Level"
+                  value={editedCourse.Level}
+                  onChange={handleEditChange}
+                  placeholder="Edit Level"
+                  className="form-control" // Bootstrap class for styling
+                />
+              </div>
+              <div className="d-flex justify-content-between">
+                <Button variant="success" onClick={handleEditSubmit}>
+                  Save Changes
+                </Button>
+                <Button variant="secondary" onClick={handleEditToggle}>
+                  Cancel
+                </Button>
+              </div>
             </>
           ) : (
             <div className="d-flex justify-content-between">

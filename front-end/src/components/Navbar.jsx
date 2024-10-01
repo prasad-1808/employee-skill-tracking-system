@@ -86,8 +86,8 @@ const Navbar = ({
                     </Link>
                   </li>
                   <li className="nav-item mx-3">
-                    <Link className="nav-link text-white" to="/page2">
-                      Page2
+                    <Link className="nav-link text-white" to="/addskill">
+                      Add Skill
                     </Link>
                   </li>
                   <li className="nav-item mx-3">
