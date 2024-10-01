@@ -1,24 +1,27 @@
 const express = require("express");
-const {
-  register,
-  login,
-  getEmployeeData,
-  updateEmployee,
-} = require("../controllers/employeeController");
-const authMiddleware = require("../middlewares/authMiddleware"); // Assuming you have an auth middleware for protected routes
-
 const router = express.Router();
+const { register, login, getEmployeeData, updateEmployee, getAllEmployees, changeStatus, deleteEmployee } = require("../controllers/employeeController");
 
-// Route for registering a new employee
+// Register an employee
 router.post("/register", register);
 
-// Route for employee login
+// Login employee
 router.post("/login", login);
 
-// Route for getting employee data (protected)
-router.get("/:EmployeeID", authMiddleware, getEmployeeData);
+// Get employee data by ID
+router.get("/employees/:EmployeeID", getEmployeeData);
 
-// Route for updating employee data (protected)
-router.put("/:EmployeeID", authMiddleware, updateEmployee);
+// Update employee details
+router.put("/employees/:EmployeeID", updateEmployee);
+
+// Get all employees
+router.get("/", getAllEmployees); 
+
+// New route for changing employee status
+router.patch("/:EmployeeID/status", changeStatus);
+
+// Delete employee route
+router.delete("/:EmployeeID", deleteEmployee);
+
 
 module.exports = router;

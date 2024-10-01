@@ -96,6 +96,17 @@ const updateEmployee = async (req, res) => {
   }
 };
 
+// Get all employees
+const getAllEmployees = async (req, res) => {
+  try {
+    const employees = await prisma.employee.findMany(); // Fetch all employees
+    res.json(employees);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
 // Get employee data
 const getEmployeeData = async (req, res) => {
   const { EmployeeID } = req.params;
@@ -114,4 +125,53 @@ const getEmployeeData = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getEmployeeData, updateEmployee };
+// Change employee status
+const changeStatus = async (req, res) => {
+  const { EmployeeID } = req.params;
+  const { status } = req.body; // Expecting status as a boolean
+
+  try {
+    // Check if the employee exists
+    const employee = await prisma.employee.findUnique({
+      where: { EmployeeID },
+    });
+
+    if (!employee) {
+      return res.status(404).json({ error: "Employee not found" });
+    }
+
+    // Update the employee's status based on the request
+    const updatedEmployee = await prisma.employee.update({
+      where: { EmployeeID },
+      data: {
+        status: status, // Set status to the incoming request value
+      },
+    });
+
+    res.json({ message: "Employee status updated successfully", employee: updatedEmployee });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+
+// Delete employee
+const deleteEmployee = async (req, res) => {
+  const { EmployeeID } = req.params;
+  
+  try {
+    const employee = await prisma.employee.delete({
+      where: { EmployeeID },
+    });
+    res.json({ message: "Employee deleted successfully", employee });
+  } catch (error) {
+    if (error.code === 'P2025') {
+      // Handle case when the employee does not exist
+      return res.status(404).json({ error: "Employee not found" });
+    }
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+module.exports = { register, login, getAllEmployees, getEmployeeData, updateEmployee, changeStatus, deleteEmployee };

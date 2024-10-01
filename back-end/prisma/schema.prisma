@@ -17,7 +17,7 @@ model Employee {
   YearOfJoining Int
   Password      String
   status        Boolean  @default(false)
-  skills        Skill[]
+  skills     Skill[]  @relation("EmployeeSkills")
 }
 
 model Course {
@@ -44,6 +44,6 @@ model Skill {
   Proof       String   // Can store path or link to certification/assessment
   Verified    Boolean  @default(false)
 
-  employee    Employee @relation(fields: [EmployeeID], references: [EmployeeID])
+  employee    Employee @relation("EmployeeSkills", fields: [EmployeeID], references: [EmployeeID], onDelete: Cascade) // onDelete specified here
   course      Course   @relation(fields: [CourseID], references: [CourseID])
 }
