@@ -14,6 +14,7 @@ import AdminCourse from "./pages/Admin/AdminCourse";
 import AdminEmployeeData from "./pages/Admin/AdminEmployeeData";
 import AdminSkillData from "./pages/Admin/AdminSkillData";
 import EmployeeAddSkill from "./pages/Employee/EmployeeAddSkill";
+import EmployeeSkills from "./pages/Employee/EmployeeSkills";
 import EmployeeCourse from "./pages/Employee/EmployeeCourse";
 import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
 import EmployeeProfile from "./pages/Employee/EmployeeProfile";
@@ -80,6 +81,12 @@ function App() {
               path="/addskill"
               element={
                 isLoggedIn ? <EmployeeAddSkill /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/myskills"
+              element={
+                isLoggedIn ? <EmployeeSkills /> : <Navigate to="/login" />
               }
             />
             <Route

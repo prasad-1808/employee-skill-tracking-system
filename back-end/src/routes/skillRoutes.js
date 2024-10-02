@@ -6,6 +6,7 @@ const {
   removeSkill,
   getSkills,
   getSkillById,
+  getSkillsByEmployeeID,
 } = require("../controllers/skillController");
 const authMiddleware = require("../middlewares/authMiddleware"); // Optional: use if you want to protect these routes
 
@@ -25,5 +26,8 @@ router.get("/", getSkills);
 
 // Route to get a single skill by ID
 router.get("/:SkillID", getSkillById);
+
+// Route to get all skills for a specific employee
+router.get("/employee/:EmployeeID", getSkillsByEmployeeID);
 
 module.exports = router;

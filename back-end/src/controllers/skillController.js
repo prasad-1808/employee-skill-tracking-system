@@ -110,10 +110,32 @@ const getSkillById = async (req, res) => {
   }
 };
 
+// Function to get skills by EmployeeID
+const getSkillsByEmployeeID = async (req, res) => {
+  const { EmployeeID } = req.params;
+  try {
+    const skills = await prisma.skill.findMany({
+      where: { EmployeeID },
+      include: {
+        course: true, // Optional: to fetch course details along with skill
+      },
+    });
+    
+    if (skills.length > 0) {
+      res.json(skills);
+    } else {
+      res.status(404).json({ message: "No skills found for this employee" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching skills" });
+  }
+};
+
 module.exports = {
   addSkill,
   editSkill,
   removeSkill,
   getSkills,
   getSkillById,
+  getSkillsByEmployeeID
 };
