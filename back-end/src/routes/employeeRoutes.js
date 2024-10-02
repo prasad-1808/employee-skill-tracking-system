@@ -9,7 +9,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 // Get employee data by ID
-router.get("/employees/:EmployeeID", getEmployeeData);
+router.get("/:EmployeeID", getEmployeeData);
 
 // Update employee details
 router.put("/employees/:EmployeeID", updateEmployee);

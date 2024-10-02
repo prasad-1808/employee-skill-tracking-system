@@ -17,24 +17,43 @@ const EmployeeLogin = ({ isLoggedIn, setIsLoggedIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      try {
-        const response = await api.post("/employees/login", { EmployeeID, Password });
-        if (response.status === 200) {
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("userId", EmployeeID);
-          localStorage.setItem("role", "employee");
-          setIsLoggedIn(true);
-          navigate("/dashboard");
+      // Fetch employee data first to check the status
+      const employeeResponse = await api.get(`/employees/${EmployeeID}`);
+      
+      if (employeeResponse.status === 200) {
+        const employee = employeeResponse.data;
+        
+        if (!employee.status) {
+          // Employee is not approved yet, show toast message
+          toast.error("Register pending, waiting for admin approval");
+          return; // Prevent further login process
         }
-      } catch {
-        toast.error("Invalid Username or Password");
+        
+        // Proceed to login if employee is approved
+        try {
+          const response = await api.post("/employees/login", { EmployeeID, Password });
+          if (response.status === 200) {
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userId", EmployeeID);
+            localStorage.setItem("role", "employee");
+            setIsLoggedIn(true);
+            navigate("/dashboard");
+          }
+        } catch {
+          toast.error("Invalid Username or Password");
+        }
+        
+      } else {
+        toast.error("Employee not found");
       }
     } catch (error) {
       toast.error("An error occurred during login. Please try again.");
       console.error(error);
     }
   };
+  
 
   return (
     <div className="container h-100" style={{ marginTop: "7rem" }}>
