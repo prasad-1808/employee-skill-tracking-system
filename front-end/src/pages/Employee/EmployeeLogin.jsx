@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ const EmployeeLogin = ({ isLoggedIn, setIsLoggedIn }) => {
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("userId", EmployeeID);
-          localStorage.setItem("role","employee");
+          localStorage.setItem("role", "employee");
           setIsLoggedIn(true);
           navigate("/dashboard");
         }
@@ -73,6 +73,16 @@ const EmployeeLogin = ({ isLoggedIn, setIsLoggedIn }) => {
                     required
                   />
                 </div>
+                
+                {/* Login as Admin section */}
+                <center className="mt-4">
+                  <p className="text-muted">
+                    <Link to="/admin-login" className="text-decoration-none">
+                      Login as Admin
+                    </Link>
+                  </p>
+                </center>
+
                 <center>
                   <button
                     type="submit"
