@@ -78,9 +78,21 @@ const AdminCourse = () => {
 
   return (
     <div className="container mt-5">
-      <Button variant="primary" onClick={() => setShowAddCourseModal(true)}>
-        Add Course
-      </Button>
+      {/* Add Course Button */}
+      <div className="text-center mb-4">
+        <Button
+          variant="primary"
+          onClick={() => setShowAddCourseModal(true)}
+          style={{
+            padding: "10px 20px",
+            fontSize: "18px",
+            fontWeight: "bold",
+            borderRadius: "5px",
+          }}
+        >
+          Add Course
+        </Button>
+      </div>
 
       <div className="row mt-4">
         {courses.length > 0 ? (
@@ -93,7 +105,20 @@ const AdminCourse = () => {
             />
           ))
         ) : (
-          <p>Loading courses...</p>
+          <div
+            style={{
+              color: "white",
+              textAlign: "center",
+              marginTop: "20px",
+              fontSize: "18px",
+              padding: "20px",
+              border: "1px solid white",
+              borderRadius: "8px",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            No courses available. Please add a new course to get started.
+          </div>
         )}
       </div>
 

@@ -16,7 +16,6 @@ const CourseCard = ({ course, onCourseDelete, onCourseEdit }) => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem("adminToken"); // Get the admin token
-      console.log(token);
       const response = await fetch(
         `http://localhost:5000/api/course/${course.CourseID}`,
         {
