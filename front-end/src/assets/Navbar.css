@@ -1,0 +1,64 @@
+.navbar {
+  background: linear-gradient(
+    135deg,
+    rgba(54, 13, 164, 1),
+    rgba(234, 91, 149, 1)
+  );
+  padding: 3rem 2rem;
+  margin: 1rem;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: bold;
+  font-size: 5rem;
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.navbar-toggler:focus {
+  outline: none;
+}
+
+.nav-link {
+  color: white !important;
+  margin: 0 0.75rem;
+}
+
+.nav-icon {
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  background-color: white;
+  border-radius: 0.5rem;
+  border: none;
+  width: 200px;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(54, 13, 164, 0.1);
+  color: #360da4;
+}
+
+.animate-dropdown {
+  animation: dropdownAnimation 0.3s ease;
+}
+
+@keyframes dropdownAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
