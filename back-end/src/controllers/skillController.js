@@ -2,21 +2,38 @@ const prisma = require("../utils/db"); // Adjust this import to your Prisma clie
 
 // Add a new skill
 const addSkill = async (req, res) => {
-  const { EmployeeID, CourseID, Proficiency, Score, Proof } = req.body;
+  const {
+    EmployeeID,
+    CourseID,
+    Proficiency,
+    SkillType,
+    CertificateLink,
+    ScoreObtained,
+  } = req.body;
 
   // Log the request body to check the incoming data
   console.log("Request Body:", req.body);
 
   try {
+    const data = {
+      EmployeeID,
+      CourseID: parseInt(CourseID), // Ensure CourseID is an integer
+      Proficiency, // Should be a string like "Basic", "Intermediate", "Advanced"
+      SkillType, // "CERTIFICATE" or "ASSESSMENT"
+      Verified: false, // Default verified status
+    };
+
+    // Conditionally add CertificateLink or ScoreObtained based on SkillType
+    if (SkillType === "CERTIFICATE") {
+      data.CertificateLink = CertificateLink; // Only add the certificate link for certificates
+    } else if (SkillType === "ASSESSMENT") {
+      data.ScoreObtained = parseInt(ScoreObtained); // Only add the score for assessments
+    }
+
     const skill = await prisma.skill.create({
-      data: {
-        EmployeeID,
-        CourseID: parseInt(CourseID), // Ensure CourseID is an integer
-        Proficiency, // Should be a string like "Basic", "Intermediate", "Advanced"
-        Score: parseInt(Score), // Ensure Score is an integer
-        Proof,
-      },
+      data,
     });
+
     res.status(201).json(skill);
   } catch (error) {
     console.error("Error in addSkill:", error.message);
@@ -24,6 +41,7 @@ const addSkill = async (req, res) => {
   }
 };
 
+// Edit an existing skill's verification status
 const editSkill = async (req, res) => {
   const { SkillID } = req.params;
   const { Verified } = req.body;
@@ -35,6 +53,7 @@ const editSkill = async (req, res) => {
         Verified: !!Verified, // Ensure Verified is a boolean
       },
     });
+
     res.json(skill);
   } catch (error) {
     console.error("Error in editSkill:", error.message);
@@ -42,23 +61,19 @@ const editSkill = async (req, res) => {
   }
 };
 
-
 // Remove a skill
 const removeSkill = async (req, res) => {
   const { SkillID } = req.params;
 
   try {
-    // Find the skill to check if it exists
     const skill = await prisma.skill.findUnique({
       where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
     });
 
-    // Check if the skill exists before attempting to delete
     if (!skill) {
       return res.status(404).json({ error: "Skill not found" });
     }
 
-    // Delete the skill
     await prisma.skill.delete({
       where: { id: parseInt(SkillID) }, // Ensure SkillID is an integer
     });
@@ -79,6 +94,7 @@ const getSkills = async (req, res) => {
         course: true, // Include related course data
       },
     });
+
     res.json(skills);
   } catch (error) {
     console.error("Error in getSkills:", error.message);
@@ -113,6 +129,7 @@ const getSkillById = async (req, res) => {
 // Function to get skills by EmployeeID
 const getSkillsByEmployeeID = async (req, res) => {
   const { EmployeeID } = req.params;
+
   try {
     const skills = await prisma.skill.findMany({
       where: { EmployeeID },
@@ -120,7 +137,7 @@ const getSkillsByEmployeeID = async (req, res) => {
         course: true, // Optional: to fetch course details along with skill
       },
     });
-    
+
     if (skills.length > 0) {
       res.json(skills);
     } else {
@@ -137,5 +154,5 @@ module.exports = {
   removeSkill,
   getSkills,
   getSkillById,
-  getSkillsByEmployeeID
+  getSkillsByEmployeeID,
 };
