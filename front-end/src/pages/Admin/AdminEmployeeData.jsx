@@ -38,18 +38,26 @@ const AdminEmployeeData = () => {
       await api.delete(`/employees/${employeeId}`);
       fetchEmployees(); // Refresh employee lists after deletion
     } catch (error) {
-      console.error("Error deleting employee:", error.response?.data || error.message);
+      console.error(
+        "Error deleting employee:",
+        error.response?.data || error.message
+      );
     }
   };
 
   // Function to accept employee
   const acceptEmployee = async (employeeId) => {
     try {
-      const response = await api.patch(`/employees/${employeeId}/status`, { status: true });
+      const response = await api.patch(`/employees/${employeeId}/status`, {
+        status: true,
+      });
       console.log("Employee accepted:", response.data);
       fetchEmployees(); // Refresh employee lists
     } catch (error) {
-      console.error("Error accepting employee:", error.response?.data || error.message);
+      console.error(
+        "Error accepting employee:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -60,7 +68,10 @@ const AdminEmployeeData = () => {
       console.log("Employee rejected:", response.data);
       fetchEmployees(); // Refresh employee lists after rejection
     } catch (error) {
-      console.error("Error rejecting employee:", error.response?.data || error.message);
+      console.error(
+        "Error rejecting employee:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -82,113 +93,174 @@ const AdminEmployeeData = () => {
         {/* Left half: Active Employees */}
         <div className="col-md-6">
           <h3>Active Employees</h3>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Year of Joining</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {activeEmployees.map((employee) => (
-                <tr key={employee.EmployeeID}>
-                  <td>{employee.EmployeeID}</td>
-                  <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
-                  <td>{employee.Designation}</td>
-                  <td>{employee.YearOfJoining}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button
-                        className="btn btn-warning"
-                        onClick={() => editEmployee(employee.EmployeeID)}
-                      >
-                        ✏️ Edit
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => deleteEmployee(employee.EmployeeID)}
-                      >
-                        ❌ Delete
-                      </button>
-                    </div>
-                  </td>
+          {activeEmployees.length > 0 ? (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Name</th>
+                  <th>Designation</th>
+                  <th>Year of Joining</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {activeEmployees.map((employee) => (
+                  <tr key={employee.EmployeeID}>
+                    <td>{employee.EmployeeID}</td>
+                    <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
+                    <td>{employee.Designation}</td>
+                    <td>{employee.YearOfJoining}</td>
+                    <td>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-warning"
+                          onClick={() => editEmployee(employee.EmployeeID)}
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => deleteEmployee(employee.EmployeeID)}
+                        >
+                          ❌ Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginTop: "20px",
+                fontSize: "18px",
+                padding: "20px",
+                border: "1px solid white",
+                borderRadius: "8px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              No active employees available.
+            </div>
+          )}
         </div>
 
         {/* Right half: Pending Employees */}
         <div className="col-md-6">
           <h3>Pending Employees</h3>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Employee ID</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Year of Joining</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pendingEmployees.map((employee) => (
-                <tr key={employee.EmployeeID}>
-                  <td>{employee.EmployeeID}</td>
-                  <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
-                  <td>{employee.Designation}</td>
-                  <td>{employee.YearOfJoining}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button
-                        className="btn btn-success"
-                        onClick={() => acceptEmployee(employee.EmployeeID)}
-                      >
-                        ✅ Accept
-                      </button>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => viewEmployee(employee)} // Open modal
-                      >
-                        👁️ View
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => rejectEmployee(employee.EmployeeID)}
-                      >
-                        ❌ Reject
-                      </button>
-                    </div>
-                  </td>
+          {pendingEmployees.length > 0 ? (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Name</th>
+                  <th>Designation</th>
+                  <th>Year of Joining</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {pendingEmployees.map((employee) => (
+                  <tr key={employee.EmployeeID}>
+                    <td>{employee.EmployeeID}</td>
+                    <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
+                    <td>{employee.Designation}</td>
+                    <td>{employee.YearOfJoining}</td>
+                    <td>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-success"
+                          onClick={() => acceptEmployee(employee.EmployeeID)}
+                        >
+                          ✅ Accept
+                        </button>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => viewEmployee(employee)} // Open modal
+                        >
+                          👁️ View
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => rejectEmployee(employee.EmployeeID)}
+                        >
+                          ❌ Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginTop: "20px",
+                fontSize: "18px",
+                padding: "20px",
+                border: "1px solid white",
+                borderRadius: "8px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              No pending employees request available.
+            </div>
+          )}
         </div>
       </div>
 
       {/* Modal for Employee Details */}
       {selectedEmployee && (
-        <div className={`modal fade ${showModal ? "show" : ""}`} style={{ display: showModal ? "block" : "none" }} tabIndex="-1" role="dialog" aria-labelledby="employeeModalLabel" aria-hidden={!showModal}>
+        <div
+          className={`modal fade ${showModal ? "show" : ""}`}
+          style={{ display: showModal ? "block" : "none" }}
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="employeeModalLabel"
+          aria-hidden={!showModal}
+        >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="employeeModalLabel">Employee Details</h5>
-                
+                <h5 className="modal-title" id="employeeModalLabel">
+                  Employee Details
+                </h5>
               </div>
               <div className="modal-body">
-                <p><strong>Employee ID:</strong> {selectedEmployee.EmployeeID}</p>
-                <p><strong>Name:</strong> {`${selectedEmployee.Firstname} ${selectedEmployee.Lastname}`}</p>
-                <p><strong>Designation:</strong> {selectedEmployee.Designation}</p>
-                <p><strong>Year of Joining:</strong> {selectedEmployee.YearOfJoining}</p>
-                <p><strong>Status:</strong> {selectedEmployee.status ? "Active" : "Pending"}</p>
+                <p>
+                  <strong>Employee ID:</strong> {selectedEmployee.EmployeeID}
+                </p>
+                <p>
+                  <strong>Name:</strong>{" "}
+                  {`${selectedEmployee.Firstname} ${selectedEmployee.Lastname}`}
+                </p>
+                <p>
+                  <strong>Designation:</strong> {selectedEmployee.Designation}
+                </p>
+                <p>
+                  <strong>Year of Joining:</strong>{" "}
+                  {selectedEmployee.YearOfJoining}
+                </p>
+                <p>
+                  <strong>Status:</strong>{" "}
+                  {selectedEmployee.status ? "Active" : "Pending"}
+                </p>
                 {/* Add any additional employee details here */}
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseModal}
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>
