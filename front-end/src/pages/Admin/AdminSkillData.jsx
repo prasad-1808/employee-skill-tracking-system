@@ -247,6 +247,7 @@ const AdminSkillData = () => {
                       href={selectedSkill.CertificateLink}
                       target="_blank"
                       rel="noopener noreferrer"
+                      download // Add the download attribute here
                     >
                       View Certificate
                     </a>

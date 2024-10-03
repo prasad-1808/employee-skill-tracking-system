@@ -8,10 +8,11 @@ const Home = () => {
         style={{ maxWidth: "600px", width: "100%" }}
       >
         <h1 className="display-4 mb-4 text-center">
-          Welcome to Expense Tracker
+          Welcome to Employee Skill Tracking System
         </h1>
         <p className="lead text-center">
-          Track your daily expenses easily and efficiently.
+          Application that connect employees to admin to monitor the employee
+          skillset.
         </p>
       </div>
     </div>

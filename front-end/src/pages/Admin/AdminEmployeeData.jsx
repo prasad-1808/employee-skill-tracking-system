@@ -12,7 +12,6 @@ const AdminEmployeeData = () => {
   const fetchEmployees = async () => {
     try {
       const response = await api.get("/employees");
-      console.log(response);
       const employees = response.data;
       setActiveEmployees(employees.filter((employee) => employee.status));
       setPendingEmployees(employees.filter((employee) => !employee.status));
@@ -51,7 +50,6 @@ const AdminEmployeeData = () => {
       const response = await api.patch(`/employees/${employeeId}/status`, {
         status: true,
       });
-      console.log("Employee accepted:", response.data);
       fetchEmployees(); // Refresh employee lists
     } catch (error) {
       console.error(

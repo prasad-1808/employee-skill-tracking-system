@@ -154,15 +154,21 @@ const AdminCourse = () => {
             />
           </div>
           <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Level"
-              className="form-control"
+            <select
+              id="course-level"
+              className="form-select"
               value={newCourse.Level}
               onChange={(e) =>
                 setNewCourse({ ...newCourse, Level: e.target.value })
               }
-            />
+            >
+              <option value="" disabled>
+                Select Level
+              </option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
           </div>
         </Modal.Body>
         <Modal.Footer>
