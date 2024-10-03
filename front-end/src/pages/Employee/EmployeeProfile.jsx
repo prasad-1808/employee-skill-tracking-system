@@ -5,37 +5,47 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaRegCircleUser } from "react-icons/fa6";
 
 const EmployeeProfile = () => {
-  const [user, setUser] = useState(null);
+  const [employee, setEmployee] = useState(null);
   const [editing, setEditing] = useState(false);
-  let [formData, setFormData] = useState({
-    userid: "",
-    name: "",
-    mobileNo: "",
-    age: "",
-    monthlyRevenue: "",
+  const [formData, setFormData] = useState({
+    employeeID: "", // Renamed to match the Prisma model
+    firstname: "",
+    lastname: "",
+    designation: "",
+    yearOfJoining: "",
+    status: false,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const userId = localStorage.getItem("userId");
+  const employeeId = localStorage.getItem("userId"); // Ensure this is set when employee logs in
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchEmployeeData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get(`/users/${userId}`);
-        setUser(response.data);
-        setFormData(response.data);
+        const response = await api.get(`/employees/${employeeId}`);
+        setEmployee(response.data);
+        console.log(response);
+        console.log(employee);
+        setFormData({
+          employeeID: response.data.EmployeeID,
+          firstname: response.data.Firstname,
+          lastname: response.data.Lastname,
+          designation: response.data.Designation,
+          yearOfJoining: response.data.YearOfJoining,
+          status: response.data.status,
+        });
       } catch (err) {
-        setError("Failed to fetch user data");
+        setError("Failed to fetch employee data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchUserData();
-  }, [userId, editing]);
+    fetchEmployeeData();
+  }, [employeeId, editing]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,9 +61,7 @@ const EmployeeProfile = () => {
 
   const handleSave = async () => {
     try {
-      formData.monthlyRevenue = parseFloat(formData.monthlyRevenue);
-      formData.age = parseInt(formData.age);
-      await api.put(`/users/${userId}`, formData);
+      await api.put(`/employees/${employeeId}`, formData); // Ensure API endpoint matches your backend
       toast.success("Profile updated successfully");
       setEditing(false);
     } catch (err) {
@@ -72,48 +80,48 @@ const EmployeeProfile = () => {
           {editing ? (
             <div>
               <div className="form-group">
-                <label htmlFor="name">Name:</label>
+                <label htmlFor="firstname">First Name:</label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="firstname"
+                  name="firstname"
                   autoComplete="off"
                   className="form-control"
-                  value={formData.name}
+                  value={formData.firstname}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="mobileNo">Mobile No:</label>
+                <label htmlFor="lastname">Last Name:</label>
                 <input
                   type="text"
-                  id="mobileNo"
-                  name="mobileNo"
+                  id="lastname"
+                  name="lastname"
                   autoComplete="off"
                   className="form-control"
-                  value={formData.mobileNo}
+                  value={formData.lastname}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="age">Age:</label>
+                <label htmlFor="designation">Designation:</label>
                 <input
-                  type="number"
-                  id="age"
-                  name="age"
+                  type="text"
+                  id="designation"
+                  name="designation"
                   className="form-control"
-                  value={formData.age}
+                  value={formData.designation}
                   onChange={handleChange}
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="monthlyRevenue">Monthly Revenue:</label>
+                <label htmlFor="yearOfJoining">Year of Joining:</label>
                 <input
                   type="number"
-                  id="monthlyRevenue"
-                  name="monthlyRevenue"
+                  id="yearOfJoining"
+                  name="yearOfJoining"
                   className="form-control"
-                  value={formData.monthlyRevenue}
+                  value={formData.yearOfJoining}
                   onChange={handleChange}
                 />
               </div>
@@ -132,24 +140,28 @@ const EmployeeProfile = () => {
                 <table className="table table-bordered rounded">
                   <tbody>
                     <tr>
-                      <td className="fw-bold">UserID</td>
-                      <td>{user.userid}</td>
+                      <td className="fw-bold">EmployeeID</td>
+                      <td>{employee.EmployeeID}</td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Name</td>
-                      <td>{user.name}</td>
+                      <td className="fw-bold">First Name</td>
+                      <td>{employee.Firstname}</td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Mobile No</td>
-                      <td>{user.mobileNo}</td>
+                      <td className="fw-bold">Last Name</td>
+                      <td>{employee.Lastname}</td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Age</td>
-                      <td>{user.age}</td>
+                      <td className="fw-bold">Designation</td>
+                      <td>{employee.Designation}</td>
                     </tr>
                     <tr>
-                      <td className="fw-bold">Monthly Revenue</td>
-                      <td>${user.monthlyRevenue.toFixed(2)}</td>
+                      <td className="fw-bold">Year of Joining</td>
+                      <td>{employee.YearOfJoining}</td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Status</td>
+                      <td>{employee.status ? "Active" : "Inactive"}</td>
                     </tr>
                   </tbody>
                 </table>
