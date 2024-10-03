@@ -8,45 +8,45 @@ datasource db {
 }
 
 model Employee {
-  EmployeeID    String   @id
+  EmployeeID    String            @id
   Firstname     String
   Lastname      String
   Designation   String
   YearOfJoining Int
   Password      String
-  status        Boolean  @default(false)
-  skills        Skill[]  @relation("EmployeeSkills")
-  assessments    AssessmentScore[] @relation("EmployeeAssessments")
+  status        Boolean           @default(false)
+  skills        Skill[]           @relation("EmployeeSkills")
+  assessments   AssessmentScore[] @relation("EmployeeAssessments")
 }
 
 model Course {
-  CourseID   Int      @id @default(autoincrement())
-  CourseName String
-  CourseCode String
-  Level      String
-  skills     Skill[]
+  CourseID    Int               @id @default(autoincrement())
+  CourseName  String
+  CourseCode  String
+  Level       String
+  skills      Skill[]
   assessments AssessmentScore[] @relation("CourseAssessments")
 }
 
 model Admin {
-  AdminID      String   @id
-  AdminEmail   String   @unique
-  AdminName    String
+  AdminID       String @id
+  AdminEmail    String @unique
+  AdminName     String
   AdminPassword String
 }
 
 model Skill {
-  id             Int      @id @default(autoincrement())
-  EmployeeID     String
-  CourseID       Int
-  Proficiency    String
-  SkillType      SkillType
-  CertificateLink String?  // Optional
-  ScoreObtained  Int?      // Optional
-  Verified       Boolean   @default(false)
+  id              Int       @id @default(autoincrement())
+  EmployeeID      String
+  CourseID        Int
+  Proficiency     String
+  SkillType       SkillType
+  CertificateLink String? // Optional
+  ScoreObtained   Int? // Optional
+  Verified        Boolean   @default(false)
 
-  employee       Employee  @relation("EmployeeSkills", fields: [EmployeeID], references: [EmployeeID], onDelete: Cascade)
-  course         Course    @relation(fields: [CourseID], references: [CourseID])
+  employee Employee @relation("EmployeeSkills", fields: [EmployeeID], references: [EmployeeID], onDelete: Cascade)
+  course   Course   @relation(fields: [CourseID], references: [CourseID])
 }
 
 enum SkillType {
@@ -55,20 +55,31 @@ enum SkillType {
 }
 
 model Assessment {
-  id                     Int      @id @default(autoincrement())
-  AssessmentCode         String   @unique
-  AssessmentQuestions     Json    // Storing questions in JSON format
-  scores                  AssessmentScore[] @relation("AssessmentScores")
+  id                  Int        @id @default(autoincrement())
+  AssessmentCode      String     @unique
+  AssessmentQuestions Question[]
+
+  // Add this relation field to connect back to AssessmentScore
+  scores AssessmentScore[] @relation("AssessmentScores")
+}
+
+model Question {
+  id            Int        @id @default(autoincrement())
+  questionText  String
+  options       String[] // Store options as an array of strings
+  correctAnswer String
+  assessmentId  Int
+  assessment    Assessment @relation(fields: [assessmentId], references: [id])
 }
 
 model AssessmentScore {
-  id              Int      @id @default(autoincrement())
-  AssessmentCode  String
-  EmployeeID      String
-  CourseID        Int
-  ObtainedMarks   Int
+  id             Int    @id @default(autoincrement())
+  AssessmentCode String
+  EmployeeID     String
+  CourseID       Int
+  ObtainedMarks  Int
 
-  assessment      Assessment @relation("AssessmentScores", fields: [AssessmentCode], references: [AssessmentCode])
-  employee        Employee   @relation("EmployeeAssessments", fields: [EmployeeID], references: [EmployeeID])
-  course          Course     @relation("CourseAssessments", fields: [CourseID], references: [CourseID])
+  assessment Assessment @relation("AssessmentScores", fields: [AssessmentCode], references: [AssessmentCode])
+  employee   Employee   @relation("EmployeeAssessments", fields: [EmployeeID], references: [EmployeeID])
+  course     Course     @relation("CourseAssessments", fields: [CourseID], references: [CourseID])
 }

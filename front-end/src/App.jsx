@@ -11,6 +11,7 @@ import EmployeeLogin from "./pages/Employee/EmployeeLogin";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard"; // Assuming this exists
 import AdminCourse from "./pages/Admin/AdminCourse";
+import AdminAddAssessment from "./pages/Admin/AdminAddAssessment";
 import AdminEmployeeData from "./pages/Admin/AdminEmployeeData";
 import AdminSkillData from "./pages/Admin/AdminSkillData";
 import EmployeeAddSkill from "./pages/Employee/EmployeeAddSkill";
@@ -122,6 +123,16 @@ function App() {
               element={
                 isAdminLoggedIn ? (
                   <AdminCourse />
+                ) : (
+                  <Navigate to="/admin-login" />
+                )
+              }
+            />
+            <Route
+              path="/admin-assessments"
+              element={
+                isAdminLoggedIn ? (
+                  <AdminAddAssessment />
                 ) : (
                   <Navigate to="/admin-login" />
                 )

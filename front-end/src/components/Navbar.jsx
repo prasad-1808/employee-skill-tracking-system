@@ -102,6 +102,14 @@ const Navbar = ({
                 <li className="nav-item mx-2">
                   <Link
                     className="nav-link text-white fs-3"
+                    to="/admin-assessments"
+                  >
+                    Assessments
+                  </Link>
+                </li>
+                <li className="nav-item mx-2">
+                  <Link
+                    className="nav-link text-white fs-3"
                     to="/admin-employeedata"
                   >
                     Employee Data
