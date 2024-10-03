@@ -25,7 +25,7 @@ const EmployeeProfile = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get(`/employees/${employeeId}`);
+        const response = await api.get(`employees/${employeeId}`);
         setEmployee(response.data);
         console.log(response);
         console.log(employee);
@@ -61,9 +61,24 @@ const EmployeeProfile = () => {
 
   const handleSave = async () => {
     try {
-      await api.put(`/employees/${employeeId}`, formData); // Ensure API endpoint matches your backend
+      // Send only the updated fields to the backend
+      const updatedData = {
+        Firstname: formData.firstname,
+        Lastname: formData.lastname,
+        Designation: formData.designation,
+        YearOfJoining: formData.yearOfJoining,
+      };
+
+      await api.put(`/employees/${employeeId}`, updatedData); // Make sure API route matches
       toast.success("Profile updated successfully");
-      setEditing(false);
+
+      // Update the employee state with the new data to reflect changes on UI
+      setEmployee((prevEmployee) => ({
+        ...prevEmployee,
+        ...updatedData, // Merge updated fields with existing employee data
+      }));
+
+      setEditing(false); // Exit editing mode
     } catch (err) {
       toast.error("Failed to update profile");
     }
