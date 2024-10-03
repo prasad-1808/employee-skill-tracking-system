@@ -1,5 +1,5 @@
 // controllers/assessmentController.js
-const prisma = require("../prismaClient"); // Adjust path as necessary
+const prisma = require("./../utils/db"); // Adjust path as necessary
 
 // Create a new assessment
 const createAssessment = async (req, res) => {
