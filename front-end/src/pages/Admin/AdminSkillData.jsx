@@ -112,7 +112,7 @@ const AdminSkillData = () => {
               data={chartData}
               options={{
                 animation: {
-                  duration: 50, // Animation duration set to 1 second (1000ms)
+                  duration: 50, // Animation duration set to 50ms
                   easing: "linear", // Use linear easing for consistent speed
                 },
                 plugins: {
@@ -128,51 +128,81 @@ const AdminSkillData = () => {
               }}
             />
           ) : (
-            <p>No data available to display.</p>
+            <div
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginTop: "20px",
+                fontSize: "18px",
+                padding: "20px",
+                border: "1px solid white",
+                borderRadius: "8px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              No data available to display.
+            </div>
           )}
         </div>
 
         <div className="col-md-6">
           <h3>Unverified Skills</h3>
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Course Name</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unVerifiedSkills.map((skill) => (
-                <tr key={skill.id}>
-                  <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
-                  <td>{skill.course.CourseName}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button
-                        className="btn btn-success"
-                        onClick={() => verifySkill(skill.id)}
-                      >
-                        ✅ Verify
-                      </button>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => viewSkillDetails(skill)}
-                      >
-                        👁️ View
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => deleteSkill(skill.id)}
-                      >
-                        ❌ Reject
-                      </button>
-                    </div>
-                  </td>
+          {unVerifiedSkills.length > 0 ? (
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>Employee Name</th>
+                  <th>Course Name</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {unVerifiedSkills.map((skill) => (
+                  <tr key={skill.id}>
+                    <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
+                    <td>{skill.course.CourseName}</td>
+                    <td>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-success"
+                          onClick={() => verifySkill(skill.id)}
+                        >
+                          ✅ Verify
+                        </button>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => viewSkillDetails(skill)}
+                        >
+                          👁️ View
+                        </button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => deleteSkill(skill.id)}
+                        >
+                          ❌ Reject
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div
+              style={{
+                color: "white",
+                textAlign: "center",
+                marginTop: "20px",
+                fontSize: "18px",
+                padding: "20px",
+                border: "1px solid white",
+                borderRadius: "8px",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              No unverified skills available to display.
+            </div>
+          )}
         </div>
       </div>
 
