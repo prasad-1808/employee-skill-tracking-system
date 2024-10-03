@@ -1,12 +1,10 @@
-// schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql" // or your preferred database provider
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") // Make sure this environment variable is set correctly
 }
 
 model Employee {
@@ -17,7 +15,8 @@ model Employee {
   YearOfJoining Int
   Password      String
   status        Boolean  @default(false)
-  skills     Skill[]  @relation("EmployeeSkills")
+  skills        Skill[]  @relation("EmployeeSkills")
+  assessments    AssessmentScore[] @relation("EmployeeAssessments")
 }
 
 model Course {
@@ -26,10 +25,11 @@ model Course {
   CourseCode String
   Level      String
   skills     Skill[]
+  assessments AssessmentScore[] @relation("CourseAssessments")
 }
 
 model Admin {
-  AdminID      String   @id // Change AdminID to String
+  AdminID      String   @id
   AdminEmail   String   @unique
   AdminName    String
   AdminPassword String
@@ -40,9 +40,9 @@ model Skill {
   EmployeeID     String
   CourseID       Int
   Proficiency    String
-  SkillType      SkillType // Enum to differentiate between certificate and assessment
-  CertificateLink String?  // Optional field to store certificate link, used if SkillType is 'CERTIFICATE'
-  ScoreObtained  Int?      // Optional field to store assessment score, used if SkillType is 'ASSESSMENT'
+  SkillType      SkillType
+  CertificateLink String?  // Optional
+  ScoreObtained  Int?      // Optional
   Verified       Boolean   @default(false)
 
   employee       Employee  @relation("EmployeeSkills", fields: [EmployeeID], references: [EmployeeID], onDelete: Cascade)
@@ -52,4 +52,23 @@ model Skill {
 enum SkillType {
   CERTIFICATE
   ASSESSMENT
+}
+
+model Assessment {
+  id                     Int      @id @default(autoincrement())
+  AssessmentCode         String   @unique
+  AssessmentQuestions     Json    // Storing questions in JSON format
+  scores                  AssessmentScore[] @relation("AssessmentScores")
+}
+
+model AssessmentScore {
+  id              Int      @id @default(autoincrement())
+  AssessmentCode  String
+  EmployeeID      String
+  CourseID        Int
+  ObtainedMarks   Int
+
+  assessment      Assessment @relation("AssessmentScores", fields: [AssessmentCode], references: [AssessmentCode])
+  employee        Employee   @relation("EmployeeAssessments", fields: [EmployeeID], references: [EmployeeID])
+  course          Course     @relation("CourseAssessments", fields: [CourseID], references: [CourseID])
 }
