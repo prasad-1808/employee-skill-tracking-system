@@ -21,7 +21,8 @@ const AdminSkillData = () => {
       const skills = response.data;
       const verified = skills.filter((skill) => skill.Verified);
       const unverified = skills.filter((skill) => !skill.Verified);
-
+      // console.log(verified);
+      // console.log(unVerifiedSkills);
       setVerifiedSkills(verified);
       setUnVerifiedSkills(unverified);
       processChartData(verified);
@@ -44,7 +45,12 @@ const AdminSkillData = () => {
           label: "Number of Employees",
           data: Object.values(courseCount),
           backgroundColor: [
-            "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF", "#FF9F40",
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#4BC0C0",
+            "#9966FF",
+            "#FF9F40",
           ],
           hoverOffset: 4,
         },
@@ -55,17 +61,23 @@ const AdminSkillData = () => {
   useEffect(() => {
     fetchSkills();
   }, [fetchSkills]); // Add fetchSkills as a dependency
-  
 
   const verifySkill = async (skillId) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
-      await api.put(`/skills/${skillId}`, { Verified: true }, {
-        headers: { Authorization: `Bearer ${adminToken}` },
-      });
+      await api.put(
+        `/skills/${skillId}`,
+        { Verified: true },
+        {
+          headers: { Authorization: `Bearer ${adminToken}` },
+        }
+      );
       fetchSkills();
     } catch (error) {
-      console.error("Error verifying skill:", error.response?.data || error.message);
+      console.error(
+        "Error verifying skill:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -77,7 +89,10 @@ const AdminSkillData = () => {
       });
       fetchSkills();
     } catch (error) {
-      console.error("Error deleting skill:", error.response?.data || error.message);
+      console.error(
+        "Error deleting skill:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -94,26 +109,24 @@ const AdminSkillData = () => {
           <h3>Verified Skills by Course</h3>
           {chartData && chartData.labels && chartData.labels.length > 0 ? (
             <Doughnut
-            data={chartData}
-            options={{
-              animation: {
-                duration: 50, // Animation duration set to 1 second (1000ms)
-                easing: 'linear', // Use linear easing for consistent speed
-              },
-              plugins: {
-                legend: {
-                  position: "bottom",
-                  labels: {
-                    color: "black",
-                    boxWidth: 20,
-                    padding: 15,
+              data={chartData}
+              options={{
+                animation: {
+                  duration: 50, // Animation duration set to 1 second (1000ms)
+                  easing: "linear", // Use linear easing for consistent speed
+                },
+                plugins: {
+                  legend: {
+                    position: "bottom",
+                    labels: {
+                      color: "black",
+                      boxWidth: 20,
+                      padding: 15,
+                    },
                   },
                 },
-              },
-            }}
-          />
-          
-          
+              }}
+            />
           ) : (
             <p>No data available to display.</p>
           )}
@@ -175,24 +188,45 @@ const AdminSkillData = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">
-                  Skill Details for {selectedSkill.employee.Firstname}{" "}
-                  {selectedSkill.employee.Lastname}
+                  Skill Details for {selectedSkill.employee?.Firstname}{" "}
+                  {selectedSkill.employee?.Lastname}
                 </h5>
-                
               </div>
+
               <div className="modal-body">
                 <p>
-                  <strong>Course:</strong> {selectedSkill.course.CourseName}
+                  <strong>Course:</strong>{" "}
+                  {selectedSkill.course?.CourseName || "N/A"}
                 </p>
                 <p>
-                  <strong>Course Code:</strong> {selectedSkill.course.Course}
+                  <strong>Course Code:</strong>{" "}
+                  {selectedSkill.course?.CourseCode || "N/A"}
                 </p>
                 <p>
-                  <strong>Proficiency:</strong> {selectedSkill.Proficiency}
+                  <strong>Proficiency:</strong>{" "}
+                  {selectedSkill.Proficiency || "N/A"}
                 </p>
                 <p>
-                  <strong>Proof:</strong> {selectedSkill.Proof}
+                  <strong>Proof:</strong> {selectedSkill.SkillType}
                 </p>
+
+                {selectedSkill.SkillType === "CERTIFICATE" ? (
+                  <p>
+                    <strong>Certificate link:</strong>
+                    <a
+                      href={selectedSkill.CertificateLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Certificate
+                    </a>
+                  </p>
+                ) : (
+                  <p>
+                    <strong>Assessment Score:</strong>
+                    {selectedSkill.ScoreObtained || "Score not available"}
+                  </p>
+                )}
               </div>
               <div className="modal-footer">
                 <button

@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api"; // Ensure this points to your API service
+import api from "../../services/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EmployeeAddSkill = () => {
-  const [courses, setCourses] = useState([]); // State for the list of courses
-  const [selectedCourse, setSelectedCourse] = useState(""); // Selected course
-  const [proficiency, setProficiency] = useState(""); // Proficiency level
-  const [score, setScore] = useState(""); // Score (1 to 5)
-  const [proof, setProof] = useState(""); // Certification or assessment link
+  const [courses, setCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [proficiency, setProficiency] = useState("");
+  const [skillType, setSkillType] = useState(""); // Add skill type field
+  const [certificateLink, setCertificateLink] = useState(""); // Certificate link
+  const [scoreObtained, setScoreObtained] = useState(""); // Score obtained
 
-  // Fetch courses from the API
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/course/");
         const data = await response.json();
         setCourses(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching the courses:", error);
       }
@@ -28,24 +27,30 @@ const EmployeeAddSkill = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const skillData = {
-        EmployeeID: localStorage.getItem("userId"), // Assuming EmployeeID is stored in localStorage
-        CourseID: parseInt(selectedCourse),
-        Proficiency: proficiency, // Now sending the proficiency as a string
-        Score: parseInt(score), // Adjust this if you need to send a specific value for score
-        Proof: proof,
-      };
-      console.log(skillData);
 
-      const response = await api.post("/skills", skillData); // Adjust API endpoint as necessary
+    const skillData = {
+      EmployeeID: localStorage.getItem("userId"),
+      CourseID: parseInt(selectedCourse),
+      Proficiency: proficiency,
+      SkillType: skillType, // Send SkillType
+    };
+
+    // Conditionally add CertificateLink or ScoreObtained based on SkillType
+    if (skillType === "CERTIFICATE") {
+      skillData.CertificateLink = certificateLink;
+    } else if (skillType === "ASSESSMENT") {
+      skillData.ScoreObtained = parseInt(scoreObtained);
+    }
+
+    try {
+      const response = await api.post("/skills", skillData);
       if (response.status === 201) {
         toast.success("Skill added successfully");
-        // Reset form fields if needed
         setSelectedCourse("");
-        setProficiency(""); // Reset to default
-        setScore("");
-        setProof("");
+        setProficiency("");
+        setSkillType("");
+        setCertificateLink("");
+        setScoreObtained("");
       }
     } catch (error) {
       console.error("Error adding skill:", error);
@@ -92,32 +97,49 @@ const EmployeeAddSkill = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="score">Score (1 to 5):</label>
-          <input
-            type="number"
-            id="score"
+          <label htmlFor="skillType">Proof:</label>
+          <select
+            id="skillType"
             className="form-control"
-            min="1"
-            max="5"
-            value={score}
-            onChange={(e) => setScore(e.target.value)}
+            value={skillType}
+            onChange={(e) => setSkillType(e.target.value)}
             required
-          />
+          >
+            <option value="">Select Proof type</option>
+            <option value="CERTIFICATE">Certificate</option>
+            <option value="ASSESSMENT">Assessment</option>
+          </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="proof">
-            Proof (Certification link or Assessment):
-          </label>
-          <input
-            type="text"
-            id="proof"
-            className="form-control"
-            value={proof}
-            onChange={(e) => setProof(e.target.value)}
-            required
-          />
-        </div>
+        {skillType === "CERTIFICATE" && (
+          <div className="form-group">
+            <label htmlFor="certificateLink">Certificate Link:</label>
+            <input
+              type="text"
+              id="certificateLink"
+              className="form-control"
+              value={certificateLink}
+              onChange={(e) => setCertificateLink(e.target.value)}
+              required={skillType === "CERTIFICATE"}
+            />
+          </div>
+        )}
+
+        {skillType === "ASSESSMENT" && (
+          <div className="form-group">
+            <label htmlFor="score">Score (1 to 5):</label>
+            <input
+              type="number"
+              id="score"
+              className="form-control"
+              min="1"
+              max="5"
+              value={scoreObtained}
+              onChange={(e) => setScoreObtained(e.target.value)}
+              required={skillType === "ASSESSMENT"}
+            />
+          </div>
+        )}
 
         <button type="submit" className="btn btn-primary mt-3">
           Add Skill
