@@ -1,16 +1,18 @@
-// routes/assessmentRoutes.js
 const express = require("express");
 const {
-  createAssessment,
+  addAssessment,
+  getAllAssessments,
+  getAssessmentById,
   editAssessment,
-  getAssessmentDetails,
+  deleteAssessment,
 } = require("../controllers/assessmentController");
 
 const router = express.Router();
 
-// Define routes for assessment
-router.post("/", createAssessment);
-router.put("/:id", editAssessment);
-router.get("/:id", getAssessmentDetails);
+router.post("/", addAssessment); // Add new assessment
+router.get("/", getAllAssessments); // Get all assessments
+router.get("/:id", getAssessmentById); // Get specific assessment by ID
+router.put("/:id", editAssessment); // Edit an assessment by ID
+router.delete("/:id", deleteAssessment); // Delete an assessment by ID
 
 module.exports = router;

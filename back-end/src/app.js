@@ -4,7 +4,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 const assessmentRoutes = require("./routes/assessmentRoutes");
-const assessmentScoreRoutes = require("./routes/assessmentScoreRoutes");
+const questionRoutes = require("./routes/questionRoutes");
 
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -25,7 +25,7 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/skills", skillRoutes);
-app.use('/api/assessments', assessmentRoutes);
-app.use('/api/assessment-scores', assessmentScoreRoutes);
+app.use("/api/assessments", assessmentRoutes);
+app.use("/api/questions", questionRoutes);
 
 module.exports = app;

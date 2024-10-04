@@ -11,7 +11,7 @@ import EmployeeLogin from "./pages/Employee/EmployeeLogin";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard"; // Assuming this exists
 import AdminCourse from "./pages/Admin/AdminCourse";
-import AdminAddAssessment from "./pages/Admin/AdminAddAssessment";
+import AdminAssessment from "./pages/Admin/AdminAssessment";
 import AdminEmployeeData from "./pages/Admin/AdminEmployeeData";
 import AdminSkillData from "./pages/Admin/AdminSkillData";
 import EmployeeAddSkill from "./pages/Employee/EmployeeAddSkill";
@@ -132,7 +132,7 @@ function App() {
               path="/admin-assessments"
               element={
                 isAdminLoggedIn ? (
-                  <AdminAddAssessment />
+                  <AdminAssessment />
                 ) : (
                   <Navigate to="/admin-login" />
                 )
