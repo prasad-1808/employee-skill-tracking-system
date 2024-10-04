@@ -34,7 +34,10 @@ const Navbar = ({
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-gradient fixed-top fs-3"
-      style={{ paddingTop: "0px", paddingBottom: "0.5px" }}
+      style={{
+        paddingTop: "0px",
+        paddingBottom: "0.5px",
+      }}
     >
       <div className="container-fluid">
         {/* Brand Name */}
@@ -96,7 +99,7 @@ const Navbar = ({
                     className="nav-link text-white fs-3"
                     to="/admin-skilldata"
                   >
-                    Skills Data
+                    Skills
                   </Link>
                 </li>
                 <li className="nav-item mx-2">
@@ -112,7 +115,7 @@ const Navbar = ({
                     className="nav-link text-white fs-3"
                     to="/admin-employeedata"
                   >
-                    Employee Data
+                    Employee
                   </Link>
                 </li>
               </>

@@ -21,7 +21,7 @@ const CourseList = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
+    <div className="container employee-course">
       <div className="row">
         {courses.length > 0 ? (
           courses.map((course) => (

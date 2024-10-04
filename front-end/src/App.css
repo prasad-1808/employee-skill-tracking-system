@@ -7,9 +7,10 @@ body {
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scrolling */
   background: linear-gradient(
-    45deg,
-    rgba(54, 13, 164, 1),
-    rgba(234, 91, 149, 1)
+    180deg,
+    rgb(105, 66, 223),
+    rgb(194, 185, 188)
+
   );
   min-height: 100vh;
   margin: 0;
@@ -143,4 +144,8 @@ body {
 
 td {
   width: 7rem;
+}
+
+.employee-course {
+  margin-top: 30px;
 }
