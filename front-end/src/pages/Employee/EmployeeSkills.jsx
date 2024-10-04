@@ -41,45 +41,51 @@ const EmployeeSkills = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4">My Skills</h2>
-
-      {skills.length > 0 ? (
-        <table className="table table-striped mt-3">
-          <thead>
-            <tr>
-              <th>Course Name</th>
-              <th>Proficiency</th>
-              <th>Skill Type</th>
-              <th>Verified</th>
-            </tr>
-          </thead>
-          <tbody>
-            {skills.map((skill) => (
-              <tr key={skill.id}>
-                <td>{skill.course?.CourseName || "N/A"}</td>
-                <td>{skill.Proficiency}</td>
-                <td>{skill.SkillType || "N/A"}</td>
-                <td>{skill.Verified ? "Yes" : "No"}</td>
+      <div style={{ marginTop: "5rem" }}>
+        <center>
+          <h2 style={{ marginTop: "5rem", color: "white" }}>My Skills</h2>
+        </center>
+        {skills.length > 0 ? (
+          <table
+            className="table table-striped mt-3"
+            style={{ marginTop: "3rem" }}
+          >
+            <thead>
+              <tr>
+                <th>Course Name</th>
+                <th>Proficiency</th>
+                <th>Skill Type</th>
+                <th>Verified</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div
-          style={{
-            color: "white",
-            textAlign: "center",
-            marginTop: "20px",
-            fontSize: "18px",
-            padding: "20px",
-            border: "1px solid white",
-            borderRadius: "8px",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          No skills available. Please add a new skill to get started.
-        </div>
-      )}
+            </thead>
+            <tbody>
+              {skills.map((skill) => (
+                <tr key={skill.id}>
+                  <td>{skill.course?.CourseName || "N/A"}</td>
+                  <td>{skill.Proficiency}</td>
+                  <td>{skill.SkillType || "N/A"}</td>
+                  <td>{skill.Verified ? "Yes" : "No"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div
+            style={{
+              color: "white",
+              textAlign: "center",
+              marginTop: "20px",
+              fontSize: "18px",
+              padding: "20px",
+              border: "1px solid white",
+              borderRadius: "8px",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            No skills available. Please add a new skill to get started.
+          </div>
+        )}
+      </div>
     </div>
   );
 };

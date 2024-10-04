@@ -104,7 +104,7 @@ const AdminSkillData = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
+      <div className="row" style={{marginTop:"7rem"}}>
         <div className="col-md-6">
           <h3>Verified Skills by Course</h3>
           {chartData && chartData.labels && chartData.labels.length > 0 ? (

@@ -118,7 +118,7 @@ const AdminEmployeeData = () => {
 
   return (
     <div className="container mt-5">
-      <div className="row">
+      <div className="row" style={{ marginTop: "5rem" }}>
         {/* Left half: Active Employees */}
         <div className="col-md-6">
           <h3>Active Employees</h3>

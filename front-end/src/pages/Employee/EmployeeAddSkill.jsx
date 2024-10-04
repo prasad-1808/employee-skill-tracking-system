@@ -60,9 +60,11 @@ const EmployeeAddSkill = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Add Skill</h2>
+      <center>
+        <h2 style={{ marginTop: "5rem", color: "white" }}>Add Skill</h2>
+      </center>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group" style={{ marginTop: "3rem" }}>
           <label htmlFor="course">Skill Name (Course):</label>
           <select
             id="course"

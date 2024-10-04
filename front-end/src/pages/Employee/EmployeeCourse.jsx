@@ -22,7 +22,7 @@ const CourseList = () => {
 
   return (
     <div className="container employee-course">
-      <div className="row">
+      <div className="row" style={{ marginTop: "8rem" }}>
         {courses.length > 0 ? (
           courses.map((course) => (
             <CourseCard key={course.CourseID} course={course} />
