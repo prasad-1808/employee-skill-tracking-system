@@ -61,15 +61,15 @@ const Navbar = ({
         >
           <ul className="d-flex justify-content-end w-100 navbar-nav me-auto fs-3">
             {/* Home link always visible */}
-            <li className="nav-item mx-2">
-              <Link className="nav-link text-white fs-3" to="/">
-                Home
-              </Link>
-            </li>
 
             {/* Show Login and Register links if not logged in */}
             {!isLoggedIn && !isAdminLoggedIn && (
               <>
+                <li className="nav-item mx-2">
+                  <Link className="nav-link text-white fs-3" to="/">
+                    Home
+                  </Link>
+                </li>
                 <li className="nav-item mx-2">
                   <Link className="nav-link text-white fs-3" to="/login">
                     Login
@@ -86,6 +86,14 @@ const Navbar = ({
             {/* Admin-specific links */}
             {isAdminLoggedIn && (
               <>
+                <li className="nav-item mx-2">
+                  <Link
+                    className="nav-link text-white fs-3"
+                    to="/admin-dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
                 <li className="nav-item mx-2">
                   <Link
                     className="nav-link text-white fs-3"

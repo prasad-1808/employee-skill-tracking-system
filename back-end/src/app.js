@@ -5,6 +5,7 @@ const courseRoutes = require("./routes/courseRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 const assessmentRoutes = require("./routes/assessmentRoutes");
 const questionRoutes = require("./routes/questionRoutes");
+const dashboardRouter = require("./routes/dashboardRoutes");
 
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -27,5 +28,6 @@ app.use("/api/course", courseRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/assessments", assessmentRoutes);
 app.use("/api/questions", questionRoutes);
+app.use("/api/dashboard", dashboardRouter);
 
 module.exports = app;
