@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa";
 const Home = () => {
   return (
     <div
-      className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
+      className="container-fluid d-flex justify-content-center align-items-center"
       style={{
         backgroundImage: "linear-gradient(135deg, #e0eafc, #cfdef3)", // Matching background gradient
         backgroundColor: "white"

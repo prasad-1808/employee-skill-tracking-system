@@ -51,7 +51,7 @@ const EmployeeLogin = ({ isLoggedIn, setIsLoggedIn }) => {
 
   return (
     <div
-      className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
+      className="container-fluid d-flex justify-content-center align-items-center"
       style={{
         backgroundColor: "#f8f9fa",
         backgroundImage: "linear-gradient(135deg, #e0eafc, #cfdef3)", // Matching background gradient
