@@ -6,7 +6,7 @@ import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import "../../assets/AdminSkillData.css";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap CSS is imported
 import { Modal, Button } from "react-bootstrap"; // Import Modal and Button from react-bootstrap
-import { toast } from "react-toastify"; // Assuming you want to show notifications
+import { toast } from "react-toastify"; // For showing notifications
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -14,15 +14,16 @@ const AdminSkillData = () => {
   const [verifiedSkills, setVerifiedSkills] = useState([]);
   const [unVerifiedSkills, setUnVerifiedSkills] = useState([]);
   const [chartData, setChartData] = useState({});
-  const [selectedSkill, setSelectedSkill] = useState(null); // State for selected skill
-  const [showModal, setShowModal] = useState(false); // State to handle modal visibility
-  const [showAddSkillModal, setShowAddSkillModal] = useState(false); // State for add skill modal
-  const [newSkill, setNewSkill] = useState({ // New skill state for adding
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showAddSkillModal, setShowAddSkillModal] = useState(false);
+  const [newSkill, setNewSkill] = useState({
     CourseName: "",
     EmployeeName: "",
     Proficiency: "",
   });
 
+  // Fetch skills and process for verified/unverified and chart
   const fetchSkills = async () => {
     try {
       const response = await api.get("/skills");
@@ -37,6 +38,7 @@ const AdminSkillData = () => {
     }
   };
 
+  // Process chart data from verified skills
   const processChartData = (verifiedSkills) => {
     const courseCount = verifiedSkills.reduce((acc, skill) => {
       const courseName = skill.course.CourseName;
@@ -51,12 +53,12 @@ const AdminSkillData = () => {
           label: "Number of Employees",
           data: Object.values(courseCount),
           backgroundColor: [
-            "#FF6384",
-            "#36A2EB",
-            "#FFCE56",
-            "#4BC0C0",
-            "#9966FF",
-            "#FF9F40",
+            "#4e73df", // Custom colors for theme consistency
+            "#1cc88a",
+            "#36b9cc",
+            "#f6c23e",
+            "#e74a3b",
+            "#858796",
           ],
           hoverOffset: 4,
         },
@@ -64,10 +66,7 @@ const AdminSkillData = () => {
     });
   };
 
-  useEffect(() => {
-    fetchSkills();
-  }, []); // Removed fetchSkills as a dependency
-
+  // Verify skill by ID
   const verifySkill = async (skillId) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
@@ -82,13 +81,11 @@ const AdminSkillData = () => {
       toast.success("Skill verified successfully");
     } catch (error) {
       toast.error("Error verifying skill");
-      console.error(
-        "Error verifying skill:",
-        error.response?.data || error.message
-      );
+      console.error("Error verifying skill:", error.response?.data || error.message);
     }
   };
 
+  // Delete skill by ID
   const deleteSkill = async (skillID) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
@@ -99,26 +96,24 @@ const AdminSkillData = () => {
       toast.success("Skill deleted successfully");
     } catch (error) {
       toast.error("Error deleting skill");
-      console.error(
-        "Error deleting skill:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting skill:", error.response?.data || error.message);
     }
   };
 
-  // Function to handle "View" button click
+  // Handle viewing skill details
   const viewSkillDetails = (skill) => {
     setSelectedSkill(skill);
-    setShowModal(true); // Show the modal
+    setShowModal(true); // Show the modal for skill details
   };
 
+  // Handle adding new skill
   const handleAddSkill = async () => {
     try {
-      const token = localStorage.getItem("adminToken"); // Assuming the token is stored in localStorage
+      const token = localStorage.getItem("adminToken");
       const response = await api.post("/skills", newSkill, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -126,8 +121,8 @@ const AdminSkillData = () => {
         const addedSkill = await response.json();
         setUnVerifiedSkills((prevSkills) => [...prevSkills, addedSkill]);
         toast.success("Skill added successfully!");
-        setShowAddSkillModal(false); // Close the modal
-        setNewSkill({ CourseName: "", EmployeeName: "", Proficiency: "" }); // Reset form
+        setShowAddSkillModal(false);
+        setNewSkill({ CourseName: "", EmployeeName: "", Proficiency: "" });
       } else {
         toast.error("Failed to add skill");
       }
@@ -137,15 +132,19 @@ const AdminSkillData = () => {
     }
   };
 
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
   return (
     <div className="container mt-5">
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
-  
+        <h2 style={{ color: "#e62dd7" }}>Employees Skills Data</h2>
       </div>
 
       <div className="row" style={{ marginTop: "2rem" }}>
         <div className="col-md-6">
-          <h3 style={{ color:"#e62dd7"}}>Verified Skills by Course</h3>
+          <h3 style={{ color: "#e62dd7" }}>Skills Over Employees</h3>
           {chartData && chartData.labels && chartData.labels.length > 0 ? (
             <Doughnut
               data={chartData}
@@ -158,40 +157,31 @@ const AdminSkillData = () => {
                   legend: {
                     position: "bottom",
                     labels: {
-                      color: "#e62dd7",
+                      color: "#4e73df",
                       boxWidth: 20,
                       padding: 15,
                       font: {
-                        size: 20
-                      }
+                        size: 18,
+                      },
                     },
                   },
                 },
               }}
             />
           ) : (
-            <div
-              style={{
-                color: "white",
-                textAlign: "center",
-                marginTop: "20px",
-                fontSize: "18px",
-                padding: "20px",
-                border: "1px solid white",
-                borderRadius: "8px",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              No data available to display.
-            </div>
+            <div className="card p-4 text-center">
+                <div className="card-body">
+                  <h5 className="card-title" style={{ color: "#e62dd7" }}>No Skills Data Available.</h5>
+                </div>
+              </div>
           )}
         </div>
 
         <div className="col-md-6">
-          <h3 style={{ color:"#e62dd7"}} >Unverified Skills</h3>
+          <h3 style={{ color: "#e62dd7" }}>Unverified Skills</h3>
           {unVerifiedSkills.length > 0 ? (
-            <table className="table table-striped table-dark">
-              <thead>
+            <table className="table table-striped table-hover table-bordered">
+              <thead className="thead-dark">
                 <tr>
                   <th>Employee Name</th>
                   <th>Course Name</th>
@@ -230,20 +220,11 @@ const AdminSkillData = () => {
               </tbody>
             </table>
           ) : (
-            <div
-              style={{
-                color: "white",
-                textAlign: "center",
-                marginTop: "20px",
-                fontSize: "18px",
-                padding: "20px",
-                border: "1px solid white",
-                borderRadius: "8px",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              No unverified skills available to display.
-            </div>
+            <div className="card p-4 text-center">
+                <div className="card-body">
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Unverified Skills</h5>
+                </div>
+              </div>
           )}
         </div>
       </div>
@@ -284,7 +265,7 @@ const AdminSkillData = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowAddSkillModal(false)}>
-            Cancel
+            Close
           </Button>
           <Button variant="primary" onClick={handleAddSkill}>
             Add Skill
@@ -292,7 +273,7 @@ const AdminSkillData = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Modal to display skill details */}
+      {/* Skill Details Modal */}
       {selectedSkill && (
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
@@ -322,7 +303,7 @@ const AdminSkillData = () => {
                   href={selectedSkill.CertificateLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  download // Add the download attribute here
+                  download
                 >
                   View Certificate
                 </a>

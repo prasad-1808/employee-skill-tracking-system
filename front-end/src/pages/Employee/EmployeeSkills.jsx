@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import api from "../../services/api"; // Assuming you have an API service
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../assets/EmployeeSkills.css";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeSkills = () => {
   const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(true);
   const EmployeeID = localStorage.getItem("userId"); // Get the employee ID from local storage
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSkills = async () => {
@@ -70,9 +72,39 @@ const EmployeeSkills = () => {
             </table>
           </div>
         ) : (
-          <div className="no-skills-message">
-            No skills available. Please add a new skill to get started.
-          </div>
+          <div className="card p-4 text-center">
+                <div className="card-body">
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Skills Related Data Available</h5>
+                  <h6>Add Skill to get Started</h6>
+                  <center>
+      <button
+        onClick={() => navigate('/addskill')} // Correct way to use navigate
+        className="custom-button d-inline-flex align-items-center"
+        style={{
+          backgroundColor: "white",
+          color: "#ff69b4",
+          padding: "10px 20px",
+          borderRadius: "8px",
+          fontWeight: "bold",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          display: "inline-block",
+          transform: "skewX(-15deg)", // Slanted button style
+          boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", // Button shadow
+        }}
+      >
+        <span
+          style={{
+            transform: "skewX(15deg)", // Reset text skew
+            color: "#ff69b4",
+          }}
+        >
+          Add Skills
+        </span>
+      </button>
+    </center>
+                </div>
+              </div>
         )}
       </div>
     </div>

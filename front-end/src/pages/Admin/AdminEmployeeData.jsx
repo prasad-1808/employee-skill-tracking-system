@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
-import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const AdminEmployeeData = () => {
   const [activeEmployees, setActiveEmployees] = useState([]);
   const [pendingEmployees, setPendingEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null); // State to store selected employee
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [isViewMode, setIsViewMode] = useState(false); // State to check if it's view mode or edit mode
-  const [editEmployeeData, setEditEmployeeData] = useState({}); // State for editing employee data
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [isViewMode, setIsViewMode] = useState(false);
+  const [editEmployeeData, setEditEmployeeData] = useState({});
 
-  // Function to fetch employees
   const fetchEmployees = async () => {
     try {
       const response = await api.get("/employees");
@@ -26,185 +25,180 @@ const AdminEmployeeData = () => {
     fetchEmployees();
   }, []);
 
-  // Function to edit employee
   const editEmployee = (employee) => {
-    setIsViewMode(false); // Set to edit mode
-    setEditEmployeeData(employee); // Set the employee data to edit
-    setShowModal(true); // Show the edit modal
+    setIsViewMode(false);
+    setEditEmployeeData(employee);
+    setShowModal(true);
   };
 
-  // Function to save the edited employee
   const saveEditedEmployee = async () => {
     try {
-      // Create an object with only the required fields
-      const { Firstname, Lastname, Designation, YearOfJoining } =
-        editEmployeeData;
-      const dataToSend = {
-        Firstname,
-        Lastname,
-        Designation,
-        YearOfJoining,
-      };
+      const { Firstname, Lastname, Designation, YearOfJoining } = editEmployeeData;
+      const dataToSend = { Firstname, Lastname, Designation, YearOfJoining };
 
       await api.put(`/employees/${editEmployeeData.EmployeeID}`, dataToSend);
-      fetchEmployees(); // Refresh employee lists after editing
-      handleCloseModal(); // Close the modal
+      fetchEmployees();
+      handleCloseModal();
     } catch (error) {
       console.error("Error saving edited employee:", error);
     }
   };
 
-  // Function to delete employee
   const deleteEmployee = async (employeeId) => {
     try {
       await api.delete(`/employees/${employeeId}`);
-      fetchEmployees(); // Refresh employee lists after deletion
+      fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error deleting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting employee:", error.response?.data || error.message);
     }
   };
 
-  // Function to accept employee
   const acceptEmployee = async (employeeId) => {
     try {
-      const response = await api.patch(`/employees/${employeeId}/status`, {
-        status: true,
-      });
-      fetchEmployees(); // Refresh employee lists
+      await api.patch(`/employees/${employeeId}/status`, { status: true });
+      fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error accepting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error accepting employee:", error.response?.data || error.message);
     }
   };
 
-  // Function to reject employee
   const rejectEmployee = async (employeeId) => {
     try {
-      const response = await api.delete(`/employees/${employeeId}`);
-      console.log("Employee rejected:", response.data);
-      fetchEmployees(); // Refresh employee lists after rejection
+      await api.delete(`/employees/${employeeId}`);
+      fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error rejecting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error rejecting employee:", error.response?.data || error.message);
     }
   };
 
-  // Function to view employee details
   const viewEmployee = (employee) => {
-    setIsViewMode(true); // Set to view mode
-    setSelectedEmployee(employee); // Set the selected employee
-    setShowModal(true); // Show the modal
+    setIsViewMode(true);
+    setSelectedEmployee(employee);
+    setShowModal(true);
   };
 
-  // Function to close the modal
   const handleCloseModal = () => {
     setShowModal(false);
-    setSelectedEmployee(null); // Clear selected employee
-    setEditEmployeeData({}); // Clear edit employee data
+    setSelectedEmployee(null);
+    setEditEmployeeData({});
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row" style={{ marginTop: "5rem" }}>
-        {/* Left half: Active Employees */}
+    <div
+      className="container mt-5"
+      style={{
+        width:"150rem"
+      }}
+    >
+      <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
+        <h2 style={{ color: "#e62dd7" }}>Employees Data</h2>
+      </div>
+      <div className="row w-100">
+        {/* Active Employees */}
         <div className="col-md-6">
-          <h3>Active Employees</h3>
-          {activeEmployees.length > 0 ? (
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Employee ID</th>
-                  <th>Name</th>
-                  <th>Designation</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeEmployees.map((employee) => (
-                  <tr key={employee.EmployeeID}>
-                    <td>{employee.EmployeeID}</td>
-                    <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
-                    <td>{employee.Designation}</td>
-                    <td>
-                      <div className="btn-group">
-                        <button
-                          className="btn btn-warning"
-                          onClick={() => editEmployee(employee)} // Call editEmployee with employee data
-                        >
-                          ✏️ Edit
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => deleteEmployee(employee.EmployeeID)}
-                        >
-                          ❌ Delete
-                        </button>
-                      </div>
-                    </td>
+          <div className="p-3 rounded" style={{ borderRadius: "15px" }}>
+            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>Active Employees</h4>
+            {activeEmployees.length > 0 ? (
+              <table className="table table-sm table-hover">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div>No active employees available.</div>
-          )}
+                </thead>
+                <tbody>
+                  {activeEmployees.map((employee) => (
+                    <tr key={employee.EmployeeID}>
+                      <td>{employee.EmployeeID}</td>
+                      <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
+                      <td>{employee.Designation}</td>
+                      <td>
+                        <div className="btn-group btn-group-sm">
+                          <button
+                            className="btn btn-warning btn-sm"
+                            onClick={() => editEmployee(employee)}
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => deleteEmployee(employee.EmployeeID)}
+                          >
+                            ❌
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="card p-4 text-center">
+                <div className="card-body">
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Active Employees</h5>
+                  <p className="card-text">No data available. Please add employees.</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Right half: Pending Employees */}
+        {/* Pending Employees */}
         <div className="col-md-6">
-          <h3>Pending Employees</h3>
-          {pendingEmployees.length > 0 ? (
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Employee ID</th>
-                  <th>Name</th>
-                  <th>Designation</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingEmployees.map((employee) => (
-                  <tr key={employee.EmployeeID}>
-                    <td>{employee.EmployeeID}</td>
-                    <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
-                    <td>{employee.Designation}</td>
-                    <td>
-                      <div className="btn-group">
-                        <button
-                          className="btn btn-success"
-                          onClick={() => acceptEmployee(employee.EmployeeID)}
-                        >
-                          ✅ Accept
-                        </button>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => viewEmployee(employee)} // Open modal
-                        >
-                          👁️ View
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => rejectEmployee(employee.EmployeeID)}
-                        >
-                          ❌ Reject
-                        </button>
-                      </div>
-                    </td>
+          <div className="p-3 rounded" style={{ borderRadius: "15px" }}>
+            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>Pending Employees</h4>
+            {pendingEmployees.length > 0 ? (
+              <table className="table table-sm table-hover">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div>No pending employees request available.</div>
-          )}
+                </thead>
+                <tbody>
+                  {pendingEmployees.map((employee) => (
+                    <tr key={employee.EmployeeID}>
+                      <td>{employee.EmployeeID}</td>
+                      <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
+                      <td>{employee.Designation}</td>
+                      <td>
+                        <div className="btn-group btn-group-sm">
+                          <button
+                            className="btn btn-success btn-sm"
+                            onClick={() => acceptEmployee(employee.EmployeeID)}
+                          >
+                            ✅
+                          </button>
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() => viewEmployee(employee)}
+                          >
+                            👁️
+                          </button>
+                          <button
+                            className="btn btn-danger btn-sm"
+                            onClick={() => rejectEmployee(employee.EmployeeID)}
+                          >
+                            ❌
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="card p-4 text-center">
+                <div className="card-body">
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Pending Employees Request</h5>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -227,17 +221,17 @@ const AdminEmployeeData = () => {
               </div>
               <div className="modal-body">
                 {isViewMode ? (
-                  // Display Employee Details in Read-Only Mode
                   <div>
                     <p><strong>Employee ID:</strong> {selectedEmployee?.EmployeeID}</p>
                     <p><strong>First Name:</strong> {selectedEmployee?.Firstname}</p>
                     <p><strong>Last Name:</strong> {selectedEmployee?.Lastname}</p>
                     <p><strong>Designation:</strong> {selectedEmployee?.Designation}</p>
                     <p><strong>Year of Joining:</strong> {selectedEmployee?.YearOfJoining}</p>
-                    <center><button className="btn btn-secondary" onClick={handleCloseModal}>Close</button></center>
+                    <center>
+                      <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
+                    </center>
                   </div>
                 ) : (
-                  // Editable Employee Form
                   <div>
                     <div className="form-group">
                       <label htmlFor="firstname">First Name</label>
@@ -246,10 +240,12 @@ const AdminEmployeeData = () => {
                         className="form-control"
                         name="Firstname"
                         value={editEmployeeData.Firstname || ""}
-                        onChange={(e) => setEditEmployeeData((prevData) => ({
-                          ...prevData,
-                          [e.target.name]: e.target.value,
-                        }))}
+                        onChange={(e) =>
+                          setEditEmployeeData((prevData) => ({
+                            ...prevData,
+                            [e.target.name]: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                     <div className="form-group">
@@ -259,10 +255,12 @@ const AdminEmployeeData = () => {
                         className="form-control"
                         name="Lastname"
                         value={editEmployeeData.Lastname || ""}
-                        onChange={(e) => setEditEmployeeData((prevData) => ({
-                          ...prevData,
-                          [e.target.name]: e.target.value,
-                        }))}
+                        onChange={(e) =>
+                          setEditEmployeeData((prevData) => ({
+                            ...prevData,
+                            [e.target.name]: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                     <div className="form-group">
@@ -272,10 +270,12 @@ const AdminEmployeeData = () => {
                         className="form-control"
                         name="Designation"
                         value={editEmployeeData.Designation || ""}
-                        onChange={(e) => setEditEmployeeData((prevData) => ({
-                          ...prevData,
-                          [e.target.name]: e.target.value,
-                        }))}
+                        onChange={(e) =>
+                          setEditEmployeeData((prevData) => ({
+                            ...prevData,
+                            [e.target.name]: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                     <div className="form-group">
@@ -285,10 +285,12 @@ const AdminEmployeeData = () => {
                         className="form-control"
                         name="YearOfJoining"
                         value={editEmployeeData.YearOfJoining || ""}
-                        onChange={(e) => setEditEmployeeData((prevData) => ({
-                          ...prevData,
-                          [e.target.name]: e.target.value,
-                        }))}
+                        onChange={(e) =>
+                          setEditEmployeeData((prevData) => ({
+                            ...prevData,
+                            [e.target.name]: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                   </div>
