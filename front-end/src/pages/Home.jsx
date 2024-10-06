@@ -7,6 +7,7 @@ const Home = () => {
     <div
       className="container-fluid d-flex justify-content-center align-items-center min-vh-100"
       style={{
+        backgroundImage: "linear-gradient(135deg, #e0eafc, #cfdef3)", // Matching background gradient
         backgroundColor: "white"
       }}
     >
