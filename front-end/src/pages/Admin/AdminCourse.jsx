@@ -80,18 +80,27 @@ const AdminCourse = () => {
     <div className="container mt-5">
       {/* Add Course Button */}
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
-        <Button
-          variant="primary"
-          onClick={() => setShowAddCourseModal(true)}
-          style={{
-            padding: "10px 20px",
-            fontSize: "18px",
-            fontWeight: "bold",
-            borderRadius: "5px",
-          }}
-        >
-          Add Course
-        </Button>
+      <center>
+                {/* Add the new button for adding skills */}
+                <button className="custom-button d-inline-flex align-items-center mt-3" 
+                  style={{
+                    backgroundColor: "white",
+                    color: "#ff69b4",
+                    padding: "10px 20px",
+                    borderRadius: "8px",
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    display: "inline-block",
+                    transform: "skewX(-15deg)", 
+                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", 
+                    marginLeft: "15px" // Add margin to separate buttons
+                  }}
+                  onClick={() => setShowAddCourseModal(true)} // On click navigate to Add Skill page
+                >
+                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>Add Course</span>
+                </button>
+              </center>
       </div>
 
       <div className="row mt-4">

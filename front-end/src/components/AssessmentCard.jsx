@@ -96,9 +96,27 @@ const AssessmentCard = ({
               {assessment.AssessmentCode}
             </h6>
             {role === "admin" && (
-              <Button variant="primary" onClick={handleMoreInfo}>
-                More Info
-              </Button>
+              <center>
+              {/* Add the new button for adding skills */}
+              <button className="custom-button d-inline-flex align-items-center mt-3" 
+                style={{
+                  backgroundColor: "white",
+                  color: "#ff69b4",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  display: "inline-block",
+                  transform: "skewX(-15deg)", 
+                  boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", 
+                  marginLeft: "15px" // Add margin to separate buttons
+                }}
+                onClick={handleMoreInfo} // On click navigate to Add Skill page
+              >
+                <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>More Info</span>
+              </button>
+            </center>
             )}
             {role === "employee" && (
               <Button variant="primary" onClick={handleExpand}>

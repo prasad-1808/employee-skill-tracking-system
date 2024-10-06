@@ -4,7 +4,9 @@ import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import "../../assets/AdminSkillData.css";
-import "bootstrap/dist/css/bootstrap.min.css"; // Make sure Bootstrap CSS is imported
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap CSS is imported
+import { Modal, Button } from "react-bootstrap"; // Import Modal and Button from react-bootstrap
+import { toast } from "react-toastify"; // Assuming you want to show notifications
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -14,6 +16,12 @@ const AdminSkillData = () => {
   const [chartData, setChartData] = useState({});
   const [selectedSkill, setSelectedSkill] = useState(null); // State for selected skill
   const [showModal, setShowModal] = useState(false); // State to handle modal visibility
+  const [showAddSkillModal, setShowAddSkillModal] = useState(false); // State for add skill modal
+  const [newSkill, setNewSkill] = useState({ // New skill state for adding
+    CourseName: "",
+    EmployeeName: "",
+    Proficiency: "",
+  });
 
   const fetchSkills = async () => {
     try {
@@ -21,8 +29,6 @@ const AdminSkillData = () => {
       const skills = response.data;
       const verified = skills.filter((skill) => skill.Verified);
       const unverified = skills.filter((skill) => !skill.Verified);
-      // console.log(verified);
-      // console.log(unVerifiedSkills);
       setVerifiedSkills(verified);
       setUnVerifiedSkills(unverified);
       processChartData(verified);
@@ -60,7 +66,7 @@ const AdminSkillData = () => {
 
   useEffect(() => {
     fetchSkills();
-  }, [fetchSkills]); // Add fetchSkills as a dependency
+  }, []); // Removed fetchSkills as a dependency
 
   const verifySkill = async (skillId) => {
     try {
@@ -73,7 +79,9 @@ const AdminSkillData = () => {
         }
       );
       fetchSkills();
+      toast.success("Skill verified successfully");
     } catch (error) {
+      toast.error("Error verifying skill");
       console.error(
         "Error verifying skill:",
         error.response?.data || error.message
@@ -88,7 +96,9 @@ const AdminSkillData = () => {
         headers: { Authorization: `Bearer ${adminToken}` },
       });
       fetchSkills();
+      toast.success("Skill deleted successfully");
     } catch (error) {
+      toast.error("Error deleting skill");
       console.error(
         "Error deleting skill:",
         error.response?.data || error.message
@@ -102,26 +112,58 @@ const AdminSkillData = () => {
     setShowModal(true); // Show the modal
   };
 
+  const handleAddSkill = async () => {
+    try {
+      const token = localStorage.getItem("adminToken"); // Assuming the token is stored in localStorage
+      const response = await api.post("/skills", newSkill, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add the Authorization header
+        },
+      });
+
+      if (response.ok) {
+        const addedSkill = await response.json();
+        setUnVerifiedSkills((prevSkills) => [...prevSkills, addedSkill]);
+        toast.success("Skill added successfully!");
+        setShowAddSkillModal(false); // Close the modal
+        setNewSkill({ CourseName: "", EmployeeName: "", Proficiency: "" }); // Reset form
+      } else {
+        toast.error("Failed to add skill");
+      }
+    } catch (error) {
+      toast.error("Error occurred while adding skill");
+      console.error("Error adding skill:", error);
+    }
+  };
+
   return (
     <div className="container mt-5">
-      <div className="row" style={{marginTop:"7rem"}}>
+      <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
+  
+      </div>
+
+      <div className="row" style={{ marginTop: "2rem" }}>
         <div className="col-md-6">
-          <h3>Verified Skills by Course</h3>
+          <h3 style={{ color:"#e62dd7"}}>Verified Skills by Course</h3>
           {chartData && chartData.labels && chartData.labels.length > 0 ? (
             <Doughnut
               data={chartData}
               options={{
                 animation: {
-                  duration: 50, // Animation duration set to 50ms
-                  easing: "linear", // Use linear easing for consistent speed
+                  duration: 50,
+                  easing: "linear",
                 },
                 plugins: {
                   legend: {
                     position: "bottom",
                     labels: {
-                      color: "black",
+                      color: "#e62dd7",
                       boxWidth: 20,
                       padding: 15,
+                      font: {
+                        size: 20
+                      }
                     },
                   },
                 },
@@ -146,9 +188,9 @@ const AdminSkillData = () => {
         </div>
 
         <div className="col-md-6">
-          <h3>Unverified Skills</h3>
+          <h3 style={{ color:"#e62dd7"}} >Unverified Skills</h3>
           {unVerifiedSkills.length > 0 ? (
-            <table className="table table-striped">
+            <table className="table table-striped table-dark">
               <thead>
                 <tr>
                   <th>Employee Name</th>
@@ -206,71 +248,97 @@ const AdminSkillData = () => {
         </div>
       </div>
 
+      {/* Add Skill Modal */}
+      <Modal show={showAddSkillModal} onHide={() => setShowAddSkillModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Skill</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Course Name"
+              className="form-control"
+              value={newSkill.CourseName}
+              onChange={(e) => setNewSkill({ ...newSkill, CourseName: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Employee Name"
+              className="form-control"
+              value={newSkill.EmployeeName}
+              onChange={(e) => setNewSkill({ ...newSkill, EmployeeName: e.target.value })}
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="text"
+              placeholder="Proficiency"
+              className="form-control"
+              value={newSkill.Proficiency}
+              onChange={(e) => setNewSkill({ ...newSkill, Proficiency: e.target.value })}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAddSkillModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleAddSkill}>
+            Add Skill
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       {/* Modal to display skill details */}
       {selectedSkill && (
-        <div
-          className={`modal fade show ${showModal ? "d-block" : ""}`}
-          tabIndex="-1"
-          role="dialog"
-          style={{ display: showModal ? "block" : "none" }}
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">
-                  Skill Details for {selectedSkill.employee?.Firstname}{" "}
-                  {selectedSkill.employee?.Lastname}
-                </h5>
-              </div>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              Skill Details for {selectedSkill.employee?.Firstname} {selectedSkill.employee?.Lastname}
+            </Modal.Title>
+          </Modal.Header>
 
-              <div className="modal-body">
-                <p>
-                  <strong>Course:</strong>{" "}
-                  {selectedSkill.course?.CourseName || "N/A"}
-                </p>
-                <p>
-                  <strong>Course Code:</strong>{" "}
-                  {selectedSkill.course?.CourseCode || "N/A"}
-                </p>
-                <p>
-                  <strong>Proficiency:</strong>{" "}
-                  {selectedSkill.Proficiency || "N/A"}
-                </p>
-                <p>
-                  <strong>Proof:</strong> {selectedSkill.SkillType}
-                </p>
+          <Modal.Body>
+            <p>
+              <strong>Course:</strong> {selectedSkill.course?.CourseName || "N/A"}
+            </p>
+            <p>
+              <strong>Course Code:</strong> {selectedSkill.course?.CourseCode || "N/A"}
+            </p>
+            <p>
+              <strong>Proficiency:</strong> {selectedSkill.Proficiency || "N/A"}
+            </p>
+            <p>
+              <strong>Proof:</strong> {selectedSkill.SkillType}
+            </p>
 
-                {selectedSkill.SkillType === "CERTIFICATE" ? (
-                  <p>
-                    <strong>Certificate link:</strong>
-                    <a
-                      href={selectedSkill.CertificateLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download // Add the download attribute here
-                    >
-                      View Certificate
-                    </a>
-                  </p>
-                ) : (
-                  <p>
-                    <strong>Assessment Score:</strong>
-                    {selectedSkill.ScoreObtained || "Score not available"}
-                  </p>
-                )}
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowModal(false)}
+            {selectedSkill.SkillType === "CERTIFICATE" ? (
+              <p>
+                <strong>Certificate link:</strong>
+                <a
+                  href={selectedSkill.CertificateLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download // Add the download attribute here
                 >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+                  View Certificate
+                </a>
+              </p>
+            ) : (
+              <p>
+                <strong>Assessment Score:</strong> {selectedSkill.ScoreObtained || "Score not available"}
+              </p>
+            )}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </div>
   );

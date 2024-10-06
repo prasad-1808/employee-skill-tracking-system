@@ -1,0 +1,34 @@
+/* EmployeeSkills.css */
+
+.employee-skills-table {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    border-radius: 15px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure corners are rounded */
+  }
+  
+  .employee-skills-table th {
+    background-color: #6c757d; /* Darker grey for table header */
+    color: white; /* White text for contrast */
+    text-align: center; /* Center align the header text */
+  }
+  
+  .employee-skills-table td {
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for table cells */
+    color: #343a40; /* Dark grey text */
+  }
+  
+  .employee-skills-table tr:hover td {
+    background-color: rgba(255, 223, 186, 0.6); /* Light orange on row hover */
+  }
+  
+  .no-skills-message {
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    padding: 20px;
+    border: 1px solid white;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  

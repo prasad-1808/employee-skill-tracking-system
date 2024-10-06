@@ -1,0 +1,39 @@
+/* EmployeeProfile.css */
+
+.profile {
+    /* background-image: linear-gradient(135deg, #236aef, #cfdef3); Background gradient */
+    padding: 2rem;
+  }
+  
+  .card {
+    background: linear-gradient(135deg, #8d0cc8, #9c27b0); /* Card gradient */
+    color: white; /* Text color for the card */
+    border-radius: 15px; /* Rounded corners for the card */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* Shadow effect */
+  }
+  
+  .employee-profile-table {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for the table */
+    border-radius: 15px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensure corners are rounded */
+  }
+  
+  .employee-profile-table th {
+    background-color: #6c757d; /* Dark grey for table header */
+    color: white; /* White text for contrast */
+    text-align: center; /* Center align the header text */
+  }
+  
+  .employee-profile-table td {
+    background-color: rgba(255, 255, 255, 0.8); /* Light background for table cells */
+    color: #343a40; /* Dark grey text */
+  }
+  
+  .employee-profile-table tr:hover td {
+    background-color: rgba(255, 223, 186, 0.6); /* Light orange on row hover */
+  }
+  
+  .profile-pic-icon {
+    margin-bottom: 1rem; /* Space between icon and table */
+  }
+  

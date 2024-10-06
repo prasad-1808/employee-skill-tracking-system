@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import api from "../../services/api"; // Assuming you have an api service
-import { Button } from "react-bootstrap";
+import api from "../../services/api"; // Assuming you have an API service
 import "bootstrap/dist/css/bootstrap.min.css";
+import "../../assets/EmployeeSkills.css";
 
 const EmployeeSkills = () => {
   const [skills, setSkills] = useState([]);
@@ -42,46 +42,35 @@ const EmployeeSkills = () => {
   return (
     <div className="container mt-5">
       <div style={{ marginTop: "5rem" }}>
-        <center>
-          <h2 style={{ marginTop: "5rem", color: "white" }}>My Skills</h2>
-        </center>
+        <h2 className="text-center" style={{ color: "#fff", marginTop: "5rem", fontWeight: "bold" }}>
+          My Skills
+        </h2>
+
         {skills.length > 0 ? (
-          <table
-            className="table table-striped mt-3"
-            style={{ marginTop: "3rem" }}
-          >
-            <thead>
-              <tr>
-                <th>Course Name</th>
-                <th>Proficiency</th>
-                <th>Skill Type</th>
-                <th>Verified</th>
-              </tr>
-            </thead>
-            <tbody>
-              {skills.map((skill) => (
-                <tr key={skill.id}>
-                  <td>{skill.course?.CourseName || "N/A"}</td>
-                  <td>{skill.Proficiency}</td>
-                  <td>{skill.SkillType || "N/A"}</td>
-                  <td>{skill.Verified ? "Yes" : "No"}</td>
+          <div className="table-responsive mt-3">
+            <table className="table table-striped mt-3 employee-skills-table">
+              <thead>
+                <tr>
+                  <th>Course Name</th>
+                  <th>Proficiency</th>
+                  <th>Skill Type</th>
+                  <th>Verified</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {skills.map((skill) => (
+                  <tr key={skill.id}>
+                    <td>{skill.course?.CourseName || "N/A"}</td>
+                    <td>{skill.Proficiency}</td>
+                    <td>{skill.SkillType || "N/A"}</td>
+                    <td>{skill.Verified ? "Yes" : "No"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         ) : (
-          <div
-            style={{
-              color: "white",
-              textAlign: "center",
-              marginTop: "20px",
-              fontSize: "18px",
-              padding: "20px",
-              border: "1px solid white",
-              borderRadius: "8px",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-            }}
-          >
+          <div className="no-skills-message">
             No skills available. Please add a new skill to get started.
           </div>
         )}

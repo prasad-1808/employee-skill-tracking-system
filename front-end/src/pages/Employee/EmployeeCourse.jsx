@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CourseCard from "../../components/CourseCard"; // Import the reusable card component
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CourseList = () => {
+const EmployeeCourse = () => {
   const [courses, setCourses] = useState([]);
 
   // Fetch the courses from the API
@@ -21,18 +21,21 @@ const CourseList = () => {
   }, []);
 
   return (
-    <div className="container employee-course">
-      <div className="row" style={{ marginTop: "8rem" }}>
+    <div className="container employee-course mt-5">
+      <h2 className="text-center mb-4" style={{ color: "#fff" }}>Available Courses</h2>
+      <div className="row">
         {courses.length > 0 ? (
           courses.map((course) => (
             <CourseCard key={course.CourseID} course={course} />
           ))
         ) : (
-          <p>Loading courses...</p>
+          <div className="col-12 text-center">
+            <p className="text-white">Loading courses...</p>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default CourseList;
+export default EmployeeCourse;

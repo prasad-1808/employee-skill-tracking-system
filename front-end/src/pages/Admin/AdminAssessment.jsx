@@ -128,18 +128,34 @@ const AdminAssessment = () => {
     <div className="container mt-5">
       {/* Add Assessment Button */}
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
-        <Button
-          variant="primary"
-          onClick={() => setShowAddAssessmentModal(true)}
-          style={{
-            padding: "10px 20px",
-            fontSize: "18px",
-            fontWeight: "bold",
-            borderRadius: "5px",
-          }}
-        >
-          Add Assessment
-        </Button>
+      <center>
+            <button
+              type="submit"
+              className="custom-button d-inline-flex align-items-center"
+              style={{
+                backgroundColor: "white",
+                color: "#ff69b4",
+                padding: "10px 20px",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                display: "inline-block",
+                transform: "skewX(-15deg)", // Slanted button style
+                boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", // Button shadow
+              }}
+              onClick={() => setShowAddAssessmentModal(true)}
+            >
+              <span
+                style={{
+                  transform: "skewX(15deg)", // Reset text skew
+                  color: "#ff69b4",
+                }}
+              >
+                Add Assessment
+              </span>
+            </button>
+          </center>
       </div>
 
       {/* Loading Spinner */}

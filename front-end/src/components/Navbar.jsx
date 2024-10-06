@@ -152,7 +152,7 @@ const Navbar = ({
                   className="dropdown-toggle nav-icon fs-2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", color:"white" }}
                 />
                 <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5">
                   {!isAdminLoggedIn && (
