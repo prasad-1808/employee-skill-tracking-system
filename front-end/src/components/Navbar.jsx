@@ -34,10 +34,10 @@ const Navbar = ({
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-gradient fixed-top fs-3"
-      style={{
-        paddingTop: "0px",
-        paddingBottom: "0.5px",
-      }}
+      // style={{
+      //   paddingTop: "0px",
+      //   paddingBottom: "0.5px",
+      // }}
     >
       <div className="container-fluid">
         {/* Brand Name */}
@@ -151,7 +151,7 @@ const Navbar = ({
             )}
 
             {/* Profile and Logout Links for logged-in users */}
-            {(isLoggedIn || isAdminLoggedIn) && (
+            {(isLoggedIn && !isAdminLoggedIn) && (
               <li className="nav-item dropdown mx-2 my-2">
                 <FaRegUserCircle
                   className="dropdown-toggle nav-icon fs-2"
@@ -170,6 +170,32 @@ const Navbar = ({
                       </Link>
                     </center>
                   </li>
+                  <li>
+                    <center>
+                      <button
+                        className="dropdown-item fs-4"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </center>
+                  </li>
+                </ul>
+              </li>
+            )}
+            {(!isLoggedIn && isAdminLoggedIn) && (
+              <li className="nav-item dropdown mx-2 my-2">
+                <FaRegUserCircle
+                  className="dropdown-toggle nav-icon fs-2"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{ cursor: "pointer" }}
+                />
+                <ul
+                  className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5"
+                  style={{ marginTop: "1.5rem" }}
+                >
+                  
                   <li>
                     <center>
                       <button
