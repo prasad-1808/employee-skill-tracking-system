@@ -154,7 +154,7 @@ const Navbar = ({
                   aria-expanded="false"
                   style={{ cursor: "pointer", color:"white" }}
                 />
-                <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5">
+                <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5 my-4" >
                   {!isAdminLoggedIn && (
                     <li>
                       <center>
