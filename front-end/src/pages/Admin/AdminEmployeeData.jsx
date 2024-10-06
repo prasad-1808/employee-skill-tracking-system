@@ -7,6 +7,7 @@ const AdminEmployeeData = () => {
   const [pendingEmployees, setPendingEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null); // State to store selected employee
   const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [isViewMode, setIsViewMode] = useState(false); // State to check if it's view mode or edit mode
   const [editEmployeeData, setEditEmployeeData] = useState({}); // State for editing employee data
 
   // Function to fetch employees
@@ -27,6 +28,7 @@ const AdminEmployeeData = () => {
 
   // Function to edit employee
   const editEmployee = (employee) => {
+    setIsViewMode(false); // Set to edit mode
     setEditEmployeeData(employee); // Set the employee data to edit
     setShowModal(true); // Show the edit modal
   };
@@ -96,6 +98,7 @@ const AdminEmployeeData = () => {
 
   // Function to view employee details
   const viewEmployee = (employee) => {
+    setIsViewMode(true); // Set to view mode
     setSelectedEmployee(employee); // Set the selected employee
     setShowModal(true); // Show the modal
   };
@@ -105,15 +108,6 @@ const AdminEmployeeData = () => {
     setShowModal(false);
     setSelectedEmployee(null); // Clear selected employee
     setEditEmployeeData({}); // Clear edit employee data
-  };
-
-  // Handle input changes in the edit modal
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditEmployeeData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
   return (
@@ -129,7 +123,6 @@ const AdminEmployeeData = () => {
                   <th>Employee ID</th>
                   <th>Name</th>
                   <th>Designation</th>
-                  <th>Year of Joining</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -139,7 +132,6 @@ const AdminEmployeeData = () => {
                     <td>{employee.EmployeeID}</td>
                     <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
                     <td>{employee.Designation}</td>
-                    <td>{employee.YearOfJoining}</td>
                     <td>
                       <div className="btn-group">
                         <button
@@ -161,20 +153,7 @@ const AdminEmployeeData = () => {
               </tbody>
             </table>
           ) : (
-            <div
-              style={{
-                color: "white",
-                textAlign: "center",
-                marginTop: "20px",
-                fontSize: "18px",
-                padding: "20px",
-                border: "1px solid white",
-                borderRadius: "8px",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              No active employees available.
-            </div>
+            <div>No active employees available.</div>
           )}
         </div>
 
@@ -188,7 +167,6 @@ const AdminEmployeeData = () => {
                   <th>Employee ID</th>
                   <th>Name</th>
                   <th>Designation</th>
-                  <th>Year of Joining</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -198,7 +176,6 @@ const AdminEmployeeData = () => {
                     <td>{employee.EmployeeID}</td>
                     <td>{`${employee.Firstname} ${employee.Lastname}`}</td>
                     <td>{employee.Designation}</td>
-                    <td>{employee.YearOfJoining}</td>
                     <td>
                       <div className="btn-group">
                         <button
@@ -226,106 +203,115 @@ const AdminEmployeeData = () => {
               </tbody>
             </table>
           ) : (
-            <div
-              style={{
-                color: "white",
-                textAlign: "center",
-                marginTop: "20px",
-                fontSize: "18px",
-                padding: "20px",
-                border: "1px solid white",
-                borderRadius: "8px",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-            >
-              No pending employees request available.
-            </div>
+            <div>No pending employees request available.</div>
           )}
         </div>
       </div>
 
-      {/* Modal for Editing Employee */}
+      {/* Modal for Viewing or Editing Employee */}
       {showModal && (
         <div
           className={`modal fade ${showModal ? "show" : ""}`}
           style={{ display: showModal ? "block" : "none" }}
           tabIndex="-1"
           role="dialog"
-          aria-labelledby="editEmployeeModalLabel"
+          aria-labelledby="employeeModalLabel"
           aria-hidden={!showModal}
         >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="editEmployeeModalLabel">
-                  Edit Employee
+                <h5 className="modal-title" id="employeeModalLabel">
+                  {isViewMode ? "View Employee Details" : "Edit Employee"}
                 </h5>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={handleCloseModal}
-                >
-                  <span>&times;</span>
-                </button>
               </div>
               <div className="modal-body">
-                <div className="form-group">
-                  <label htmlFor="firstname">First Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="Firstname"
-                    value={editEmployeeData.Firstname || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="lastname">Last Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="Lastname"
-                    value={editEmployeeData.Lastname || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="designation">Designation</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="Designation"
-                    value={editEmployeeData.Designation || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="yearOfJoining">Year of Joining</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="YearOfJoining"
-                    value={editEmployeeData.YearOfJoining || ""}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                {isViewMode ? (
+                  // Display Employee Details in Read-Only Mode
+                  <div>
+                    <p><strong>Employee ID:</strong> {selectedEmployee?.EmployeeID}</p>
+                    <p><strong>First Name:</strong> {selectedEmployee?.Firstname}</p>
+                    <p><strong>Last Name:</strong> {selectedEmployee?.Lastname}</p>
+                    <p><strong>Designation:</strong> {selectedEmployee?.Designation}</p>
+                    <p><strong>Year of Joining:</strong> {selectedEmployee?.YearOfJoining}</p>
+                    <center><button className="btn btn-secondary" onClick={handleCloseModal}>Close</button></center>
+                  </div>
+                ) : (
+                  // Editable Employee Form
+                  <div>
+                    <div className="form-group">
+                      <label htmlFor="firstname">First Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="Firstname"
+                        value={editEmployeeData.Firstname || ""}
+                        onChange={(e) => setEditEmployeeData((prevData) => ({
+                          ...prevData,
+                          [e.target.name]: e.target.value,
+                        }))}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="lastname">Last Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="Lastname"
+                        value={editEmployeeData.Lastname || ""}
+                        onChange={(e) => setEditEmployeeData((prevData) => ({
+                          ...prevData,
+                          [e.target.name]: e.target.value,
+                        }))}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="designation">Designation</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="Designation"
+                        value={editEmployeeData.Designation || ""}
+                        onChange={(e) => setEditEmployeeData((prevData) => ({
+                          ...prevData,
+                          [e.target.name]: e.target.value,
+                        }))}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="yearOfJoining">Year of Joining</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="YearOfJoining"
+                        value={editEmployeeData.YearOfJoining || ""}
+                        onChange={(e) => setEditEmployeeData((prevData) => ({
+                          ...prevData,
+                          [e.target.name]: e.target.value,
+                        }))}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleCloseModal}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={saveEditedEmployee}
-                >
-                  Save Changes
-                </button>
-              </div>
+              {!isViewMode && (
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={handleCloseModal}
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={saveEditedEmployee}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

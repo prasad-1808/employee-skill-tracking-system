@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle, FaBars } from "react-icons/fa";
-import { GiExpense } from "react-icons/gi";
+import { VscGraph } from "react-icons/vsc";
 import "./../assets/Navbar.css"; // For custom styling
 
 const Navbar = ({
@@ -32,19 +32,16 @@ const Navbar = ({
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg navbar-dark bg-gradient fixed-top fs-3"
-      // style={{
-      //   paddingTop: "0px",
-      //   paddingBottom: "0.5px",
-      // }}
-    >
+    <nav className="navbar navbar-expand-lg navbar-dark bg-gradient fixed-top">
       <div className="container-fluid">
         {/* Brand Name */}
         <Link className="navbar-brand fs-3" to="/">
-          <GiExpense className="brand-icon fs-3" /> Employees Skill Tracking
-          System
-        </Link>
+  <VscGraph className="brand-icon fs-3" />{"  "}
+  <span style={{ fontWeight: "bold" }}>
+    <span style={{ color: "#f40986", fontWeight:"bolder" }}>J</span>
+    <span style={{ color: "white" }}>Elite</span>
+  </span>
+</Link>
 
         {/* Toggle button for mobile view */}
         <button
@@ -61,8 +58,6 @@ const Navbar = ({
         >
           <ul className="d-flex justify-content-end w-100 navbar-nav me-auto fs-3">
             {/* Home link always visible */}
-
-            {/* Show Login and Register links if not logged in */}
             {!isLoggedIn && !isAdminLoggedIn && (
               <>
                 <li className="nav-item mx-2">
@@ -150,8 +145,8 @@ const Navbar = ({
               </>
             )}
 
-            {/* Profile and Logout Links for logged-in users */}
-            {(isLoggedIn && !isAdminLoggedIn) && (
+            {/* Profile and Logout Links */}
+            {(isLoggedIn || isAdminLoggedIn) && (
               <li className="nav-item dropdown mx-2 my-2">
                 <FaRegUserCircle
                   className="dropdown-toggle nav-icon fs-2"
@@ -159,43 +154,16 @@ const Navbar = ({
                   aria-expanded="false"
                   style={{ cursor: "pointer" }}
                 />
-                <ul
-                  className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5"
-                  style={{ marginTop: "1.5rem" }}
-                >
-                  <li>
-                    <center>
-                      <Link className="dropdown-item fs-4" to="/profile">
-                        Profile
-                      </Link>
-                    </center>
-                  </li>
-                  <li>
-                    <center>
-                      <button
-                        className="dropdown-item fs-4"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </button>
-                    </center>
-                  </li>
-                </ul>
-              </li>
-            )}
-            {(!isLoggedIn && isAdminLoggedIn) && (
-              <li className="nav-item dropdown mx-2 my-2">
-                <FaRegUserCircle
-                  className="dropdown-toggle nav-icon fs-2"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  style={{ cursor: "pointer" }}
-                />
-                <ul
-                  className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5"
-                  style={{ marginTop: "1.5rem" }}
-                >
-                  
+                <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5">
+                  {!isAdminLoggedIn && (
+                    <li>
+                      <center>
+                        <Link className="dropdown-item fs-4" to="/profile">
+                          Profile
+                        </Link>
+                      </center>
+                    </li>
+                  )}
                   <li>
                     <center>
                       <button

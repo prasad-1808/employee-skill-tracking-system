@@ -1,64 +1,38 @@
+/* Navbar.css */
 .navbar {
-  background: linear-gradient(
-    135deg,
-    rgba(54, 13, 164, 1),
-    rgba(234, 91, 149, 1)
-  );
-  padding: 3rem 2rem;
-  margin: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #7006b3; /* Replace with desired solid color */
+  /* background-color: #8d0cc8; */
+  z-index: 1000; /* Ensures it's on top of other elements */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
-  color: white !important;
-  font-weight: bold;
-  font-size: 5rem;
+.navbar .container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem; /* Adjust as per design needs */
+}
+
+.navbar-nav {
+  margin-left: auto;
+}
+
+.nav-item {
+  margin: 0 10px;
+}
+
+.nav-link {
+  color: #fff; /* Ensure text color contrasts with the background */
 }
 
 .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: #fff;
 }
 
 .navbar-toggler:focus {
   outline: none;
-}
-
-.nav-link {
-  color: white !important;
-  margin: 0 0.75rem;
-}
-
-.nav-icon {
-  color: white;
-  cursor: pointer;
-}
-
-.dropdown-menu {
-  background-color: white;
-  border-radius: 0.5rem;
-  border: none;
-  width: 200px;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-}
-
-.dropdown-item:hover {
-  background-color: rgba(54, 13, 164, 0.1);
-  color: #360da4;
-}
-
-.animate-dropdown {
-  animation: dropdownAnimation 0.3s ease;
-}
-
-@keyframes dropdownAnimation {
-  0% {
-    opacity: 0;
-    transform: translateY(-20%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
