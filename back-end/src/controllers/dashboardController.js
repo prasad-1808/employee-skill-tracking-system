@@ -1,11 +1,21 @@
 const prisma = require("../utils/db");
 
-// Get summary of total employees, courses, and skills
+// Get summary of total employees, courses, and skills (only active employees and verified skills)
 const getDashboardSummary = async (req, res) => {
   try {
-    const totalEmployees = await prisma.employee.count();
+    const totalEmployees = await prisma.employee.count({
+      where: {
+        status: true, // Only count active employees
+      },
+    });
+    
     const totalCourses = await prisma.course.count();
-    const totalSkills = await prisma.skill.count();
+    
+    const totalSkills = await prisma.skill.count({
+      where: {
+        Verified: true, // Only count verified skills
+      },
+    });
 
     res.json({
       totalEmployees,
@@ -17,12 +27,19 @@ const getDashboardSummary = async (req, res) => {
   }
 };
 
-// Get skills by employee
+// Get skills by employee (for active employees and verified skills only)
 const getSkillsByEmployee = async (req, res) => {
   try {
     const skillsByEmployee = await prisma.employee.findMany({
+      where: {
+        status: true, // Only include active employees
+      },
       include: {
-        skills: true,
+        skills: {
+          where: {
+            Verified: true, // Only include verified skills
+          },
+        },
       },
     });
 
@@ -37,12 +54,16 @@ const getSkillsByEmployee = async (req, res) => {
   }
 };
 
-// Get skills per course
+// Get skills per course (for verified skills only)
 const getSkillsPerCourse = async (req, res) => {
   try {
     const courses = await prisma.course.findMany({
       include: {
-        skills: true,
+        skills: {
+          where: {
+            Verified: true, // Only include verified skills
+          },
+        },
       },
     });
 

@@ -171,7 +171,7 @@ const AdminSkillData = () => {
           ) : (
             <div className="card p-4 text-center">
                 <div className="card-body">
-                  <h5 className="card-title" style={{ color: "#e62dd7" }}>No Skills Data Available.</h5>
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Skills Data Available.</h5>
                 </div>
               </div>
           )}

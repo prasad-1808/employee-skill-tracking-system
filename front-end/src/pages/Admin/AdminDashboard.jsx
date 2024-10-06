@@ -24,18 +24,19 @@ const AdminDashboard = () => {
       const resSummary = await fetch("http://localhost:5000/api/dashboard/summary");
       const dataSummary = await resSummary.json();
       setSummary(dataSummary);
-
+  
       const resSkillsByEmployee = await fetch("http://localhost:5000/api/dashboard/skills-by-employee");
       const dataSkillsByEmployee = await resSkillsByEmployee.json();
       setSkillsByEmployee(dataSkillsByEmployee);
-
+  
       const resSkillsPerCourse = await fetch("http://localhost:5000/api/dashboard/courses-skills");
       const dataSkillsPerCourse = await resSkillsPerCourse.json();
       setSkillsPerCourse(dataSkillsPerCourse);
     };
-
+  
     fetchData();
   }, []);
+  
 
   const employeeSkillData = {
     labels: skillsByEmployee.map((emp) => emp.employeeName),
