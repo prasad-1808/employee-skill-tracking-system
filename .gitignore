@@ -5,7 +5,5 @@
 node_modules/
 
 #Python scripts
-PythonScripts/DataEngineering/RAW/_prisma_migrations.csv
-PythonScripts/.myenv
 PythonScripts/DataEngineering/
 
