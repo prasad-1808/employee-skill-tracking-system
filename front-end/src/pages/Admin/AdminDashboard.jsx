@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import ReactApexChart from "react-apexcharts";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-// Register Chart.js components
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
   const [summary, setSummary] = useState({});
@@ -21,74 +9,137 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resSummary = await fetch("http://localhost:5000/api/dashboard/summary");
+      const resSummary = await fetch(
+        "http://localhost:5000/api/dashboard/summary"
+      );
       const dataSummary = await resSummary.json();
       setSummary(dataSummary);
-  
-      const resSkillsByEmployee = await fetch("http://localhost:5000/api/dashboard/skills-by-employee");
+
+      const resSkillsByEmployee = await fetch(
+        "http://localhost:5000/api/dashboard/skills-by-employee"
+      );
       const dataSkillsByEmployee = await resSkillsByEmployee.json();
       setSkillsByEmployee(dataSkillsByEmployee);
-  
-      const resSkillsPerCourse = await fetch("http://localhost:5000/api/dashboard/courses-skills");
+
+      const resSkillsPerCourse = await fetch(
+        "http://localhost:5000/api/dashboard/courses-skills"
+      );
       const dataSkillsPerCourse = await resSkillsPerCourse.json();
       setSkillsPerCourse(dataSkillsPerCourse);
     };
-  
+
     fetchData();
   }, []);
-  
 
+  // Data for skills by employee with customized colors and width
   const employeeSkillData = {
-    labels: skillsByEmployee.map((emp) => emp.employeeName),
-    datasets: [
+    series: [
       {
-        label: "Number of Skills",
+        name: "Number of Skills",
         data: skillsByEmployee.map((emp) => emp.skillCount),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
       },
     ],
-  };
-
-  const courseSkillData = {
-    labels: skillsPerCourse.map((course) => course.courseCode),
-    datasets: [
-      {
-        label: "Number of Employees",
-        data: skillsPerCourse.map((course) => course.employeeCount),
-        backgroundColor: "rgba(153, 102, 255, 0.6)",
-        borderColor: "rgba(153, 102, 255, 1)",
-        borderWidth: 1,
+    options: {
+      chart: {
+        type: "bar",
+        height: 400,
+        width: "100%", // Ensure full-width responsiveness
       },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false, // Disable maintaining aspect ratio
-    plugins: {
-      legend: {
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "40%", // Adjust the bar width here
+          borderRadius: 5, // Smooth bar appearance
+        },
+      },
+      colors: ["rgba(75, 192, 192, 0.6)"], // Match with Chart.js background color
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: skillsByEmployee.map((emp) => emp.employeeName),
         labels: {
-          color: "#e62dd7", // Change legend text color
+          style: {
+            colors: "#e62dd7", // Match x-axis tick color
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#e62dd7", // Match y-axis tick color
+          },
+          formatter: (value) => Math.round(value), // Ensure whole numbers
         },
       },
       tooltip: {
-        bodyColor: "#e62dd7", // Change tooltip text color
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Light background for tooltip
+        theme: "light",
+        style: {
+          fontSize: "12px",
+          color: "#e62dd7", // Match tooltip text color
+        },
+        fillSeriesColor: true,
       },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: "#e62dd7", // Change x-axis tick color
+      legend: {
+        labels: {
+          colors: "#e62dd7", // Legend text color
         },
       },
-      y: {
-        beginAtZero: true, // Start y-axis at 0
-        ticks: {
-          color: "#e62dd7", // Change y-axis tick color
-          callback: (value) => Math.round(value), // Round to whole numbers
+    },
+  };
+
+  // Data for skills per course with customized colors and width
+  const courseSkillData = {
+    series: [
+      {
+        name: "Number of Employees",
+        data: skillsPerCourse.map((course) => course.employeeCount),
+      },
+    ],
+    options: {
+      chart: {
+        type: "bar",
+        height: 400,
+        width: "100%", // Ensure full-width responsiveness
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: "40%", // Adjust bar width
+          borderRadius: 5, // Smooth bar appearance
+        },
+      },
+      colors: ["rgba(153, 102, 255, 0.6)"], // Match with Chart.js background color
+      dataLabels: {
+        enabled: false,
+      },
+      xaxis: {
+        categories: skillsPerCourse.map((course) => course.courseCode),
+        labels: {
+          style: {
+            colors: "#e62dd7", // Match x-axis tick color
+          },
+        },
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#e62dd7", // Match y-axis tick color
+          },
+          formatter: (value) => Math.round(value),
+        },
+      },
+      tooltip: {
+        theme: "light",
+        style: {
+          fontSize: "12px",
+          color: "#e62dd7", // Match tooltip text color
+        },
+        fillSeriesColor: true,
+      },
+      legend: {
+        labels: {
+          colors: "#e62dd7", // Legend text color
         },
       },
     },
@@ -96,10 +147,17 @@ const AdminDashboard = () => {
 
   return (
     <div
-      className="container-fluid pt-4 text-white dashboard-container"
-      style={{ marginTop: "7rem", padding: "20px", borderRadius: "10px" }}
+      className="container-fluid pt-3 text-white dashboard-container"
+      style={{
+        marginTop: "7rem",
+        padding: "20px",
+        borderRadius: "10px",
+        width: "100%",
+      }} // Adjusting width of the container to 100%
     >
-      <h1 className="text-center mb-4" style={{ color: "#e62dd7" }}>Admin Dashboard</h1>
+      <h1 className="text-center mb-3" style={{ color: "#e62dd7" }}>
+        Admin Dashboard
+      </h1>
 
       {/* Summary Section */}
       <div className="row mb-4 justify-content-center">
@@ -127,14 +185,44 @@ const AdminDashboard = () => {
 
         {/* Charts on the right side */}
         <div className="col-md-9">
-          {/* Bar Chart: Skills per Employee */}
-          <div className="chart-container mb-4 text-center" style={{ width: '100%', margin: '0 auto', maxWidth: '950px', height: '400px' }}>
-            <Bar data={employeeSkillData} options={chartOptions} />
-          </div>
+          <div className="row justify-content-center">
+            <div className="col-10">
+              {/* Bar Chart: Skills per Employee */}
+              <div
+                className="chart-container mb-4 text-center"
+                style={{
+                  width: "100%",
+                  margin: "0 auto",
+                  height: "400px",
+                }}
+              >
+                <ReactApexChart
+                  options={employeeSkillData.options}
+                  series={employeeSkillData.series}
+                  type="bar"
+                  height={400}
+                  width="1000px"
+                />
+              </div>
 
-          {/* Bar Chart: Skills per Course */}
-          <div className="chart-container mb-4 text-center" style={{ width: '100%', margin: '0 auto', maxWidth: '950px', height: '400px' }}>
-            <Bar data={courseSkillData} options={chartOptions} />
+              {/* Bar Chart: Skills per Course */}
+              <div
+                className="chart-container mb-4 text-center"
+                style={{
+                  width: "100%",
+                  margin: "0 auto",
+                  height: "400px",
+                }}
+              >
+                <ReactApexChart
+                  options={courseSkillData.options}
+                  series={courseSkillData.series}
+                  type="bar"
+                  height={400}
+                  width="1000px"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
