@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
-import CloseIcon from "@mui/icons-material/Close"; // Import CloseIcon
 
 const AdminEmployeeData = () => {
   const [activeEmployees, setActiveEmployees] = useState([]);
@@ -34,8 +33,7 @@ const AdminEmployeeData = () => {
 
   const saveEditedEmployee = async () => {
     try {
-      const { Firstname, Lastname, Designation, YearOfJoining } =
-        editEmployeeData;
+      const { Firstname, Lastname, Designation, YearOfJoining } = editEmployeeData;
       const dataToSend = { Firstname, Lastname, Designation, YearOfJoining };
 
       await api.put(`/employees/${editEmployeeData.EmployeeID}`, dataToSend);
@@ -51,10 +49,7 @@ const AdminEmployeeData = () => {
       await api.delete(`/employees/${employeeId}`);
       fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error deleting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error deleting employee:", error.response?.data || error.message);
     }
   };
 
@@ -63,10 +58,7 @@ const AdminEmployeeData = () => {
       await api.patch(`/employees/${employeeId}/status`, { status: true });
       fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error accepting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error accepting employee:", error.response?.data || error.message);
     }
   };
 
@@ -75,10 +67,7 @@ const AdminEmployeeData = () => {
       await api.delete(`/employees/${employeeId}`);
       fetchEmployees();
     } catch (error) {
-      console.error(
-        "Error rejecting employee:",
-        error.response?.data || error.message
-      );
+      console.error("Error rejecting employee:", error.response?.data || error.message);
     }
   };
 
@@ -98,7 +87,7 @@ const AdminEmployeeData = () => {
     <div
       className="container mt-5"
       style={{
-        width: "150rem",
+        width:"150rem"
       }}
     >
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
@@ -108,9 +97,7 @@ const AdminEmployeeData = () => {
         {/* Active Employees */}
         <div className="col-md-6">
           <div className="p-3 rounded" style={{ borderRadius: "15px" }}>
-            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>
-              Active Employees
-            </h4>
+            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>Active Employees</h4>
             {activeEmployees.length > 0 ? (
               <table className="table table-sm table-hover">
                 <thead className="thead-light">
@@ -139,7 +126,7 @@ const AdminEmployeeData = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => deleteEmployee(employee.EmployeeID)}
                           >
-                            <CloseIcon /> {/* Use CloseIcon here */}
+                            ❌
                           </button>
                         </div>
                       </td>
@@ -150,12 +137,8 @@ const AdminEmployeeData = () => {
             ) : (
               <div className="card p-4 text-center">
                 <div className="card-body">
-                  <h5 className="card-title" style={{ color: "#ffffff" }}>
-                    No Active Employees
-                  </h5>
-                  <p className="card-text">
-                    No data available. Please add employees.
-                  </p>
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Active Employees</h5>
+                  <p className="card-text">No data available. Please add employees.</p>
                 </div>
               </div>
             )}
@@ -165,9 +148,7 @@ const AdminEmployeeData = () => {
         {/* Pending Employees */}
         <div className="col-md-6">
           <div className="p-3 rounded" style={{ borderRadius: "15px" }}>
-            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>
-              Pending Employees
-            </h4>
+            <h4 className="text-center mb-4" style={{ color: "#e62dd7" }}>Pending Employees</h4>
             {pendingEmployees.length > 0 ? (
               <table className="table table-sm table-hover">
                 <thead className="thead-light">
@@ -202,7 +183,7 @@ const AdminEmployeeData = () => {
                             className="btn btn-danger btn-sm"
                             onClick={() => rejectEmployee(employee.EmployeeID)}
                           >
-                            <CloseIcon /> {/* Use CloseIcon here */}
+                            ❌
                           </button>
                         </div>
                       </td>
@@ -213,9 +194,7 @@ const AdminEmployeeData = () => {
             ) : (
               <div className="card p-4 text-center">
                 <div className="card-body">
-                  <h5 className="card-title" style={{ color: "#ffffff" }}>
-                    No Pending Employees Request
-                  </h5>
+                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Pending Employees Request</h5>
                 </div>
               </div>
             )}
@@ -243,31 +222,13 @@ const AdminEmployeeData = () => {
               <div className="modal-body">
                 {isViewMode ? (
                   <div>
-                    <p>
-                      <strong>Employee ID:</strong>{" "}
-                      {selectedEmployee?.EmployeeID}
-                    </p>
-                    <p>
-                      <strong>First Name:</strong> {selectedEmployee?.Firstname}
-                    </p>
-                    <p>
-                      <strong>Last Name:</strong> {selectedEmployee?.Lastname}
-                    </p>
-                    <p>
-                      <strong>Designation:</strong>{" "}
-                      {selectedEmployee?.Designation}
-                    </p>
-                    <p>
-                      <strong>Year of Joining:</strong>{" "}
-                      {selectedEmployee?.YearOfJoining}
-                    </p>
+                    <p><strong>Employee ID:</strong> {selectedEmployee?.EmployeeID}</p>
+                    <p><strong>First Name:</strong> {selectedEmployee?.Firstname}</p>
+                    <p><strong>Last Name:</strong> {selectedEmployee?.Lastname}</p>
+                    <p><strong>Designation:</strong> {selectedEmployee?.Designation}</p>
+                    <p><strong>Year of Joining:</strong> {selectedEmployee?.YearOfJoining}</p>
                     <center>
-                      <button
-                        className="btn btn-secondary"
-                        onClick={handleCloseModal}
-                      >
-                        Close
-                      </button>
+                      <button className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
                     </center>
                   </div>
                 ) : (
