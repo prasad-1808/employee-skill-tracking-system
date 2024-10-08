@@ -161,7 +161,18 @@ const course_categories = {
 const AdminSkillData = () => {
   const [verifiedSkills, setVerifiedSkills] = useState([]);
   const [unVerifiedSkills, setUnVerifiedSkills] = useState([]);
-  const [chartData, setChartData] = useState({});
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Number of Employees",
+        data: [],
+        backgroundColor: "#36b9cc",
+        borderColor: "#4e73df",
+        borderWidth: 1,
+      },
+    ],
+  });
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showAddSkillModal, setShowAddSkillModal] = useState(false);
@@ -174,7 +185,7 @@ const AdminSkillData = () => {
   const fetchSkills = async () => {
     try {
       const response = await api.get("/skills");
-      const skills = response.data;
+      const skills = response.data || [];
       const verified = skills.filter((skill) => skill.Verified);
       const unverified = skills.filter((skill) => !skill.Verified);
       setVerifiedSkills(verified);
@@ -274,9 +285,8 @@ const AdminSkillData = () => {
         },
       });
 
-      if (response.ok) {
-        const addedSkill = await response.json();
-        setUnVerifiedSkills((prevSkills) => [...prevSkills, addedSkill]);
+      if (response.status === 201) {
+        fetchSkills();
         toast.success("Skill added successfully!");
         setShowAddSkillModal(false);
         setNewSkill({ CourseName: "", EmployeeName: "", Proficiency: "" });
@@ -298,9 +308,8 @@ const AdminSkillData = () => {
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
         <h2 style={{ color: "#e62dd7" }}>Employees Skills Data</h2>
       </div>
-
       <div className="row" style={{ marginTop: "2rem" }}>
-        <div className="col-md-6">
+        <div className="col-md-5">
           <h3 style={{ color: "#e62dd7" }}>Unverified Skills</h3>
           {unVerifiedSkills.length > 0 ? (
             <table className="table table-striped table-hover table-bordered">
@@ -322,13 +331,13 @@ const AdminSkillData = () => {
                         onClick={() => verifySkill(skill.id)}
                       >
                         Verify
-                      </button>
+                      </button>{" "}
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() => deleteSkill(skill.id)}
                       >
                         Delete
-                      </button>
+                      </button>{" "}
                       <button
                         className="btn btn-primary btn-sm"
                         onClick={() => viewSkillDetails(skill)}
@@ -344,12 +353,17 @@ const AdminSkillData = () => {
             <p>No unverified skills available.</p>
           )}
         </div>
-        <div className="col-md-6">
+        <div className="col-md-7">
           <h3 style={{ color: "#e62dd7" }}>Verified Skills</h3>
-          <Bar data={chartData} />
+          {chartData.labels.length > 0 ? (
+            <Bar data={chartData} />
+          ) : (
+            <p>No data available for the chart.</p>
+          )}
         </div>
       </div>
 
+      {/* Skill Details Modal */}
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
@@ -386,23 +400,22 @@ const AdminSkillData = () => {
         </Modal.Footer>
       </Modal>
 
+      {/* Add Skill Modal */}
       <Modal
         show={showAddSkillModal}
         onHide={() => setShowAddSkillModal(false)}
         centered
-        className="custom-modal"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Skill</Modal.Title>
+          <Modal.Title>Add New Skill</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
             <div className="form-group">
-              <label htmlFor="CourseName">Course Name:</label>
+              <label>Course Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="CourseName"
                 value={newSkill.CourseName}
                 onChange={(e) =>
                   setNewSkill({ ...newSkill, CourseName: e.target.value })
@@ -410,11 +423,10 @@ const AdminSkillData = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="EmployeeName">Employee Name:</label>
+              <label>Employee Name</label>
               <input
                 type="text"
                 className="form-control"
-                id="EmployeeName"
                 value={newSkill.EmployeeName}
                 onChange={(e) =>
                   setNewSkill({ ...newSkill, EmployeeName: e.target.value })
@@ -422,11 +434,10 @@ const AdminSkillData = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="Proficiency">Proficiency:</label>
+              <label>Proficiency</label>
               <input
                 type="text"
                 className="form-control"
-                id="Proficiency"
                 value={newSkill.Proficiency}
                 onChange={(e) =>
                   setNewSkill({ ...newSkill, Proficiency: e.target.value })
