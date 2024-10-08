@@ -21,22 +21,27 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resSummary = await fetch("http://localhost:5000/api/dashboard/summary");
+      const resSummary = await fetch(
+        "http://localhost:5000/api/dashboard/summary"
+      );
       const dataSummary = await resSummary.json();
       setSummary(dataSummary);
-  
-      const resSkillsByEmployee = await fetch("http://localhost:5000/api/dashboard/skills-by-employee");
+
+      const resSkillsByEmployee = await fetch(
+        "http://localhost:5000/api/dashboard/skills-by-employee"
+      );
       const dataSkillsByEmployee = await resSkillsByEmployee.json();
       setSkillsByEmployee(dataSkillsByEmployee);
-  
-      const resSkillsPerCourse = await fetch("http://localhost:5000/api/dashboard/courses-skills");
+
+      const resSkillsPerCourse = await fetch(
+        "http://localhost:5000/api/dashboard/courses-skills"
+      );
       const dataSkillsPerCourse = await resSkillsPerCourse.json();
       setSkillsPerCourse(dataSkillsPerCourse);
     };
-  
+
     fetchData();
   }, []);
-  
 
   const employeeSkillData = {
     labels: skillsByEmployee.map((emp) => emp.employeeName),
@@ -75,7 +80,7 @@ const AdminDashboard = () => {
       },
       tooltip: {
         bodyColor: "#e62dd7", // Change tooltip text color
-        backgroundColor: 'rgba(255, 255, 255, 0.9)', // Light background for tooltip
+        backgroundColor: "rgba(255, 255, 255, 0.9)", // Light background for tooltip
       },
     },
     scales: {
@@ -99,7 +104,9 @@ const AdminDashboard = () => {
       className="container-fluid pt-4 text-white dashboard-container"
       style={{ marginTop: "7rem", padding: "20px", borderRadius: "10px" }}
     >
-      <h1 className="text-center mb-4" style={{ color: "#e62dd7" }}>Admin Dashboard</h1>
+      <h1 className="text-center mb-4" style={{ color: "#e62dd7" }}>
+        Admin Dashboard
+      </h1>
 
       {/* Summary Section */}
       <div className="row mb-4 justify-content-center">
@@ -128,12 +135,28 @@ const AdminDashboard = () => {
         {/* Charts on the right side */}
         <div className="col-md-9">
           {/* Bar Chart: Skills per Employee */}
-          <div className="chart-container mb-4 text-center" style={{ width: '100%', margin: '0 auto', maxWidth: '950px', height: '400px' }}>
+          <div
+            className="chart-container mb-4 text-center"
+            style={{
+              width: "100%",
+              margin: "0 auto",
+              maxWidth: "1200px",
+              height: "400px",
+            }}
+          >
             <Bar data={employeeSkillData} options={chartOptions} />
           </div>
 
           {/* Bar Chart: Skills per Course */}
-          <div className="chart-container mb-4 text-center" style={{ width: '100%', margin: '0 auto', maxWidth: '950px', height: '400px' }}>
+          <div
+            className="chart-container mb-4 text-center"
+            style={{
+              width: "100%",
+              margin: "0 auto",
+              maxWidth: "1200px",
+              height: "400px",
+            }}
+          >
             <Bar data={courseSkillData} options={chartOptions} />
           </div>
         </div>
