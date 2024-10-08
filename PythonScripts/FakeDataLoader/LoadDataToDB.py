@@ -1,5 +1,7 @@
-import requests
+# import requests
 import random
+import traceback
+import psycopg2
 
 # Course categories with prefixes and topics (as given)
 course_categories = {
@@ -143,14 +145,6 @@ course_categories = {
     },
 }
 
-# URL of the course API
-url = "http://localhost:5000/api/course"
-
-# Authorization token
-headers = {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBZG1pbklEIjoiSk1EQWRtaW4xMDEiLCJpYXQiOjE3MjgyMzQ2MjIsImV4cCI6MTcyODIzODIyMn0.-ikN6aRe8Sntj7faRJRGLvMjkqGXB8IPKJURyFuhT9c",
-    "Content-Type": "application/json",
-}
 
 # List to hold generated courses
 course_list = []
@@ -183,13 +177,49 @@ for category, data in course_categories.items():
     if course_count > 100:
         break
 
-# Output generated courses (for debugging, you can remove this part later)
-for course in course_list:
-    print(course)
+print(course_list)
 
-# Loop through the course_list and send POST requests to load the data
-for course in course_list:
-    response = requests.post(url, json=course, headers=headers)
-    print(
-        f"Course {course['CourseCode']} ({course['CourseName']}) registration response: {response.status_code} - {response.text}"
-    )
+
+# DB loaded
+
+# PostgreSQL connection setup
+# conn = psycopg2.connect(
+#     host="localhost",
+#     database="employee_db",  # replace with your database name
+#     user="postgres",  # replace with your PostgreSQL username
+#     password="123",  # replace with your PostgreSQL password
+# )
+
+# # Create a cursor object to execute SQL queries
+# cur = conn.cursor()
+
+# # Insert courses into the database
+# for i, course in enumerate(course_list):
+#     try:
+#         # SQL Insert Query
+#         insert_query = """
+#         INSERT INTO public."Course"
+#         VALUES (%s, %s, %s, %s)
+#         """
+#         course_values = (
+#             i + 1,
+#             course["CourseName"],
+#             course["Level"],
+#             course["CourseCode"],
+#         )
+
+#         # Execute the insert statement
+#         cur.execute(insert_query, course_values)
+
+#     except Exception as e:
+#         print(f"Failed to insert course {course['CourseName']} with error: {e}")
+#         traceback.print_exc()
+#         conn.rollback()  # Rollback in case of error
+#     else:
+#         conn.commit()  # Commit the transaction if successful
+
+# # Close the cursor and connection
+# cur.close()
+# conn.close()
+
+# print(f"Successfully inserted {len(course_list)} courses into the database.")

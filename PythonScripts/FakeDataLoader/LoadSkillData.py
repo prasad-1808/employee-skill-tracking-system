@@ -2,16 +2,16 @@ import random
 import requests
 
 # API endpoint to add a skill
-API_URL = "http://your-api-url.com/skills"  # Replace with your actual API URL
+API_URL = "http://localhost:5000/api/skills"  # Replace with your actual API URL
 
 # Bearer token
-TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBZG1pbklEIjoiSk1EQWRtaW4xMDEiLCJpYXQiOjE3MjgyODg2MzYsImV4cCI6MTcyODI5MjIzNn0.jniT3b0GmWQNWDilgvw5i8fL8b34JCqPW9CeCYiziZs"
+TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbXBsb3llZUlEIjoiSk1EMzAxIiwiaWF0IjoxNzI4MzYzNDg2LCJleHAiOjE3MjgzNjcwODZ9.YStY2MpxY7xP-MJKX73VwXyMStjtOIWJ0zzLiqBj_Jk"
 
 # List of employees (from JMD301 to JMD320)
 employee_ids = [f"JMD{str(i).zfill(3)}" for i in range(301, 321)]
 
 # List of course IDs (from 31 to 42)
-course_ids = list(range(31, 43))
+course_ids = list(range(1, 73))
 
 # Proficiency levels and skill types
 proficiencies = ["Basic", "Intermediate", "Advanced"]
@@ -58,7 +58,7 @@ def add_skill(employee_id, course_id):
 def assign_skills_to_employees():
     for employee_id in employee_ids:
         # Select a random number of skills to assign (between 3 and 5)
-        num_skills = random.randint(3, 5)
+        num_skills = random.randint(5, 7)
 
         # Randomly pick unique course IDs for this employee
         assigned_courses = random.sample(course_ids, num_skills)
