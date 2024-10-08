@@ -319,6 +319,18 @@ const AdminSkillData = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   const renderPaginationItems = () => {
     let items = [];
     for (let number = 1; number <= totalPages; number++) {
@@ -382,7 +394,19 @@ const AdminSkillData = () => {
                   ))}
                 </tbody>
               </table>
-              <Pagination>{renderPaginationItems()}</Pagination>
+              <div className="d-flex justify-content-center">
+                <Pagination>
+                  <Pagination.Prev
+                    onClick={handlePrev}
+                    disabled={currentPage === 1}
+                  />
+                  {renderPaginationItems()}
+                  <Pagination.Next
+                    onClick={handleNext}
+                    disabled={currentPage === totalPages}
+                  />
+                </Pagination>
+              </div>
             </>
           ) : (
             <p>No unverified skills available.</p>
