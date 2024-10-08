@@ -14,6 +14,7 @@ import "../../assets/AdminSkillData.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
+import Pagination from "react-bootstrap/Pagination";
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -181,6 +182,8 @@ const AdminSkillData = () => {
     EmployeeName: "",
     Proficiency: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const skillsPerPage = 10;
 
   const fetchSkills = async () => {
     try {
@@ -303,6 +306,35 @@ const AdminSkillData = () => {
     fetchSkills();
   }, []);
 
+  // Pagination logic
+  const indexOfLastSkill = currentPage * skillsPerPage;
+  const indexOfFirstSkill = indexOfLastSkill - skillsPerPage;
+  const currentSkills = unVerifiedSkills.slice(
+    indexOfFirstSkill,
+    indexOfLastSkill
+  );
+  const totalPages = Math.ceil(unVerifiedSkills.length / skillsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const renderPaginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= totalPages; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handlePageChange(number)}
+        >
+          {number}
+        </Pagination.Item>
+      );
+    }
+    return items;
+  };
+
   return (
     <div className="container-fluid mt-5">
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
@@ -312,43 +344,46 @@ const AdminSkillData = () => {
         <div className="col-md-5">
           <h3 style={{ color: "#e62dd7" }}>Unverified Skills</h3>
           {unVerifiedSkills.length > 0 ? (
-            <table className="table table-striped table-hover table-bordered">
-              <thead className="thead-dark">
-                <tr>
-                  <th>Employee Name</th>
-                  <th>Course Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {unVerifiedSkills.map((skill) => (
-                  <tr key={skill.id}>
-                    <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
-                    <td>{skill.course.CourseName}</td>
-                    <td>
-                      <button
-                        className="btn btn-success btn-sm mr-2"
-                        onClick={() => verifySkill(skill.id)}
-                      >
-                        Verify
-                      </button>{" "}
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => deleteSkill(skill.id)}
-                      >
-                        Delete
-                      </button>{" "}
-                      <button
-                        className="btn btn-primary btn-sm"
-                        onClick={() => viewSkillDetails(skill)}
-                      >
-                        View
-                      </button>
-                    </td>
+            <>
+              <table className="table table-striped table-hover table-bordered">
+                <thead className="thead-dark">
+                  <tr>
+                    <th>Employee Name</th>
+                    <th>Course Name</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {currentSkills.map((skill) => (
+                    <tr key={skill.id}>
+                      <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
+                      <td>{skill.course.CourseName}</td>
+                      <td>
+                        <button
+                          className="btn btn-success btn-sm mr-2"
+                          onClick={() => verifySkill(skill.id)}
+                        >
+                          Verify
+                        </button>{" "}
+                        <button
+                          className="btn btn-danger btn-sm"
+                          onClick={() => deleteSkill(skill.id)}
+                        >
+                          Delete
+                        </button>{" "}
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => viewSkillDetails(skill)}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Pagination>{renderPaginationItems()}</Pagination>
+            </>
           ) : (
             <p>No unverified skills available.</p>
           )}
