@@ -1,14 +1,162 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
 import axios from "axios";
-import { Doughnut } from "react-chartjs-2";
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import "../../assets/AdminSkillData.css";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap CSS is imported
-import { Modal, Button } from "react-bootstrap"; // Import Modal and Button from react-bootstrap
-import { toast } from "react-toastify"; // For showing notifications
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Modal, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
-Chart.register(ArcElement, Tooltip, Legend);
+Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
+const course_categories = {
+  Python: {
+    prefix: "PY",
+    courses: {
+      Easy: [
+        "Introduction to Python",
+        "Python Basics for Beginners",
+        "Python Scripting Essentials",
+        "Python for Automation",
+      ],
+      Medium: [
+        "Python for Data Analysis",
+        "Intermediate Python Programming",
+        "Object-Oriented Programming with Python",
+        "Python for Web Scraping",
+      ],
+      Hard: [
+        "Advanced Python Programming",
+        "Python for Machine Learning",
+        "Python for Software Design Patterns",
+        "Python Performance Optimization",
+      ],
+    },
+  },
+  "Web Development": {
+    prefix: "WD",
+    courses: {
+      Easy: [
+        "Basic HTML and CSS",
+        "Responsive Web Design with HTML and CSS",
+        "HTML5 Fundamentals",
+        "Introduction to Web Design",
+      ],
+      Medium: [
+        "JavaScript and Front-End Development",
+        "React for Beginners",
+        "Intermediate CSS & Sass",
+        "JavaScript: The DOM and Event Handling",
+      ],
+      Hard: [
+        "Full Stack Web Development",
+        "Building Web Apps with Node.js and Express",
+        "Advanced JavaScript Frameworks (Vue, Angular, React)",
+        "Web Performance Optimization",
+      ],
+    },
+  },
+  "Data Engineering": {
+    prefix: "DE",
+    courses: {
+      Easy: [
+        "Introduction to Data Pipelines",
+        "Fundamentals of SQL",
+        "Data Warehousing Basics",
+        "Data Modeling for Beginners",
+      ],
+      Medium: [
+        "ETL Processes and Tools",
+        "Data Integration with Apache Kafka",
+        "Data Lakes and Big Data Systems",
+        "Advanced SQL for Data Engineering",
+      ],
+      Hard: [
+        "Big Data and Distributed Systems",
+        "Building Data Pipelines with Apache Airflow",
+        "Data Engineering with Apache Spark",
+        "Advanced ETL Design and Optimization",
+      ],
+    },
+  },
+  "Data Science": {
+    prefix: "DS",
+    courses: {
+      Easy: [
+        "Data Science Fundamentals",
+        "Introduction to Data Visualization",
+        "Statistics for Data Science",
+        "Exploratory Data Analysis with Python",
+      ],
+      Medium: [
+        "Machine Learning with Python",
+        "Intermediate Data Visualization with Python",
+        "Applied Data Science with R",
+        "Data Wrangling and Preprocessing",
+      ],
+      Hard: [
+        "Deep Learning and Neural Networks",
+        "Reinforcement Learning with Python",
+        "Natural Language Processing with Python",
+        "Advanced Machine Learning Algorithms",
+      ],
+    },
+  },
+  "Cloud Computing": {
+    prefix: "CC",
+    courses: {
+      Easy: [
+        "Introduction to Cloud Computing",
+        "Cloud Storage Fundamentals",
+        "Getting Started with AWS",
+        "Cloud Security Basics",
+      ],
+      Medium: [
+        "AWS Solutions Architect: Associate",
+        "Azure DevOps for Cloud Engineering",
+        "Cloud Infrastructure Automation with Terraform",
+        "Building Scalable Applications on AWS",
+      ],
+      Hard: [
+        "AWS Solutions Architect: Professional",
+        "Advanced Cloud Networking",
+        "Cloud Security and Compliance",
+        "Kubernetes in the Cloud",
+      ],
+    },
+  },
+  Cybersecurity: {
+    prefix: "CS",
+    courses: {
+      Easy: [
+        "Introduction to Cybersecurity",
+        "Fundamentals of Ethical Hacking",
+        "Cyber Threat Intelligence",
+        "Network Security Essentials",
+      ],
+      Medium: [
+        "Penetration Testing with Kali Linux",
+        "Security Operations and Incident Response",
+        "Intermediate Network Security",
+        "Secure Coding Practices",
+      ],
+      Hard: [
+        "Advanced Ethical Hacking",
+        "Cybersecurity Risk Management",
+        "Advanced Threat Hunting",
+        "Cryptography and Security Protocols",
+      ],
+    },
+  },
+};
 
 const AdminSkillData = () => {
   const [verifiedSkills, setVerifiedSkills] = useState([]);
@@ -23,7 +171,6 @@ const AdminSkillData = () => {
     Proficiency: "",
   });
 
-  // Fetch skills and process for verified/unverified and chart
   const fetchSkills = async () => {
     try {
       const response = await api.get("/skills");
@@ -38,35 +185,42 @@ const AdminSkillData = () => {
     }
   };
 
-  // Process chart data from verified skills
   const processChartData = (verifiedSkills) => {
-    const courseCount = verifiedSkills.reduce((acc, skill) => {
+    const courseCounts = {
+      Python: 0,
+      "Web Development": 0,
+      "Data Engineering": 0,
+      "Data Science": 0,
+      "Cloud Computing": 0,
+      Cybersecurity: 0,
+    };
+
+    verifiedSkills.forEach((skill) => {
       const courseName = skill.course.CourseName;
-      acc[courseName] = (acc[courseName] || 0) + 1;
-      return acc;
-    }, {});
+      Object.keys(course_categories).forEach((category) => {
+        const courses = Object.values(
+          course_categories[category].courses
+        ).flat();
+        if (courses.includes(courseName)) {
+          courseCounts[category] += 1;
+        }
+      });
+    });
 
     setChartData({
-      labels: Object.keys(courseCount),
+      labels: Object.keys(courseCounts),
       datasets: [
         {
           label: "Number of Employees",
-          data: Object.values(courseCount),
-          backgroundColor: [
-            "#4e73df", // Custom colors for theme consistency
-            "#1cc88a",
-            "#36b9cc",
-            "#f6c23e",
-            "#e74a3b",
-            "#858796",
-          ],
-          hoverOffset: 4,
+          data: Object.values(courseCounts),
+          backgroundColor: "#36b9cc",
+          borderColor: "#4e73df",
+          borderWidth: 1,
         },
       ],
     });
   };
 
-  // Verify skill by ID
   const verifySkill = async (skillId) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
@@ -81,11 +235,13 @@ const AdminSkillData = () => {
       toast.success("Skill verified successfully");
     } catch (error) {
       toast.error("Error verifying skill");
-      console.error("Error verifying skill:", error.response?.data || error.message);
+      console.error(
+        "Error verifying skill:",
+        error.response?.data || error.message
+      );
     }
   };
 
-  // Delete skill by ID
   const deleteSkill = async (skillID) => {
     try {
       const adminToken = localStorage.getItem("adminToken");
@@ -96,17 +252,18 @@ const AdminSkillData = () => {
       toast.success("Skill deleted successfully");
     } catch (error) {
       toast.error("Error deleting skill");
-      console.error("Error deleting skill:", error.response?.data || error.message);
+      console.error(
+        "Error deleting skill:",
+        error.response?.data || error.message
+      );
     }
   };
 
-  // Handle viewing skill details
   const viewSkillDetails = (skill) => {
     setSelectedSkill(skill);
-    setShowModal(true); // Show the modal for skill details
+    setShowModal(true);
   };
 
-  // Handle adding new skill
   const handleAddSkill = async () => {
     try {
       const token = localStorage.getItem("adminToken");
@@ -137,46 +294,12 @@ const AdminSkillData = () => {
   }, []);
 
   return (
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
         <h2 style={{ color: "#e62dd7" }}>Employees Skills Data</h2>
       </div>
 
       <div className="row" style={{ marginTop: "2rem" }}>
-        <div className="col-md-6">
-          <h3 style={{ color: "#e62dd7" }}>Skills Over Employees</h3>
-          {chartData && chartData.labels && chartData.labels.length > 0 ? (
-            <Doughnut
-              data={chartData}
-              options={{
-                animation: {
-                  duration: 50,
-                  easing: "linear",
-                },
-                plugins: {
-                  legend: {
-                    position: "bottom",
-                    labels: {
-                      color: "#4e73df",
-                      boxWidth: 20,
-                      padding: 15,
-                      font: {
-                        size: 18,
-                      },
-                    },
-                  },
-                },
-              }}
-            />
-          ) : (
-            <div className="card p-4 text-center">
-                <div className="card-body">
-                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Skills Data Available.</h5>
-                </div>
-              </div>
-          )}
-        </div>
-
         <div className="col-md-6">
           <h3 style={{ color: "#e62dd7" }}>Unverified Skills</h3>
           {unVerifiedSkills.length > 0 ? (
@@ -194,77 +317,129 @@ const AdminSkillData = () => {
                     <td>{`${skill.employee.Firstname} ${skill.employee.Lastname}`}</td>
                     <td>{skill.course.CourseName}</td>
                     <td>
-                      <div className="btn-group">
-                        <button
-                          className="btn btn-success"
-                          onClick={() => verifySkill(skill.id)}
-                        >
-                          ✅ Verify
-                        </button>
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => viewSkillDetails(skill)}
-                        >
-                          👁️ View
-                        </button>
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => deleteSkill(skill.id)}
-                        >
-                          ❌ Reject
-                        </button>
-                      </div>
+                      <button
+                        className="btn btn-success btn-sm mr-2"
+                        onClick={() => verifySkill(skill.id)}
+                      >
+                        Verify
+                      </button>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => deleteSkill(skill.id)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="btn btn-primary btn-sm"
+                        onClick={() => viewSkillDetails(skill)}
+                      >
+                        View
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <div className="card p-4 text-center">
-                <div className="card-body">
-                  <h5 className="card-title" style={{ color: "#ffffff" }}>No Unverified Skills</h5>
-                </div>
-              </div>
+            <p>No unverified skills available.</p>
           )}
+        </div>
+        <div className="col-md-6">
+          <h3 style={{ color: "#e62dd7" }}>Verified Skills</h3>
+          <Bar data={chartData} />
         </div>
       </div>
 
-      {/* Add Skill Modal */}
-      <Modal show={showAddSkillModal} onHide={() => setShowAddSkillModal(false)}>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        className="custom-modal"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Add New Skill</Modal.Title>
+          <Modal.Title>Skill Details</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Course Name"
-              className="form-control"
-              value={newSkill.CourseName}
-              onChange={(e) => setNewSkill({ ...newSkill, CourseName: e.target.value })}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Employee Name"
-              className="form-control"
-              value={newSkill.EmployeeName}
-              onChange={(e) => setNewSkill({ ...newSkill, EmployeeName: e.target.value })}
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              type="text"
-              placeholder="Proficiency"
-              className="form-control"
-              value={newSkill.Proficiency}
-              onChange={(e) => setNewSkill({ ...newSkill, Proficiency: e.target.value })}
-            />
-          </div>
+          {selectedSkill && (
+            <>
+              <p>
+                <strong>Employee Name:</strong>{" "}
+                {`${selectedSkill.employee.Firstname} ${selectedSkill.employee.Lastname}`}
+              </p>
+              <p>
+                <strong>Course Name:</strong> {selectedSkill.course.CourseName}
+              </p>
+              <p>
+                <strong>Proficiency:</strong> {selectedSkill.Proficiency}
+              </p>
+              <p>
+                <strong>Verified:</strong>{" "}
+                {selectedSkill.Verified ? "Yes" : "No"}
+              </p>
+            </>
+          )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddSkillModal(false)}>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showAddSkillModal}
+        onHide={() => setShowAddSkillModal(false)}
+        centered
+        className="custom-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Skill</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group">
+              <label htmlFor="CourseName">Course Name:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="CourseName"
+                value={newSkill.CourseName}
+                onChange={(e) =>
+                  setNewSkill({ ...newSkill, CourseName: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="EmployeeName">Employee Name:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="EmployeeName"
+                value={newSkill.EmployeeName}
+                onChange={(e) =>
+                  setNewSkill({ ...newSkill, EmployeeName: e.target.value })
+                }
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="Proficiency">Proficiency:</label>
+              <input
+                type="text"
+                className="form-control"
+                id="Proficiency"
+                value={newSkill.Proficiency}
+                onChange={(e) =>
+                  setNewSkill({ ...newSkill, Proficiency: e.target.value })
+                }
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => setShowAddSkillModal(false)}
+          >
             Close
           </Button>
           <Button variant="primary" onClick={handleAddSkill}>
@@ -272,55 +447,6 @@ const AdminSkillData = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {/* Skill Details Modal */}
-      {selectedSkill && (
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Skill Details for {selectedSkill.employee?.Firstname} {selectedSkill.employee?.Lastname}
-            </Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <p>
-              <strong>Course:</strong> {selectedSkill.course?.CourseName || "N/A"}
-            </p>
-            <p>
-              <strong>Course Code:</strong> {selectedSkill.course?.CourseCode || "N/A"}
-            </p>
-            <p>
-              <strong>Proficiency:</strong> {selectedSkill.Proficiency || "N/A"}
-            </p>
-            <p>
-              <strong>Proof:</strong> {selectedSkill.SkillType}
-            </p>
-
-            {selectedSkill.SkillType === "CERTIFICATE" ? (
-              <p>
-                <strong>Certificate link:</strong>
-                <a
-                  href={selectedSkill.CertificateLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                >
-                  View Certificate
-                </a>
-              </p>
-            ) : (
-              <p>
-                <strong>Assessment Score:</strong> {selectedSkill.ScoreObtained || "Score not available"}
-              </p>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
     </div>
   );
 };
