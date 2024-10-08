@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
-import CourseCard from "../../components/CourseCard"; // Import the reusable card component
+import CourseCard from "../../components/CourseCard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import { Modal, Button } from "react-bootstrap";
+import Pagination from "react-bootstrap/Pagination";
 
 const AdminCourse = () => {
   const [courses, setCourses] = useState([]);
   const [showAddCourseModal, setShowAddCourseModal] = useState(false);
   const [newCourse, setNewCourse] = useState({
+    CourseID: null, // Initialize as null; it will be set in handleAddCourse
     CourseName: "",
     CourseCode: "",
     Level: "",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const coursesPerPage = 9;
 
   // Fetch the courses from the API
   useEffect(() => {
@@ -28,15 +32,50 @@ const AdminCourse = () => {
     fetchCourses();
   }, []);
 
-  // Handler for course deletion
+  // Calculate pagination data
+  const indexOfLastCourse = currentPage * coursesPerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
+  const currentCourses = courses.slice(indexOfFirstCourse, indexOfLastCourse);
+  const totalPages = Math.ceil(courses.length / coursesPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const renderPaginationItems = () => {
+    let items = [];
+    for (let number = 1; number <= totalPages; number++) {
+      items.push(
+        <Pagination.Item
+          key={number}
+          active={number === currentPage}
+          onClick={() => handlePageChange(number)}
+        >
+          {number}
+        </Pagination.Item>
+      );
+    }
+    return items;
+  };
+
   const handleCourseDelete = (courseID) => {
-    // Filter out the deleted course from the state
     setCourses((prevCourses) =>
       prevCourses.filter((course) => course.CourseID !== courseID)
     );
   };
 
-  // Handler for course editing
   const handleCourseEdit = async (editedCourse) => {
     try {
       const updatedCourses = courses.map((course) =>
@@ -51,24 +90,69 @@ const AdminCourse = () => {
 
   const handleAddCourse = async () => {
     try {
-      const token = localStorage.getItem("adminToken"); // Assuming the token is stored in localStorage
-      const response = await fetch("http://localhost:5000/api/course/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add the Authorization header
-        },
-        body: JSON.stringify(newCourse),
-      });
+      const token = localStorage.getItem("adminToken");
 
-      if (response.ok) {
-        const addedCourse = await response.json();
+      // Fetch existing courses to find the last CourseID
+      const response = await fetch("http://localhost:5000/api/course/");
+      const existingCourses = await response.json();
+
+      // Check if existingCourses is an array and has elements
+      const lastCourseID =
+        Array.isArray(existingCourses) && existingCourses.length > 0
+          ? Math.max(...existingCourses.map((course) => course.CourseID))
+          : 0;
+      const newCourseID = lastCourseID + 1;
+
+      // Prepare the new course data with the generated CourseID
+      const courseData = {
+        CourseID: newCourseID, // Only if you decide not to use auto-increment
+        CourseName: newCourse.CourseName,
+        CourseCode: newCourse.CourseCode,
+        Level: newCourse.Level,
+      };
+
+      // Debug log to check the course data being sent
+      console.log("New Course Data:", courseData);
+
+      // Validate course data before sending
+      if (
+        !courseData.CourseName ||
+        !courseData.CourseCode ||
+        !courseData.Level
+      ) {
+        toast.error("All fields are required.");
+        return;
+      }
+
+      // Send the new course data to the server
+      const addCourseResponse = await fetch(
+        "http://localhost:5000/api/course/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(courseData),
+        }
+      );
+
+      if (addCourseResponse.ok) {
+        const addedCourse = await addCourseResponse.json();
         setCourses((prevCourses) => [...prevCourses, addedCourse]);
         toast.success("Course added successfully!");
-        setShowAddCourseModal(false); // Close the modal
-        setNewCourse({ CourseName: "", CourseCode: "", Level: "" }); // Reset form
+        setShowAddCourseModal(false);
+        setNewCourse({
+          CourseID: null,
+          CourseName: "",
+          CourseCode: "",
+          Level: "",
+        }); // Reset form
       } else {
-        toast.error("Failed to add course");
+        const errorData = await addCourseResponse.json(); // Get the error response from the server
+        toast.error(
+          `Failed to add course: ${errorData.message || "Unknown error"}`
+        );
       }
     } catch (error) {
       toast.error("Error occurred while adding course");
@@ -78,39 +162,40 @@ const AdminCourse = () => {
 
   return (
     <div className="container mt-5">
-      {/* Add Course Button */}
       <div className="text-center mb-4" style={{ marginTop: "5rem" }}>
-      <center>
-                {/* Add the new button for adding skills */}
-                <button className="custom-button d-inline-flex align-items-center mt-3" 
-                  style={{
-                    backgroundColor: "white",
-                    color: "#ff69b4",
-                    padding: "10px 20px",
-                    borderRadius: "8px",
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    display: "inline-block",
-                    transform: "skewX(-15deg)", 
-                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", 
-                    marginLeft: "15px" // Add margin to separate buttons
-                  }}
-                  onClick={() => setShowAddCourseModal(true)} // On click navigate to Add Skill page
-                >
-                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>Add Course</span>
-                </button>
-              </center>
+        <center>
+          <button
+            className="custom-button d-inline-flex align-items-center mt-3"
+            style={{
+              backgroundColor: "white",
+              color: "#ff69b4",
+              padding: "10px 20px",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              display: "inline-block",
+              transform: "skewX(-15deg)",
+              boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)",
+              marginLeft: "15px",
+            }}
+            onClick={() => setShowAddCourseModal(true)}
+          >
+            <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>
+              Add Course
+            </span>
+          </button>
+        </center>
       </div>
 
       <div className="row mt-4">
-        {courses.length > 0 ? (
-          courses.map((course) => (
+        {currentCourses.length > 0 ? (
+          currentCourses.map((course) => (
             <CourseCard
               key={course.CourseID}
               course={course}
-              onCourseDelete={handleCourseDelete} // Pass the delete handler as a prop
-              onCourseEdit={handleCourseEdit} // Pass the edit handler as a prop
+              onCourseDelete={handleCourseDelete}
+              onCourseEdit={handleCourseEdit}
             />
           ))
         ) : (
@@ -129,6 +214,18 @@ const AdminCourse = () => {
             No courses available. Please add a new course to get started.
           </div>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="d-flex justify-content-center mt-4">
+        <Pagination>
+          <Pagination.Prev onClick={handlePrev} disabled={currentPage === 1} />
+          {renderPaginationItems()}
+          <Pagination.Next
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+          />
+        </Pagination>
       </div>
 
       {/* Add Course Modal */}

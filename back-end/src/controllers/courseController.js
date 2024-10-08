@@ -2,11 +2,12 @@ const prisma = require("../utils/db");
 
 // Add a new course
 const addCourse = async (req, res) => {
-  const { CourseName, CourseCode, Level } = req.body;
+  const { CourseID, CourseName, CourseCode, Level } = req.body;
 
   try {
     const course = await prisma.course.create({
       data: {
+        CourseID,
         CourseName,
         CourseCode,
         Level,
