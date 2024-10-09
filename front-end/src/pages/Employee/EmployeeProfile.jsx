@@ -3,14 +3,14 @@ import api from "../../services/api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "../../assets/EmployeeProfile.css";
 
 const EmployeeProfile = () => {
   const [employee, setEmployee] = useState(null);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
-    employeeID: "", 
+    employeeID: "",
     firstname: "",
     lastname: "",
     designation: "",
@@ -20,7 +20,7 @@ const EmployeeProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const employeeId = localStorage.getItem("userId"); 
+  const employeeId = localStorage.getItem("userId");
   const navigate = useNavigate(); // Initialize the navigate function
 
   useEffect(() => {
@@ -86,21 +86,28 @@ const EmployeeProfile = () => {
 
   // Function to navigate to Add Skill page
   const handleAddSkillClick = () => {
-    navigate('/add-skill'); // Adjust the route as necessary
+    navigate("/add-skill"); // Adjust the route as necessary
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
-    <div className="container-fluid profile p-4" style={{ marginTop: "7rem", backgroundColor: "#f8f9fa" }}>
-      <h2 className="text-center mb-4 text-white">Employee Profile</h2>
+    <div
+      className="container-fluid profile p-4"
+      style={{ marginTop: "7rem", backgroundColor: "" }}
+    >
+      <h2 className="text-center mb-4" style={{ color: "#b11aa4" }}>
+        Employee Profile
+      </h2>
       <div className="card shadow-lg" style={{ borderRadius: "15px" }}>
         <div className="card-body">
           {editing ? (
             <div>
               <div className="form-group">
-                <label htmlFor="firstname" style={{ color: "white" }}>First Name:</label>
+                <label htmlFor="firstname" style={{ color: "white" }}>
+                  First Name:
+                </label>
                 <input
                   type="text"
                   id="firstname"
@@ -112,7 +119,9 @@ const EmployeeProfile = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="lastname" style={{ color: "white" }}>Last Name:</label>
+                <label htmlFor="lastname" style={{ color: "white" }}>
+                  Last Name:
+                </label>
                 <input
                   type="text"
                   id="lastname"
@@ -124,7 +133,9 @@ const EmployeeProfile = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="designation" style={{ color: "white" }}>Designation:</label>
+                <label htmlFor="designation" style={{ color: "white" }}>
+                  Designation:
+                </label>
                 <input
                   type="text"
                   id="designation"
@@ -135,7 +146,9 @@ const EmployeeProfile = () => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="yearOfJoining" style={{ color: "white" }}>Year of Joining:</label>
+                <label htmlFor="yearOfJoining" style={{ color: "white" }}>
+                  Year of Joining:
+                </label>
                 <input
                   type="number"
                   id="yearOfJoining"
@@ -147,7 +160,8 @@ const EmployeeProfile = () => {
               </div>
               <center>
                 {/* Add the new button for adding skills */}
-                <button className="custom-button d-inline-flex align-items-center mt-3" 
+                <button
+                  className="custom-button d-inline-flex align-items-center mt-3"
                   style={{
                     backgroundColor: "white",
                     color: "#ff69b4",
@@ -157,20 +171,25 @@ const EmployeeProfile = () => {
                     textTransform: "uppercase",
                     textDecoration: "none",
                     display: "inline-block",
-                    transform: "skewX(-15deg)", 
-                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", 
-                    marginLeft: "15px" // Add margin to separate buttons
+                    transform: "skewX(-15deg)",
+                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)",
+                    marginLeft: "15px", // Add margin to separate buttons
                   }}
                   onClick={handleSave} // On click navigate to Add Skill page
                 >
-                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>Save</span>
+                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>
+                    Save
+                  </span>
                 </button>
               </center>
             </div>
           ) : (
             <div>
               <center>
-                <FaRegCircleUser className="profile-pic-icon" style={{ fontSize: "3rem", color: "#fffff" }} />
+                <FaRegCircleUser
+                  className="profile-pic-icon"
+                  style={{ fontSize: "3rem", color: "#fffff" }}
+                />
               </center>
               <div className="card-body rounded">
                 <table className="table table-bordered rounded employee-profile-table">
@@ -204,7 +223,8 @@ const EmployeeProfile = () => {
               </div>
               <center>
                 {/* Add the new button for adding skills */}
-                <button className="custom-button d-inline-flex align-items-center mt-3" 
+                <button
+                  className="custom-button d-inline-flex align-items-center mt-3"
                   style={{
                     backgroundColor: "white",
                     color: "#ff69b4",
@@ -214,13 +234,15 @@ const EmployeeProfile = () => {
                     textTransform: "uppercase",
                     textDecoration: "none",
                     display: "inline-block",
-                    transform: "skewX(-15deg)", 
-                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)", 
-                    marginLeft: "15px" // Add margin to separate buttons
+                    transform: "skewX(-15deg)",
+                    boxShadow: "0 8px 15px rgba(0, 0, 0, 0.15)",
+                    marginLeft: "15px", // Add margin to separate buttons
                   }}
                   onClick={handleEditClick} // On click navigate to Add Skill page
                 >
-                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>Edit Profile</span>
+                  <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>
+                    Edit Profile
+                  </span>
                 </button>
               </center>
             </div>

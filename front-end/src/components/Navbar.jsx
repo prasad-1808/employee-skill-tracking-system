@@ -36,12 +36,13 @@ const Navbar = ({
       <div className="container-fluid">
         {/* Brand Name */}
         <Link className="navbar-brand fs-3" to="/">
-  <VscGraph className="brand-icon fs-3" />{"  "}
-  <span style={{ fontWeight: "bold" }}>
-    <span style={{ color: "#f40986", fontWeight:"bolder" }}>J</span>
-    <span style={{ color: "white" }}>Elite</span>
-  </span>
-</Link>
+          <VscGraph className="brand-icon fs-3" />
+          {"  "}
+          <span style={{ fontWeight: "bold" }}>
+            <span style={{ color: "#f40986", fontWeight: "bolder" }}>J</span>
+            <span style={{ color: "white" }}>Elite</span>
+          </span>
+        </Link>
 
         {/* Toggle button for mobile view */}
         <button
@@ -128,6 +129,11 @@ const Navbar = ({
             {isLoggedIn && !isAdminLoggedIn && (
               <>
                 <li className="nav-item mx-2">
+                  <Link className="nav-link text-white fs-3" to="/dashboard">
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item mx-2">
                   <Link className="nav-link text-white fs-3" to="/courses">
                     Courses
                   </Link>
@@ -152,9 +158,9 @@ const Navbar = ({
                   className="dropdown-toggle nav-icon fs-2"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  style={{ cursor: "pointer", color:"white" }}
+                  style={{ cursor: "pointer", color: "white" }}
                 />
-                <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5 my-4" >
+                <ul className="dropdown-menu dropdown-menu-end shadow-lg animate-dropdown fs-5 my-4">
                   {!isAdminLoggedIn && (
                     <li>
                       <center>
