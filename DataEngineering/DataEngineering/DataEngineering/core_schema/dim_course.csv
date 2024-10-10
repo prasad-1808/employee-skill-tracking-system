@@ -1,0 +1,25 @@
+course_id,course_name,course_duration,price,outcome_skill,role_outcome
+1,Introduction to Data Science,10,841,SQL,junior data scientist
+2,Python for Data Science,11,1564,SQL,junior data scientist
+3,Data Analysis with Pandas,6,757,Python,junior data scientist
+4,Advanced Machine Learning,12,150,Machine Learning,senior data scientist
+5,Deep Learning Specialization,12,1433,Machine Learning,senior data scientist
+6,AI for Everyone,3,1654,TensorFlow,senior data scientist
+7,Introduction to Data Engineering,9,881,Python,junior data engineer
+8,ETL Fundamentals,5,507,Data Warehousing,junior data engineer
+9,Building Data Pipelines,1,1148,Data Warehousing,junior data engineer
+10,Big Data Technologies,9,1349,Data Lakes,senior data engineer
+11,Cloud Data Engineering,9,1862,Spark,senior data engineer
+12,Data Architecture and Design,8,236,Data Lakes,senior data engineer
+13,Web Development Bootcamp,2,725,HTML,junior software engineer
+14,JavaScript Basics,2,282,CSS,junior software engineer
+15,Introduction to React,3,1815,CSS,junior software engineer
+16,Microservices Architecture,8,1794,Microservices,senior software engineer
+17,DevOps Essentials,7,1268,DevOps,senior software engineer
+18,Advanced JavaScript,9,1708,Cloud Computing,senior software engineer
+19,Data Analysis with Excel,2,951,Tableau,junior data analyst
+20,SQL Basics for Data Analysis,2,1325,Tableau,junior data analyst
+21,Tableau for Beginners,8,1901,Excel,junior data analyst
+22,Advanced Data Visualization,2,1115,Predictive Analytics,senior data analyst
+23,Predictive Analytics in R,3,1519,Predictive Analytics,senior data analyst
+24,Business Intelligence Essentials,6,872,Statistics,senior data analyst
