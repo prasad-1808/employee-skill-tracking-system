@@ -20,6 +20,7 @@ import EmployeeCourse from "./pages/Employee/EmployeeCourse";
 import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
 import EmployeeProfile from "./pages/Employee/EmployeeProfile";
 import EmployeeRegister from "./pages/Employee/EmployeeRegister";
+import EmployeeRecommendation from "./pages/Employee/EmployeeRecommendation";
 import Error from "./pages/Error";
 import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -88,6 +89,16 @@ function App() {
               path="/myskills"
               element={
                 isLoggedIn ? <EmployeeSkills /> : <Navigate to="/login" />
+              }
+            />
+            <Route
+              path="/recommendations"
+              element={
+                isLoggedIn ? (
+                  <EmployeeRecommendation />
+                ) : (
+                  <Navigate to="/login" />
+                )
               }
             />
             <Route

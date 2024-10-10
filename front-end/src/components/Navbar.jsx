@@ -148,6 +148,14 @@ const Navbar = ({
                     My Performance
                   </Link>
                 </li>
+                <li className="nav-item mx-2">
+                  <Link
+                    className="nav-link text-white fs-3"
+                    to="/recommendations"
+                  >
+                    ERS
+                  </Link>
+                </li>
               </>
             )}
 
