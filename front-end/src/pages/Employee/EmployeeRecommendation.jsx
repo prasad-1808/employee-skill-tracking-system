@@ -1,46 +1,77 @@
-import React, { useState, useEffect } from "react";
-import api from "../../services/api";
+import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Modal } from "react-bootstrap"; // Import Modal from react-bootstrap
+import "../../services/api"; // Make sure to adjust this import based on your project structure
 
 const EmployeeRecommendation = () => {
   const [courseName, setCourseName] = useState("");
   const [outcomeSkill, setOutcomeSkill] = useState("");
   const [roleOutcome, setRoleOutcome] = useState("");
   const [currentRole, setCurrentRole] = useState("");
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState("");
   const [feedbackCategory, setFeedbackCategory] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
+
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [modalContent, setModalContent] = useState(""); // State for modal content
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const recommendationData = {
-      courseName,
-      outcomeSkill,
-      roleOutcome,
-      currentRole,
-      skills,
-      feedbackCategory,
-      yearsOfExperience,
+      course_name: courseName,
+      outcome_skill: outcomeSkill,
+      role_outcome: roleOutcome,
+      current_role: currentRole,
+      skills: skills,
+      feedback_category: feedbackCategory,
+      yearofexperience_category: categorizeExperience(yearsOfExperience),
     };
 
     try {
-      const response = await api.post("/recommendation", recommendationData);
-      if (response.status === 201) {
+      const response = await fetch("http://localhost:8000/recommend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(recommendationData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
         toast.success("Recommendation data submitted successfully");
+
+        // Show modal with the recommended courses
+        setModalContent(
+          `Recommended Courses: ${data.recommended_courses.join(", ")}`
+        );
+        setShowModal(true);
+
+        // Reset form fields
         setCourseName("");
         setOutcomeSkill("");
         setRoleOutcome("");
         setCurrentRole("");
-        setSkills([]);
+        setSkills("");
         setFeedbackCategory("");
         setYearsOfExperience("");
+      } else {
+        toast.error("Failed to submit recommendation");
+        console.error("Error:", response.statusText);
       }
     } catch (error) {
       console.error("Error submitting recommendation:", error);
       toast.error("Error submitting recommendation");
     }
+  };
+
+  const categorizeExperience = (years) => {
+    if (years < 2) return "0-2";
+    if (years < 5) return "2-5";
+    if (years < 10) return "5-10";
+    if (years < 20) return "10-20";
+    return "20+";
   };
 
   return (
@@ -133,8 +164,8 @@ const EmployeeRecommendation = () => {
               type="text"
               id="skills"
               className="form-control"
-              value={skills.join(", ")}
-              onChange={(e) => setSkills(e.target.value.split(", "))}
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
               placeholder="Enter skills separated by commas"
               required
             />
@@ -186,12 +217,7 @@ const EmployeeRecommendation = () => {
                 marginTop: "2rem",
               }}
             >
-              <span
-                style={{
-                  transform: "skewX(15deg)",
-                  color: "#ff69b4",
-                }}
-              >
+              <span style={{ transform: "skewX(15deg)", color: "#ff69b4" }}>
                 Submit Recommendation
               </span>
             </button>
@@ -199,7 +225,24 @@ const EmployeeRecommendation = () => {
         </form>
       </div>
 
+      {/* Toast notifications */}
       <ToastContainer />
+
+      {/* Modal for displaying response */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Recommendation Response</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalContent}</Modal.Body>
+        <Modal.Footer>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setShowModal(false)}
+          >
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
 
       <style>
         {`
