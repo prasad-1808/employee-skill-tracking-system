@@ -445,6 +445,29 @@ const AdminSkillData = () => {
               <p>
                 <strong>Proficiency:</strong> {selectedSkill.Proficiency}
               </p>
+
+              {selectedSkill.SkillType === "CERTIFICATE" ? (
+                <>
+                  <p>
+                    <strong>Proof:</strong> {selectedSkill.SkillType}
+                  </p>
+                  <p>
+                    <strong>Certificate Link:</strong>{" "}
+                    {selectedSkill.CertificateLink}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>Proof:</strong> {selectedSkill.SkillType}
+                  </p>
+                  <p>
+                    <strong>Assessment Score:</strong>{" "}
+                    {selectedSkill.ScoreObtained}
+                  </p>
+                </>
+              )}
+
               <p>
                 <strong>Verified:</strong>{" "}
                 {selectedSkill.Verified ? "Yes" : "No"}
