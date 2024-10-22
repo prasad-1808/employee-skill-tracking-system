@@ -23,6 +23,16 @@ const EmployeeRegister = ({ isLoggedIn, setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Regular expression to check password: 6-12 characters, at least 1 uppercase letter and 1 number
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,12}$/;
+
+    if (!passwordRegex.test(Password)) {
+      toast.error(
+        "Password must be 6-12 characters long, contain at least 1 uppercase letter and 1 number."
+      );
+      return;
+    }
+
     if (Password !== confirmPassword) {
       toast.error("Passwords do not match. Please try again.");
       return;
@@ -38,7 +48,9 @@ const EmployeeRegister = ({ isLoggedIn, setIsLoggedIn }) => {
         Password,
       });
       if (response.status === 201) {
-        toast.success("Registration successful! Kindly wait for admin approval");
+        toast.success(
+          "Registration successful! Kindly wait for admin approval"
+        );
         setTimeout(() => {
           navigate("/");
         }, 6000);
