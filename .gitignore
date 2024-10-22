@@ -2,7 +2,5 @@ node_modules/
 
 .env
 
-PythonScripts/DataEngineering/
-
 .myenv
 

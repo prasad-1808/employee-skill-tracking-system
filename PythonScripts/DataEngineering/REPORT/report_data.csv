@@ -1,0 +1,122 @@
+EmployeeID,Firstname,Lastname,Designation,YearOfJoining,CourseName,Proficiency,SkillType,CertificateLink,ScoreObtained,ScoreCategory,Verified
+JMD301,Donald,Phelps,Solution Enabler,2022,Cloud Security Basics,Basic,ASSESSMENT,,99.0,Excellent,False
+JMD301,Donald,Phelps,Solution Enabler,2022,Data Lakes and Big Data Systems,Advanced,ASSESSMENT,,68.0,Average,True
+JMD301,Donald,Phelps,Solution Enabler,2022,Data Science Fundamentals,Basic,CERTIFICATE,http://example.com/certificate/JMD301/37,,,True
+JMD301,Donald,Phelps,Solution Enabler,2022,ETL Processes and Tools,Advanced,CERTIFICATE,http://example.com/certificate/JMD301/29,,,True
+JMD302,Karen,Lee,Solution Enabler,2022,HTML5 Fundamentals,Basic,CERTIFICATE,http://example.com/certificate/JMD302/15,,,True
+JMD302,Karen,Lee,Solution Enabler,2022,Fundamentals of SQL,Intermediate,CERTIFICATE,http://example.com/certificate/JMD302/26,,,True
+JMD302,Karen,Lee,Solution Enabler,2022,Introduction to Web Design,Advanced,ASSESSMENT,,70.0,Average,True
+JMD302,Karen,Lee,Solution Enabler,2022,Data Wrangling and Preprocessing,Intermediate,CERTIFICATE,http://example.com/certificate/JMD302/44,,,True
+JMD302,Karen,Lee,Solution Enabler,2022,Data Engineering with Apache Spark,Advanced,CERTIFICATE,http://example.com/certificate/JMD302/35,,,True
+JMD302,Karen,Lee,Solution Enabler,2022,Intermediate Data Visualization with Python,Advanced,CERTIFICATE,http://example.com/certificate/JMD302/42,,,False
+JMD303,Matthew,Cook,IT Support,2020,HTML5 Fundamentals,Basic,ASSESSMENT,,52.0,Below average,False
+JMD303,Matthew,Cook,IT Support,2020,Data Integration with Apache Kafka,Intermediate,CERTIFICATE,http://example.com/certificate/JMD303/30,,,True
+JMD303,Matthew,Cook,IT Support,2020,Kubernetes in the Cloud,Intermediate,CERTIFICATE,http://example.com/certificate/JMD303/60,,,True
+JMD303,Matthew,Cook,IT Support,2020,Advanced Machine Learning Algorithms,Intermediate,CERTIFICATE,http://example.com/certificate/JMD303/48,,,False
+JMD303,Matthew,Cook,IT Support,2020,Cyber Threat Intelligence,Intermediate,ASSESSMENT,,71.0,Good,False
+JMD303,Matthew,Cook,IT Support,2020,Cloud Infrastructure Automation with Terraform,Intermediate,ASSESSMENT,,75.0,Good,False
+JMD304,Patricia,Rodriguez,Software Engineer,2024,Intermediate CSS & Sass,Basic,ASSESSMENT,,54.0,Below average,True
+JMD304,Patricia,Rodriguez,Software Engineer,2024,Python for Data Analysis,Advanced,ASSESSMENT,,95.0,Excellent,True
+JMD304,Patricia,Rodriguez,Software Engineer,2024,Cloud Storage Fundamentals,Advanced,ASSESSMENT,,72.0,Good,True
+JMD304,Patricia,Rodriguez,Software Engineer,2024,Advanced Python Programming,Intermediate,CERTIFICATE,http://example.com/certificate/JMD304/9,,,False
+JMD304,Patricia,Rodriguez,Software Engineer,2024,Web Performance Optimization,Advanced,CERTIFICATE,http://example.com/certificate/JMD304/24,,,True
+JMD305,Cynthia,Carter,Software Engineer,2024,Fundamentals of SQL,Intermediate,ASSESSMENT,,52.0,Below average,True
+JMD305,Cynthia,Carter,Software Engineer,2024,Advanced Cloud Networking,Advanced,ASSESSMENT,,86.0,Best,True
+JMD305,Cynthia,Carter,Software Engineer,2024,Introduction to Data Pipelines,Basic,CERTIFICATE,http://example.com/certificate/JMD305/25,,,False
+JMD305,Cynthia,Carter,Software Engineer,2024,Data Warehousing Basics,Advanced,CERTIFICATE,http://example.com/certificate/JMD305/27,,,False
+JMD305,Cynthia,Carter,Software Engineer,2024,Natural Language Processing with Python,Advanced,CERTIFICATE,http://example.com/certificate/JMD305/47,,,False
+JMD306,Jessica,Stevens,IT Support,2020,Data Engineering with Apache Spark,Intermediate,CERTIFICATE,http://example.com/certificate/JMD306/35,,,True
+JMD306,Jessica,Stevens,IT Support,2020,Intermediate CSS & Sass,Intermediate,CERTIFICATE,http://example.com/certificate/JMD306/19,,,True
+JMD306,Jessica,Stevens,IT Support,2020,Intermediate Python Programming,Basic,CERTIFICATE,http://example.com/certificate/JMD306/6,,,False
+JMD306,Jessica,Stevens,IT Support,2020,Data Wrangling and Preprocessing,Basic,ASSESSMENT,,90.0,Best,False
+JMD306,Jessica,Stevens,IT Support,2020,AWS Solutions Architect: Associate,Advanced,CERTIFICATE,http://example.com/certificate/JMD306/53,,,True
+JMD306,Jessica,Stevens,IT Support,2020,Fundamentals of SQL,Intermediate,CERTIFICATE,http://example.com/certificate/JMD306/26,,,True
+JMD306,Jessica,Stevens,IT Support,2020,Security Operations and Incident Response,Basic,ASSESSMENT,,67.0,Average,True
+JMD307,Kathy,Adams,IT Support,2023,Introduction to Web Design,Basic,CERTIFICATE,http://example.com/certificate/JMD307/16,,,True
+JMD307,Kathy,Adams,IT Support,2023,Data Lakes and Big Data Systems,Intermediate,ASSESSMENT,,70.0,Average,False
+JMD307,Kathy,Adams,IT Support,2023,Data Warehousing Basics,Basic,ASSESSMENT,,78.0,Good,True
+JMD307,Kathy,Adams,IT Support,2023,"Advanced JavaScript Frameworks (Vue, Angular, React)",Basic,ASSESSMENT,,91.0,Excellent,True
+JMD307,Kathy,Adams,IT Support,2023,Advanced Machine Learning Algorithms,Intermediate,ASSESSMENT,,97.0,Excellent,True
+JMD307,Kathy,Adams,IT Support,2023,Introduction to Data Pipelines,Basic,CERTIFICATE,http://example.com/certificate/JMD307/25,,,True
+JMD307,Kathy,Adams,IT Support,2023,Object-Oriented Programming with Python,Advanced,ASSESSMENT,,52.0,Below average,True
+JMD308,Rebecca,Farmer,Software Engineer,2024,Cybersecurity Risk Management,Advanced,CERTIFICATE,http://example.com/certificate/JMD308/70,,,True
+JMD308,Rebecca,Farmer,Software Engineer,2024,Python Basics for Beginners,Basic,CERTIFICATE,http://example.com/certificate/JMD308/2,,,True
+JMD308,Rebecca,Farmer,Software Engineer,2024,Data Warehousing Basics,Advanced,ASSESSMENT,,76.0,Good,True
+JMD308,Rebecca,Farmer,Software Engineer,2024,Penetration Testing with Kali Linux,Advanced,ASSESSMENT,,72.0,Good,False
+JMD308,Rebecca,Farmer,Software Engineer,2024,Introduction to Data Visualization,Intermediate,ASSESSMENT,,56.0,Below average,True
+JMD308,Rebecca,Farmer,Software Engineer,2024,Cloud Storage Fundamentals,Basic,CERTIFICATE,http://example.com/certificate/JMD308/50,,,True
+JMD309,Willie,Barton,Solution Enabler,2022,Data Engineering with Apache Spark,Intermediate,CERTIFICATE,http://example.com/certificate/JMD309/35,,,True
+JMD309,Willie,Barton,Solution Enabler,2022,Applied Data Science with R,Basic,ASSESSMENT,,78.0,Good,True
+JMD309,Willie,Barton,Solution Enabler,2022,Introduction to Data Pipelines,Basic,ASSESSMENT,,71.0,Good,True
+JMD309,Willie,Barton,Solution Enabler,2022,Responsive Web Design with HTML and CSS,Intermediate,CERTIFICATE,http://example.com/certificate/JMD309/14,,,True
+JMD309,Willie,Barton,Solution Enabler,2022,Intermediate CSS & Sass,Advanced,CERTIFICATE,http://example.com/certificate/JMD309/19,,,False
+JMD309,Willie,Barton,Solution Enabler,2022,Getting Started with AWS,Intermediate,ASSESSMENT,,64.0,Average,False
+JMD310,Jon,Wilkerson,Software Engineer,2021,Advanced Machine Learning Algorithms,Advanced,CERTIFICATE,http://example.com/certificate/JMD310/48,,,True
+JMD310,Jon,Wilkerson,Software Engineer,2021,"Advanced JavaScript Frameworks (Vue, Angular, React)",Intermediate,ASSESSMENT,,63.0,Average,True
+JMD310,Jon,Wilkerson,Software Engineer,2021,Reinforcement Learning with Python,Basic,CERTIFICATE,http://example.com/certificate/JMD310/46,,,False
+JMD310,Jon,Wilkerson,Software Engineer,2021,Python for Data Analysis,Advanced,CERTIFICATE,http://example.com/certificate/JMD310/5,,,False
+JMD310,Jon,Wilkerson,Software Engineer,2021,Cybersecurity Risk Management,Advanced,CERTIFICATE,http://example.com/certificate/JMD310/70,,,True
+JMD310,Jon,Wilkerson,Software Engineer,2021,React for Beginners,Advanced,CERTIFICATE,http://example.com/certificate/JMD310/18,,,True
+JMD310,Jon,Wilkerson,Software Engineer,2021,Object-Oriented Programming with Python,Intermediate,ASSESSMENT,,74.0,Good,True
+JMD311,Sara,Mathews,Software Engineer,2022,JavaScript: The DOM and Event Handling,Basic,CERTIFICATE,http://example.com/certificate/JMD311/20,,,True
+JMD311,Sara,Mathews,Software Engineer,2022,Getting Started with AWS,Basic,ASSESSMENT,,80.0,Good,False
+JMD311,Sara,Mathews,Software Engineer,2022,Introduction to Cloud Computing,Basic,CERTIFICATE,http://example.com/certificate/JMD311/49,,,True
+JMD311,Sara,Mathews,Software Engineer,2022,Cloud Storage Fundamentals,Basic,ASSESSMENT,,69.0,Average,False
+JMD311,Sara,Mathews,Software Engineer,2022,Web Performance Optimization,Advanced,ASSESSMENT,,51.0,Below average,False
+JMD311,Sara,Mathews,Software Engineer,2022,HTML5 Fundamentals,Intermediate,ASSESSMENT,,76.0,Good,False
+JMD312,Patricia,Watson,Software Engineer,2024,AWS Solutions Architect: Associate,Advanced,CERTIFICATE,http://example.com/certificate/JMD312/53,,,True
+JMD312,Patricia,Watson,Software Engineer,2024,Statistics for Data Science,Basic,CERTIFICATE,http://example.com/certificate/JMD312/39,,,False
+JMD312,Patricia,Watson,Software Engineer,2024,Data Warehousing Basics,Advanced,CERTIFICATE,http://example.com/certificate/JMD312/27,,,False
+JMD312,Patricia,Watson,Software Engineer,2024,Python Performance Optimization,Basic,ASSESSMENT,,72.0,Good,False
+JMD312,Patricia,Watson,Software Engineer,2024,Machine Learning with Python,Basic,ASSESSMENT,,80.0,Good,False
+JMD312,Patricia,Watson,Software Engineer,2024,Reinforcement Learning with Python,Basic,CERTIFICATE,http://example.com/certificate/JMD312/46,,,False
+JMD312,Patricia,Watson,Software Engineer,2024,Intermediate Python Programming,Advanced,ASSESSMENT,,99.0,Excellent,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Machine Learning with Python,Advanced,CERTIFICATE,http://example.com/certificate/JMD313/41,,,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Cloud Storage Fundamentals,Basic,CERTIFICATE,http://example.com/certificate/JMD313/50,,,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Cloud Security Basics,Advanced,ASSESSMENT,,69.0,Average,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Applied Data Science with R,Basic,ASSESSMENT,,60.0,Below average,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Basic HTML and CSS,Basic,ASSESSMENT,,75.0,Good,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,Data Integration with Apache Kafka,Intermediate,ASSESSMENT,,82.0,Best,True
+JMD313,Katherine,Maldonado,Software Engineer,2022,AWS Solutions Architect: Associate,Advanced,ASSESSMENT,,91.0,Excellent,True
+JMD314,Jason,Carrillo,Software Engineer,2022,Responsive Web Design with HTML and CSS,Intermediate,CERTIFICATE,http://example.com/certificate/JMD314/14,,,True
+JMD314,Jason,Carrillo,Software Engineer,2022,Introduction to Cybersecurity,Basic,CERTIFICATE,http://example.com/certificate/JMD314/61,,,False
+JMD314,Jason,Carrillo,Software Engineer,2022,Advanced Machine Learning Algorithms,Advanced,CERTIFICATE,http://example.com/certificate/JMD314/48,,,True
+JMD314,Jason,Carrillo,Software Engineer,2022,Getting Started with AWS,Basic,CERTIFICATE,http://example.com/certificate/JMD314/51,,,False
+JMD314,Jason,Carrillo,Software Engineer,2022,Introduction to Data Visualization,Basic,CERTIFICATE,http://example.com/certificate/JMD314/38,,,False
+JMD314,Jason,Carrillo,Software Engineer,2022,Intermediate Data Visualization with Python,Basic,CERTIFICATE,http://example.com/certificate/JMD314/42,,,True
+JMD315,Sandra,Watson,Software Engineer,2022,Big Data and Distributed Systems,Basic,CERTIFICATE,http://example.com/certificate/JMD315/33,,,False
+JMD315,Sandra,Watson,Software Engineer,2022,Building Data Pipelines with Apache Airflow,Intermediate,ASSESSMENT,,70.0,Average,False
+JMD315,Sandra,Watson,Software Engineer,2022,Introduction to Cybersecurity,Basic,ASSESSMENT,,64.0,Average,False
+JMD315,Sandra,Watson,Software Engineer,2022,Advanced Threat Hunting,Basic,CERTIFICATE,http://example.com/certificate/JMD315/71,,,False
+JMD315,Sandra,Watson,Software Engineer,2022,Deep Learning and Neural Networks,Advanced,CERTIFICATE,http://example.com/certificate/JMD315/45,,,True
+JMD315,Sandra,Watson,Software Engineer,2022,Advanced Python Programming,Advanced,ASSESSMENT,,80.0,Good,True
+JMD315,Sandra,Watson,Software Engineer,2022,Introduction to Data Visualization,Intermediate,CERTIFICATE,http://example.com/certificate/JMD315/38,,,True
+JMD316,Jenny,Lewis,IT Support,2024,Data Lakes and Big Data Systems,Intermediate,CERTIFICATE,http://example.com/certificate/JMD316/31,,,True
+JMD316,Jenny,Lewis,IT Support,2024,Intermediate Data Visualization with Python,Advanced,CERTIFICATE,http://example.com/certificate/JMD316/42,,,True
+JMD316,Jenny,Lewis,IT Support,2024,JavaScript and Front-End Development,Advanced,ASSESSMENT,,65.0,Average,True
+JMD316,Jenny,Lewis,IT Support,2024,Advanced SQL for Data Engineering,Intermediate,ASSESSMENT,,53.0,Below average,True
+JMD316,Jenny,Lewis,IT Support,2024,Advanced ETL Design and Optimization,Basic,CERTIFICATE,http://example.com/certificate/JMD316/36,,,False
+JMD317,Matthew,Horn,Solution Enabler,2022,Azure DevOps for Cloud Engineering,Advanced,ASSESSMENT,,73.0,Good,True
+JMD317,Matthew,Horn,Solution Enabler,2022,Advanced Threat Hunting,Basic,CERTIFICATE,http://example.com/certificate/JMD317/71,,,True
+JMD317,Matthew,Horn,Solution Enabler,2022,Data Engineering with Apache Spark,Basic,ASSESSMENT,,84.0,Best,True
+JMD317,Matthew,Horn,Solution Enabler,2022,AWS Solutions Architect: Associate,Intermediate,CERTIFICATE,http://example.com/certificate/JMD317/53,,,True
+JMD317,Matthew,Horn,Solution Enabler,2022,Cloud Infrastructure Automation with Terraform,Intermediate,CERTIFICATE,http://example.com/certificate/JMD317/55,,,False
+JMD317,Matthew,Horn,Solution Enabler,2022,Introduction to Cloud Computing,Basic,CERTIFICATE,http://example.com/certificate/JMD317/49,,,False
+JMD318,Angela,Friedman,Software Engineer,2024,Advanced ETL Design and Optimization,Basic,CERTIFICATE,http://example.com/certificate/JMD318/36,,,False
+JMD318,Angela,Friedman,Software Engineer,2024,Cloud Storage Fundamentals,Intermediate,ASSESSMENT,,67.0,Average,False
+JMD318,Angela,Friedman,Software Engineer,2024,Cybersecurity Risk Management,Intermediate,CERTIFICATE,http://example.com/certificate/JMD318/70,,,False
+JMD318,Angela,Friedman,Software Engineer,2024,Python for Web Scraping,Advanced,ASSESSMENT,,73.0,Good,False
+JMD318,Angela,Friedman,Software Engineer,2024,Statistics for Data Science,Intermediate,CERTIFICATE,http://example.com/certificate/JMD318/39,,,False
+JMD319,Wesley,Mack,Software Engineer,2023,Introduction to Data Pipelines,Basic,CERTIFICATE,http://example.com/certificate/JMD319/25,,,False
+JMD319,Wesley,Mack,Software Engineer,2023,Cloud Infrastructure Automation with Terraform,Intermediate,CERTIFICATE,http://example.com/certificate/JMD319/55,,,False
+JMD319,Wesley,Mack,Software Engineer,2023,Building Data Pipelines with Apache Airflow,Intermediate,ASSESSMENT,,51.0,Below average,True
+JMD319,Wesley,Mack,Software Engineer,2023,Introduction to Data Visualization,Advanced,CERTIFICATE,http://example.com/certificate/JMD319/38,,,False
+JMD319,Wesley,Mack,Software Engineer,2023,Introduction to Cloud Computing,Basic,ASSESSMENT,,76.0,Good,True
+JMD319,Wesley,Mack,Software Engineer,2023,Data Modeling for Beginners,Advanced,CERTIFICATE,http://example.com/certificate/JMD319/28,,,False
+JMD320,Robert,Carpenter,IT Support,2021,Introduction to Cybersecurity,Intermediate,ASSESSMENT,,94.0,Excellent,True
+JMD320,Robert,Carpenter,IT Support,2021,Python for Automation,Intermediate,ASSESSMENT,,85.0,Best,False
+JMD320,Robert,Carpenter,IT Support,2021,Cloud Security and Compliance,Basic,CERTIFICATE,http://example.com/certificate/JMD320/59,,,False
+JMD320,Robert,Carpenter,IT Support,2021,Advanced ETL Design and Optimization,Intermediate,ASSESSMENT,,69.0,Average,False
+JMD320,Robert,Carpenter,IT Support,2021,Web Performance Optimization,Basic,CERTIFICATE,http://example.com/certificate/JMD320/24,,,True
+JMD320,Robert,Carpenter,IT Support,2021,Big Data and Distributed Systems,Intermediate,CERTIFICATE,http://example.com/certificate/JMD320/33,,,True
+JMD320,Robert,Carpenter,IT Support,2021,Python for Web Scraping,Advanced,CERTIFICATE,http://example.com/certificate/JMD320/8,,,False

@@ -1,0 +1,73 @@
+CourseID,CourseName,Level,CourseCode
+1,Introduction to Python,Easy,PYE101
+2,Python Basics for Beginners,Easy,PYE102
+3,Python Scripting Essentials,Easy,PYE103
+4,Python for Automation,Easy,PYE104
+5,Python for Data Analysis,Medium,PYM105
+6,Intermediate Python Programming,Medium,PYM106
+7,Object-Oriented Programming with Python,Medium,PYM107
+8,Python for Web Scraping,Medium,PYM108
+9,Advanced Python Programming,Hard,PYH109
+10,Python for Machine Learning,Hard,PYH110
+11,Python for Software Design Patterns,Hard,PYH111
+12,Python Performance Optimization,Hard,PYH112
+13,Basic HTML and CSS,Easy,WDE113
+14,Responsive Web Design with HTML and CSS,Easy,WDE114
+15,HTML5 Fundamentals,Easy,WDE115
+16,Introduction to Web Design,Easy,WDE116
+17,JavaScript and Front-End Development,Medium,WDM117
+18,React for Beginners,Medium,WDM118
+19,Intermediate CSS & Sass,Medium,WDM119
+20,JavaScript: The DOM and Event Handling,Medium,WDM120
+21,Full Stack Web Development,Hard,WDH121
+22,Building Web Apps with Node.js and Express,Hard,WDH122
+23,"Advanced JavaScript Frameworks (Vue, Angular, React)",Hard,WDH123
+24,Web Performance Optimization,Hard,WDH124
+25,Introduction to Data Pipelines,Easy,DEE125
+26,Fundamentals of SQL,Easy,DEE126
+27,Data Warehousing Basics,Easy,DEE127
+28,Data Modeling for Beginners,Easy,DEE128
+29,ETL Processes and Tools,Medium,DEM129
+30,Data Integration with Apache Kafka,Medium,DEM130
+31,Data Lakes and Big Data Systems,Medium,DEM131
+32,Advanced SQL for Data Engineering,Medium,DEM132
+33,Big Data and Distributed Systems,Hard,DEH133
+34,Building Data Pipelines with Apache Airflow,Hard,DEH134
+35,Data Engineering with Apache Spark,Hard,DEH135
+36,Advanced ETL Design and Optimization,Hard,DEH136
+37,Data Science Fundamentals,Easy,DSE137
+38,Introduction to Data Visualization,Easy,DSE138
+39,Statistics for Data Science,Easy,DSE139
+40,Exploratory Data Analysis with Python,Easy,DSE140
+41,Machine Learning with Python,Medium,DSM141
+42,Intermediate Data Visualization with Python,Medium,DSM142
+43,Applied Data Science with R,Medium,DSM143
+44,Data Wrangling and Preprocessing,Medium,DSM144
+45,Deep Learning and Neural Networks,Hard,DSH145
+46,Reinforcement Learning with Python,Hard,DSH146
+47,Natural Language Processing with Python,Hard,DSH147
+48,Advanced Machine Learning Algorithms,Hard,DSH148
+49,Introduction to Cloud Computing,Easy,CCE149
+50,Cloud Storage Fundamentals,Easy,CCE150
+51,Getting Started with AWS,Easy,CCE151
+52,Cloud Security Basics,Easy,CCE152
+53,AWS Solutions Architect: Associate,Medium,CCM153
+54,Azure DevOps for Cloud Engineering,Medium,CCM154
+55,Cloud Infrastructure Automation with Terraform,Medium,CCM155
+56,Building Scalable Applications on AWS,Medium,CCM156
+57,AWS Solutions Architect: Professional,Hard,CCH157
+58,Advanced Cloud Networking,Hard,CCH158
+59,Cloud Security and Compliance,Hard,CCH159
+60,Kubernetes in the Cloud,Hard,CCH160
+61,Introduction to Cybersecurity,Easy,CSE161
+62,Fundamentals of Ethical Hacking,Easy,CSE162
+63,Cyber Threat Intelligence,Easy,CSE163
+64,Network Security Essentials,Easy,CSE164
+65,Penetration Testing with Kali Linux,Medium,CSM165
+66,Security Operations and Incident Response,Medium,CSM166
+67,Intermediate Network Security,Medium,CSM167
+68,Secure Coding Practices,Medium,CSM168
+69,Advanced Ethical Hacking,Hard,CSH169
+70,Cybersecurity Risk Management,Hard,CSH170
+71,Advanced Threat Hunting,Hard,CSH171
+72,Cryptography and Security Protocols,Hard,CSH172
