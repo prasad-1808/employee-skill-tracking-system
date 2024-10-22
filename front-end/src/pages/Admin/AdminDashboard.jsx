@@ -69,6 +69,51 @@ const AdminDashboard = () => {
     ],
   };
 
+  const skillChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Disable maintaining aspect ratio
+    plugins: {
+      legend: {
+        labels: {
+          color: "#e62dd7", // Change legend text color
+        },
+      },
+      tooltip: {
+        bodyColor: "#e62dd7", // Change tooltip text color
+        backgroundColor: "rgba(255, 255, 255, 0.9)", // Light background for tooltip
+        callbacks: {
+          label: (tooltipItem) => {
+            const employee = skillsByEmployee[tooltipItem.dataIndex];
+
+            if (!employee) {
+              return "No data available"; // Fallback message in case employee is undefined
+            }
+
+            const courses = employee.coursesCompleted
+              ? employee.coursesCompleted.map((course) => `- ${course}`)
+              : ["No courses available"]; // Handle case where coursesCompleted might be undefined
+
+            return [`Skills: ${employee.skillCount}`, "Courses:", ...courses];
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: "#e62dd7", // Change x-axis tick color
+        },
+      },
+      y: {
+        beginAtZero: true, // Start y-axis at 0
+        ticks: {
+          color: "#e62dd7", // Change y-axis tick color
+          callback: (value) => Math.round(value), // Round to whole numbers
+        },
+      },
+    },
+  };
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false, // Disable maintaining aspect ratio
@@ -107,6 +152,7 @@ const AdminDashboard = () => {
       <h1 className="text-center mb-4" style={{ color: "#e62dd7" }}>
         Admin Dashboard
       </h1>
+      {console.log(skillsPerCourse, skillsByEmployee, summary)}
 
       {/* Summary Section */}
       <div className="row mb-4 justify-content-center">
@@ -144,7 +190,7 @@ const AdminDashboard = () => {
               height: "400px",
             }}
           >
-            <Bar data={employeeSkillData} options={chartOptions} />
+            <Bar data={employeeSkillData} options={skillChartOptions} />
           </div>
 
           {/* Bar Chart: Skills per Course */}

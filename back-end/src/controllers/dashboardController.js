@@ -8,9 +8,9 @@ const getDashboardSummary = async (req, res) => {
         status: true, // Only count active employees
       },
     });
-    
+
     const totalCourses = await prisma.course.count();
-    
+
     const totalSkills = await prisma.skill.count({
       where: {
         Verified: true, // Only count verified skills
@@ -39,6 +39,9 @@ const getSkillsByEmployee = async (req, res) => {
           where: {
             Verified: true, // Only include verified skills
           },
+          include: {
+            course: true, // Include related course information
+          },
         },
       },
     });
@@ -46,6 +49,7 @@ const getSkillsByEmployee = async (req, res) => {
     const data = skillsByEmployee.map((employee) => ({
       employeeName: `${employee.Firstname} ${employee.Lastname}`,
       skillCount: employee.skills.length,
+      coursesCompleted: employee.skills.map((skill) => skill.course.CourseName),
     }));
 
     res.json(data);
