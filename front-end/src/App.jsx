@@ -29,6 +29,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  console.log("test");
 
   useEffect(() => {
     // Check if employee token exists
